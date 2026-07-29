@@ -10,116 +10,36 @@ pre: " <b> 4.1. </b> "
 ⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
 {{% /notice %}}
 
-# Bài thu hoạch “GenAI-powered App-DB Modernization workshop”
+# Bài thu hoạch: Workshop FCAJ *(bổ sung tên chính thức của sự kiện)*
 
-### Mục Đích Của Sự Kiện
+### Thông tin sự kiện
 
-- Chia sẻ best practices trong thiết kế ứng dụng hiện đại
-- Giới thiệu phương pháp DDD và event-driven architecture
-- Hướng dẫn lựa chọn compute services phù hợp
-- Giới thiệu công cụ AI hỗ trợ development lifecycle
+&emsp; **Tên sự kiện:** *(bổ sung sau)*
 
-### Danh Sách Diễn Giả
+&emsp; **Thời gian:** 20/06/2026
 
-- **Jignesh Shah** - Director, Open Source Databases
-- **Erica Liu** - Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** - Assc. Specialist SA, Serverless Amazon Web Services
+&emsp; **Địa điểm:** *(bổ sung sau)*
 
-### Nội Dung Nổi Bật
+&emsp; **Vai trò:** Người tham dự
 
-#### Đưa ra các ảnh hưởng tiêu cực của kiến trúc ứng dụng cũ
+### Nội dung sự kiện
 
-- Thời gian release sản phẩm lâu → Mất doanh thu/bỏ lỡ cơ hội
-- Hoạt động kém hiệu quả → Mất năng suất, tốn kém chi phí
-- Không tuân thủ các quy định về bảo mật → Mất an ninh, uy tín
+Tham gia workshop do FCAJ (First Cloud AI Journey) tổ chức. Trong sự kiện, các đội thi đấu với nhau bằng cách trả lời những câu hỏi do ban tổ chức đưa ra, xoay quanh nhiều dịch vụ AWS khác nhau.
 
-#### Chuyển đổi sang kiến trúc ứng dụng mới - Microservice Architecture
+### Những gì học được
 
-Chuyển đổi thành hệ thống modular – từng chức năng là một **dịch vụ độc lập** giao tiếp với nhau qua **sự kiện** với 3 trụ cột cốt lõi:
+- Mở rộng hệ sinh thái công nghệ Cloud: Tiếp thu kiến thức tổng quan về hệ sinh thái dịch vụ đám mây của Amazon Web Services (AWS), nhận diện được vai trò và tiềm năng ứng dụng thực tế của từng nhóm dịch vụ chính trong việc tối ưu hóa hạ tầng kĩ thuật.
 
-- **Queue Management**: Xử lý tác vụ bất đồng bộ
-- **Caching Strategy:** Tối ưu performance
-- **Message Handling:** Giao tiếp linh hoạt giữa services
+- Tư duy triển khai và kiến trúc hệ thống: Nắm bắt được nguyên lý cơ bản trong việc cấu hình và kết nối các dịch vụ AWS với nhau nhằm phục vụ việc xây dựng giải pháp phần mềm bài bản, có khả năng mở rộng (scalability) và đảm bảo tính sẵn sàng cao.
 
-#### Domain-Driven Design (DDD)
+- Kỹ năng phân tích & giải quyết vấn đề: Thông qua định dạng câu hỏi tương tác mang tính thử thách, bản thân rèn luyện được tư duy phản xạ nhanh, khả năng định vị bài toán và lựa chọn công cụ/dịch vụ tiệm cận nhất với yêu cầu thực tế.
 
-- **Phương pháp 4 bước**: Xác định domain events → sắp xếp timeline → identify actors → xác định bounded contexts
-- **Case study bookstore**: Minh họa cách áp dụng DDD thực tế
-- **Context mapping**: 7 patterns tích hợp bounded contexts
+- Tầm nhìn về xu hướng công nghệ: Nhận thức rõ ràng hơn về bức tranh toàn cảnh của điện toán đám mây trong kỷ nguyên số, từ đó xác định được những định hướng học tập và trau dồi kĩ năng chuyên môn phù hợp cho bản thân trong tương lai.
 
-#### Event-Driven Architecture
+### Trải nghiệm và hình ảnh
 
-- **3 patterns tích hợp**: Publish/Subscribe, Point-to-point, Streaming
-- **Lợi ích**: Loose coupling, scalability, resilience
-- **So sánh sync vs async**: Hiểu rõ trade-offs (sự đánh đổi)
+- Không khí sự kiện & Tương tác: Sự kiện mang lại một không gian học tập vô cùng sôi nổi và truyền cảm hứng. Hình thức thi đấu trả lời câu hỏi theo đội nhóm giúp buổi workshop không bị gò bó theo lối truyền tải một chiều, ngược lại thúc đẩy sự chủ động, hào hứng và tinh thần kết nối giữa các thành viên tham dự.
 
-#### Compute Evolution
+- Ấn tượng cá nhân: Việc được trực tiếp tham gia thảo luận và tiếp cận kiến thức dưới dạng các tình huống thực tế đã giúp tôi tiếp thu thông tin một cách tự nhiên và dễ nhớ hơn rất nhiều. Buổi workshop không chỉ củng cố lại các nền tảng lý thuyết đã biết mà còn mở ra những góc nhìn mới mẻ về cách ứng dụng công nghệ vào thực tiễn kinh doanh và phát triển phần mềm.
 
-- **Shared Responsibility Model**: Từ EC2 → ECS → Fargate → Lambda
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value
-- **Functions vs Containers**: Criteria lựa chọn phù hợp
-
-#### Amazon Q Developer
-
-- **SDLC automation**: Từ planning đến maintenance
-- **Code transformation**: Java upgrade, .NET modernization
-- **AWS Transform agents**: VMware, Mainframe, .NET migration
-
-### Những Gì Học Được
-
-#### Tư Duy Thiết Kế
-
-- **Business-first approach**: Luôn bắt đầu từ business domain, không phải technology
-- **Ubiquitous language**: Importance của common vocabulary giữa business và tech teams
-- **Bounded contexts**: Cách identify và manage complexity trong large systems
-
-#### Kiến Trúc Kỹ Thuật
-
-- **Event storming technique**: Phương pháp thực tế để mô hình hóa quy trình kinh doanh
-- Sử dụng **Event-driven communication** thay vì synchronous calls
-- **Integration patterns**: Hiểu khi nào dùng sync, async, pub/sub, streaming
-- **Compute spectrum**: Criteria chọn từ VM → containers → serverless
-
-#### Chiến Lược Hiện Đại Hóa
-
-- **Phased approach**: Không rush, phải có roadmap rõ ràng
-- **7Rs framework**: Nhiều con đường khác nhau tùy thuộc vào đặc điểm của mỗi ứng dụng
-- **ROI measurement**: Cost reduction + business agility
-
-### Ứng Dụng Vào Công Việc
-
-- **Áp dụng DDD** cho project hiện tại: Event storming sessions với business team
-- **Refactor microservices**: Sử dụng bounded contexts để identify service boundaries
-- **Implement event-driven patterns**: Thay thế một số sync calls bằng async messaging
-- **Serverless adoption**: Pilot AWS Lambda cho một số use cases phù hợp
-- **Try Amazon Q Developer**: Integrate vào development workflow để boost productivity
-
-### Trải nghiệm trong event
-
-Tham gia workshop **“GenAI-powered App-DB Modernization”** là một trải nghiệm rất bổ ích, giúp tôi có cái nhìn toàn diện về cách hiện đại hóa ứng dụng và cơ sở dữ liệu bằng các phương pháp và công cụ hiện đại. Một số trải nghiệm nổi bật:
-
-#### Học hỏi từ các diễn giả có chuyên môn cao
-- Các diễn giả đến từ AWS và các tổ chức công nghệ lớn đã chia sẻ **best practices** trong thiết kế ứng dụng hiện đại.
-- Qua các case study thực tế, tôi hiểu rõ hơn cách áp dụng **Domain-Driven Design (DDD)** và **Event-Driven Architecture** vào các project lớn.
-
-#### Trải nghiệm kỹ thuật thực tế
-- Tham gia các phiên trình bày về **event storming** giúp tôi hình dung cách **mô hình hóa quy trình kinh doanh** thành các domain events.
-- Học cách **phân tách microservices** và xác định **bounded contexts** để quản lý sự phức tạp của hệ thống lớn.
-- Hiểu rõ trade-offs giữa **synchronous và asynchronous communication** cũng như các pattern tích hợp như **pub/sub, point-to-point, streaming**.
-
-#### Ứng dụng công cụ hiện đại
-- Trực tiếp tìm hiểu về **Amazon Q Developer**, công cụ AI hỗ trợ SDLC từ lập kế hoạch đến maintenance.
-- Học cách **tự động hóa code transformation** và pilot serverless với **AWS Lambda**, từ đó nâng cao năng suất phát triển.
-
-#### Kết nối và trao đổi
-- Workshop tạo cơ hội trao đổi trực tiếp với các chuyên gia, đồng nghiệp và team business, giúp **nâng cao ngôn ngữ chung (ubiquitous language)** giữa business và tech.
-- Qua các ví dụ thực tế, tôi nhận ra tầm quan trọng của **business-first approach**, luôn bắt đầu từ nhu cầu kinh doanh thay vì chỉ tập trung vào công nghệ.
-
-#### Bài học rút ra
-- Việc áp dụng DDD và event-driven patterns giúp giảm **coupling**, tăng **scalability** và **resilience** cho hệ thống.
-- Chiến lược hiện đại hóa cần **phased approach** và đo lường **ROI**, không nên vội vàng chuyển đổi toàn bộ hệ thống.
-- Các công cụ AI như Amazon Q Developer có thể **boost productivity** nếu được tích hợp vào workflow phát triển hiện tại.
-
-#### Một số hình ảnh khi tham gia sự kiện
-* Thêm các hình ảnh của các bạn tại đây
-> Tổng thể, sự kiện không chỉ cung cấp kiến thức kỹ thuật mà còn giúp tôi thay đổi cách tư duy về thiết kế ứng dụng, hiện đại hóa hệ thống và phối hợp hiệu quả hơn giữa các team.
+- Đánh giá chung: Đây là một trải nghiệm học tập đầy giá trị, mang lại động lực lớn để tôi tiếp tục tìm hiểu sâu hơn về kiến trúc Cloud cũng như các chứng chỉ chuyên môn của AWS trong thời gian tới.

@@ -10,116 +10,41 @@ pre: " <b> 4.2. </b> "
 ⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
 {{% /notice %}}
 
-# Bài thu hoạch “GenAI-powered App-DB Modernization workshop”
+# Bài thu hoạch: AI Agent Build Week
 
-### Mục Đích Của Sự Kiện
+### Thông tin sự kiện
 
-- Chia sẻ best practices trong thiết kế ứng dụng hiện đại
-- Giới thiệu phương pháp DDD và event-driven architecture
-- Hướng dẫn lựa chọn compute services phù hợp
-- Giới thiệu công cụ AI hỗ trợ development lifecycle
+&emsp; **Tên sự kiện:** AI Agent Build Week
 
-### Danh Sách Diễn Giả
+&emsp; **Thời gian:** 25/07/2026
 
-- **Jignesh Shah** - Director, Open Source Databases
-- **Erica Liu** - Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** - Assc. Specialist SA, Serverless Amazon Web Services
+&emsp; **Địa điểm:** *(bổ sung sau)*
 
-### Nội Dung Nổi Bật
+&emsp; **Vai trò:** Người tham dự
 
-#### Đưa ra các ảnh hưởng tiêu cực của kiến trúc ứng dụng cũ
+### Nội dung sự kiện
 
-- Thời gian release sản phẩm lâu → Mất doanh thu/bỏ lỡ cơ hội
-- Hoạt động kém hiệu quả → Mất năng suất, tốn kém chi phí
-- Không tuân thủ các quy định về bảo mật → Mất an ninh, uy tín
+Tham gia workshop "AI Agent Build Week" do FCAJ tổ chức. Trong sự kiện, các đội đã thi đấu hackathon tới chia sẻ lại cách họ triển khai dự án của mình, từ các bước hình thành ý tưởng, thiết kế, triển khai, cho đến các vấn đề gặp phải trong quá trình thực hiện. Các đội cũng chia sẻ cách họ sử dụng các dịch vụ AWS để giải quyết vấn đề trong dự án của mình.
 
-#### Chuyển đổi sang kiến trúc ứng dụng mới - Microservice Architecture
+### Các dự án ấn tượng
 
-Chuyển đổi thành hệ thống modular – từng chức năng là một **dịch vụ độc lập** giao tiếp với nhau qua **sự kiện** với 3 trụ cột cốt lõi:
+- **KFC conversational ordering:** Dự án chatbot cho phép khách hàng đặt hàng tại KFC thông qua các cuộc trò chuyện.
+- **Hệ thống chống rửa tiền:** Dự án hệ thống giúp các ngân hàng và tổ chức tài chính phát hiện, ngăn chặn các hoạt động rửa tiền.
 
-- **Queue Management**: Xử lý tác vụ bất đồng bộ
-- **Caching Strategy:** Tối ưu performance
-- **Message Handling:** Giao tiếp linh hoạt giữa services
+### Những gì học được
 
-#### Domain-Driven Design (DDD)
+- Quy trình phát triển AI Agent toàn diện: Tiếp thu góc nhìn tổng quan về toàn bộ vòng đời của một sản phẩm AI, từ bước định hình ý tưởng, thiết kế kiến trúc hệ thống cho đến khâu triển khai lên hạ tầng đám mây và tối ưu hóa vận hành.
 
-- **Phương pháp 4 bước**: Xác định domain events → sắp xếp timeline → identify actors → xác định bounded contexts
-- **Case study bookstore**: Minh họa cách áp dụng DDD thực tế
-- **Context mapping**: 7 patterns tích hợp bounded contexts
+- Tích hợp công nghệ Cloud & AI vào thực tế: Hiểu rõ cách các đội thi xuất sắc kết hợp hạ tầng đám mây AWS với các mô hình trí tuệ nhân tạo để xử lý dữ liệu, phản hồi thời gian thực và đảm bảo hiệu năng cho các ứng dụng thông minh.
 
-#### Event-Driven Architecture
+- Tư duy giải quyết bài toán kỹ thuật thực tế: Học hỏi được những kinh nghiệm đắt giá trong việc xử lý các rào cản kỹ thuật như độ trễ hệ thống (latency), khả năng mở rộng (scalability), tính bảo mật và bài toán tối ưu chi phí khi đưa AI vào sản phẩm.
 
-- **3 patterns tích hợp**: Publish/Subscribe, Point-to-point, Streaming
-- **Lợi ích**: Loose coupling, scalability, resilience
-- **So sánh sync vs async**: Hiểu rõ trade-offs (sự đánh đổi)
+- Tư duy phát triển sản phẩm hướng người dùng: Nhận thức sâu sắc về việc kết nối giữa kiến trúc kỹ thuật phức tạp với bài toán kinh doanh và trải nghiệm người dùng cuối, đảm bảo giải pháp công nghệ mang lại giá trị thực tiễn cao nhất.
 
-#### Compute Evolution
+### Trải nghiệm và hình ảnh
 
-- **Shared Responsibility Model**: Từ EC2 → ECS → Fargate → Lambda
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value
-- **Functions vs Containers**: Criteria lựa chọn phù hợp
+- Không khí sự kiện & Tinh thần kết nối: Buổi workshop mang lại một không khí vô cùng nhiệt huyết và truyền cảm hứng. Việc lắng nghe trực tiếp hành trình phát triển dự án từ các đội thi hackathon đã tạo nên một không gian giao lưu kỹ thuật mở cởi mở, giàu tính kết nối.
 
-#### Amazon Q Developer
+- Ấn tượng cá nhân: Những chia sẻ chân thực về khó khăn thực tế và cách đưa ra quyết định kiến trúc của các đội thi giúp tôi tích lũy được nhiều góc nhìn thực chiến mà sách vở ít khi đề cập. Rất ấn tượng khi thấy những khái niệm AI và Cloud lý thuyết được hiện thực hóa thành các sản phẩm giải quyết bài toán cụ thể.
 
-- **SDLC automation**: Từ planning đến maintenance
-- **Code transformation**: Java upgrade, .NET modernization
-- **AWS Transform agents**: VMware, Mainframe, .NET migration
-
-### Những Gì Học Được
-
-#### Tư Duy Thiết Kế
-
-- **Business-first approach**: Luôn bắt đầu từ business domain, không phải technology
-- **Ubiquitous language**: Importance của common vocabulary giữa business và tech teams
-- **Bounded contexts**: Cách identify và manage complexity trong large systems
-
-#### Kiến Trúc Kỹ Thuật
-
-- **Event storming technique**: Phương pháp thực tế để mô hình hóa quy trình kinh doanh
-- Sử dụng **Event-driven communication** thay vì synchronous calls
-- **Integration patterns**: Hiểu khi nào dùng sync, async, pub/sub, streaming
-- **Compute spectrum**: Criteria chọn từ VM → containers → serverless
-
-#### Chiến Lược Hiện Đại Hóa
-
-- **Phased approach**: Không rush, phải có roadmap rõ ràng
-- **7Rs framework**: Nhiều con đường khác nhau tùy thuộc vào đặc điểm của mỗi ứng dụng
-- **ROI measurement**: Cost reduction + business agility
-
-### Ứng Dụng Vào Công Việc
-
-- **Áp dụng DDD** cho project hiện tại: Event storming sessions với business team
-- **Refactor microservices**: Sử dụng bounded contexts để identify service boundaries
-- **Implement event-driven patterns**: Thay thế một số sync calls bằng async messaging
-- **Serverless adoption**: Pilot AWS Lambda cho một số use cases phù hợp
-- **Try Amazon Q Developer**: Integrate vào development workflow để boost productivity
-
-### Trải nghiệm trong event
-
-Tham gia workshop **“GenAI-powered App-DB Modernization”** là một trải nghiệm rất bổ ích, giúp tôi có cái nhìn toàn diện về cách hiện đại hóa ứng dụng và cơ sở dữ liệu bằng các phương pháp và công cụ hiện đại. Một số trải nghiệm nổi bật:
-
-#### Học hỏi từ các diễn giả có chuyên môn cao
-- Các diễn giả đến từ AWS và các tổ chức công nghệ lớn đã chia sẻ **best practices** trong thiết kế ứng dụng hiện đại.
-- Qua các case study thực tế, tôi hiểu rõ hơn cách áp dụng **Domain-Driven Design (DDD)** và **Event-Driven Architecture** vào các project lớn.
-
-#### Trải nghiệm kỹ thuật thực tế
-- Tham gia các phiên trình bày về **event storming** giúp tôi hình dung cách **mô hình hóa quy trình kinh doanh** thành các domain events.
-- Học cách **phân tách microservices** và xác định **bounded contexts** để quản lý sự phức tạp của hệ thống lớn.
-- Hiểu rõ trade-offs giữa **synchronous và asynchronous communication** cũng như các pattern tích hợp như **pub/sub, point-to-point, streaming**.
-
-#### Ứng dụng công cụ hiện đại
-- Trực tiếp tìm hiểu về **Amazon Q Developer**, công cụ AI hỗ trợ SDLC từ lập kế hoạch đến maintenance.
-- Học cách **tự động hóa code transformation** và pilot serverless với **AWS Lambda**, từ đó nâng cao năng suất phát triển.
-
-#### Kết nối và trao đổi
-- Workshop tạo cơ hội trao đổi trực tiếp với các chuyên gia, đồng nghiệp và team business, giúp **nâng cao ngôn ngữ chung (ubiquitous language)** giữa business và tech.
-- Qua các ví dụ thực tế, tôi nhận ra tầm quan trọng của **business-first approach**, luôn bắt đầu từ nhu cầu kinh doanh thay vì chỉ tập trung vào công nghệ.
-
-#### Bài học rút ra
-- Việc áp dụng DDD và event-driven patterns giúp giảm **coupling**, tăng **scalability** và **resilience** cho hệ thống.
-- Chiến lược hiện đại hóa cần **phased approach** và đo lường **ROI**, không nên vội vàng chuyển đổi toàn bộ hệ thống.
-- Các công cụ AI như Amazon Q Developer có thể **boost productivity** nếu được tích hợp vào workflow phát triển hiện tại.
-
-#### Một số hình ảnh khi tham gia sự kiện
-* Thêm các hình ảnh của các bạn tại đây
-> Tổng thể, sự kiện không chỉ cung cấp kiến thức kỹ thuật mà còn giúp tôi thay đổi cách tư duy về thiết kế ứng dụng, hiện đại hóa hệ thống và phối hợp hiệu quả hơn giữa các team.
+- Đánh giá chung: Đây là một trải nghiệm đặc biệt giá trị, giúp mở rộng góc nhìn chuyên môn và tiếp thêm động lực lớn để tôi chủ động nghiên cứu, áp dụng các mô hình AI Agent cũng như kiến trúc Cloud vào các dự án cá nhân trong tương lai.

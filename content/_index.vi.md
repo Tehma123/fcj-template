@@ -7,23 +7,23 @@ chapter: false
 
 # Báo cáo thực tập
 ### Thông tin sinh viên:
-&emsp; **Họ và tên:** Nguyễn Văn A
+&emsp; **Họ và tên:** Trần Đăng Khoa
 
-&emsp; **Số điện thoại:** 0989888999
+&emsp; **Số điện thoại:** 0902937994
 
-&emsp; **Email:** Anguyenvan@gmail.com
+&emsp; **Email:** dangkhoatran0511@gmail.com
 
-&emsp; **Trường:** Đại học Sư phạm Kỹ thuật TP.HCM
+&emsp; **Trường:** Đại học Bách Khoa Thành phố Hồ Chí Minh
 
-&emsp; **Ngành:** Công nghệ thông tin
+&emsp; **Ngành:** Khoa học máy tính
 
-&emsp; **Lớp:** AWS082025
+&emsp; **Lớp:** CC23KHM4
 
 &emsp; **Công ty thực tập:** Công ty TNHH Amazon Web Services Viet Nam
 
 &emsp; **Vị trí thực tập:** Workforce Bootcamp - First Cloud AI Journey
 
-&emsp; **Thời gian thực tập:** Từ ngày 12/08/2025 đến ngày 12/11/2025
+&emsp; **Thời gian thực tập:** Từ ngày 10/6/2026 đến ngày 10/8/2026
 
 ![Ảnh đại diện của bạn](/images/avatar.png)
 

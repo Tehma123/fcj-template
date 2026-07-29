@@ -19,7 +19,7 @@
   }
 </style>
 <div class="ghContributors">
-  {{ $url := .Get 0 }} {{ range getJSON $url }}
+  {{ $url := .Get 0 }} {{ with resources.GetRemote $url }} {{ range transform.Unmarshal .Content }}
   <div>
     <img
       src="{{.avatar_url}}"
@@ -36,5 +36,5 @@
     <label><a href="{{.html_url}}">@{{.login}}</a></label>
     <span class="contributions">{{.contributions}} commits</span>
   </div>
-  {{ end }}
+  {{ end }} {{ end }}
 </div>
