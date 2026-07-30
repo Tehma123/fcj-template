@@ -96,6 +96,7 @@ Bản triển khai demo được thiết kế để nằm trong giới hạn AWS
 | AWS Amplify Hosting | 1.000 phút build + 15 GB served/tháng | 1 bản build React nhỏ, lượng người xem thấp | $0.00 |
 | AWS Systems Manager (Parameter Store standard, Session Manager) | Luôn miễn phí (tier standard) | ~18 parameter, thi thoảng có phiên admin | $0.00 |
 | AWS IAM | Luôn miễn phí | 1 instance role, 2 inline policy | $0.00 |
+| Amazon CloudWatch | 5 GB log ingestion/lưu trữ, 10 custom metrics, 1.000.000 request API/tháng trong 12 tháng | Log ứng dụng + metrics cơ bản từ 1 instance EC2 nhỏ, lưu lượng thấp | $0.00 |
 | AWS Secrets Manager | Dùng thử miễn phí 30 ngày mỗi secret, sau đó ~$0.40/secret/tháng | 1 secret (Groq API key), sau khi hết dùng thử | ~$0.40 |
 | Groq API (ngoài AWS, pass-through) | Tier miễn phí/chi phí thấp cho lượng request thấp | Lượng truy vấn ở mức demo | ~$0.00–$1.00 |
 | **Tổng ước tính** | | | **≈ $1–2 / tháng** |

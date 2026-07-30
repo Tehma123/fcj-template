@@ -96,6 +96,7 @@ The demo deployment is designed to stay within AWS Free Tier limits wherever pos
 | AWS Amplify Hosting | 1,000 build minutes + 15 GB served/month | 1 small React build, low viewer traffic | $0.00 |
 | AWS Systems Manager (Parameter Store standard, Session Manager) | Always free (standard tier) | ~18 parameters, occasional admin sessions | $0.00 |
 | AWS IAM | Always free | 1 instance role, 2 inline policies | $0.00 |
+| Amazon CloudWatch | 5 GB log ingestion/storage, 10 custom metrics, 1,000,000 API requests/month for 12 months | Application logs + basic metrics from 1 small EC2 instance, low traffic | $0.00 |
 | AWS Secrets Manager | 30-day free trial per secret, then ~$0.40/secret/month | 1 secret (Groq API key), beyond trial | ~$0.40 |
 | Groq API (non-AWS, pass-through) | Free/low-cost tier for low request volume | Demo-level query volume | ~$0.00–$1.00 |
 | **Estimated total** | | | **≈ $1–2 / month** |
