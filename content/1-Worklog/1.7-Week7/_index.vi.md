@@ -12,48 +12,29 @@ pre: " <b> 1.7. </b> "
 
 ### Mục tiêu tuần 7:
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Đưa các thành phần của pipeline RAG lên chạy trên dịch vụ AWS thay vì chạy hoàn toàn ở local.
+* Hiểu cách host corpus, embeddings và logic điều phối (orchestration) trên AWS.
+* Thêm giám sát cho pipeline bằng CloudWatch.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc                                                                                                                          | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
+| --- | ------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
+| 2   | - Lên kế hoạch dịch vụ AWS nào sẽ host từng thành phần của pipeline (lưu trữ corpus, vector index, orchestration, truy cập LLM) | 20/07/2026   | 20/07/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 3   | - **Thực hành:** upload corpus HotpotQA và embeddings đã tính sẵn lên S3                                                        | 21/07/2026   | 21/07/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 4   | - **Thực hành:** đóng gói logic retrieval + suy luận đa bước vào một Lambda function / dịch vụ host trên SageMaker              | 22/07/2026   | 22/07/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 5   | - **Thực hành:** expose pipeline qua một API endpoint và kiểm thử với các câu hỏi mẫu từ HotpotQA                               | 23/07/2026   | 23/07/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 6   | - Thêm CloudWatch logging và alarm cho pipeline (lỗi, độ trễ) <br> - Review tiến độ cùng mentor                                 | 24/07/2026   | 24/07/2026      | <https://cloudjourney.awsstudygroup.com/> |
 
 
 ### Kết quả đạt được tuần 7:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Di chuyển corpus HotpotQA và embeddings từ lưu trữ local lên S3.
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Đóng gói logic retrieval/suy luận của advanced RAG vào một dịch vụ chạy trên AWS.
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Expose pipeline qua một API endpoint và kiểm chứng với các câu hỏi mẫu.
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Thêm CloudWatch logging và alarm để giám sát lỗi và độ trễ của pipeline.
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
+* Xác nhận pipeline chạy trên AWS cho kết quả giống với bản prototype chạy local ở tuần 6.
 * ...
-
-

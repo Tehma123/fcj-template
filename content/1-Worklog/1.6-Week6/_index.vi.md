@@ -12,47 +12,29 @@ pre: " <b> 1.6. </b> "
 
 ### Mục tiêu tuần 6:
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Hiểu những giới hạn của naive RAG với câu hỏi đa bước.
+* Tìm hiểu và áp dụng các kỹ thuật RAG nâng cao: query decomposition, retrieval lặp (iterative/multi-hop), và re-ranking.
+* Cải thiện chất lượng retrieval và độ chính xác trả lời trên HotpotQA so với baseline ở tuần 5.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc                                                                                                                                           | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | --------------- |
+| 2   | - Tìm hiểu các kỹ thuật RAG nâng cao: <br>&emsp; + Query rewriting / decomposition <br>&emsp; + Retrieval lặp (iterative) <br>&emsp; + Re-ranking <br>&emsp; + Hybrid search (keyword + vector) | 13/07/2026   | 13/07/2026      |                  |
+| 3   | - **Thực hành:** cài đặt query decomposition để tách một câu hỏi đa bước thành các câu hỏi con                                                  | 14/07/2026   | 14/07/2026      |                  |
+| 4   | - **Thực hành:** cài đặt vòng lặp retrieval đa bước (iterative), dùng câu trả lời của câu hỏi con này để truy xuất bằng chứng cho câu hỏi con tiếp theo | 15/07/2026   | 15/07/2026      |                  |
+| 5   | - **Thực hành:** thêm bước re-ranking cho các đoạn văn bản đã truy xuất để cải thiện độ liên quan của context trước khi sinh câu trả lời         | 16/07/2026   | 16/07/2026      |                  |
+| 6   | - Đánh giá lại pipeline advanced RAG trên cùng mẫu HotpotQA đã dùng ở tuần 5 và so sánh EM/F1 với baseline naive RAG                             | 17/07/2026   | 17/07/2026      |                  |
 
 
 ### Kết quả đạt được tuần 6:
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Hiểu vì sao naive RAG gặp khó khăn với câu hỏi đa bước và các chiến lược retrieval nâng cao giải quyết vấn đề đó như thế nào.
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Cài đặt được query decomposition để tách câu hỏi đa bước thành các câu hỏi con có thể truy xuất riêng.
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Xây dựng được vòng lặp retrieval đa bước, nối tiếp bằng chứng qua nhiều tài liệu.
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
+* Thêm bước re-ranking giúp cải thiện độ liên quan của context được truy xuất.
 
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
+* Đo được mức cải thiện độ chính xác rõ rệt (EM/F1) so với baseline naive RAG ở tuần 5 trên HotpotQA.
 * ...
-
-

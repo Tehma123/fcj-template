@@ -10,31 +10,30 @@ pre: " <b> 6. </b> "
 ⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
 {{% /notice %}}
 
-Trong suốt thời gian thực tập tại **[Tên công ty/tổ chức]** từ **[ngày bắt đầu]** đến **[ngày kết thúc]**, tôi đã có cơ hội học hỏi, rèn luyện và áp dụng kiến thức đã được trang bị tại trường vào môi trường làm việc thực tế.  
-Tôi đã tham gia **[mô tả ngắn gọn dự án hoặc công việc chính]**, qua đó cải thiện kỹ năng **[liệt kê kỹ năng: lập trình, phân tích, viết báo cáo, giao tiếp…]**.  
+Trong suốt thời gian thực tập tại **FCAJ** từ **10/6/2026** đến **30/7/2026**, tôi đã có cơ hội học hỏi, rèn luyện và áp dụng kiến thức đã được trang bị tại trường vào môi trường làm việc thực tế.  
+Tôi đã tham gia **triển khai RAG để giải quyết các câu hỏi suy luận đa bước (multi-hop reasoning) với bộ dữ liệu HotpotQA**, qua đó cải thiện kỹ năng **sử dụng dịch vụ AWS, thiết kế hệ thống RAG, viết tài liệu kỹ thuật, triển khai trang web tĩnh với Hugo và GitHub Actions, cùng khả năng giải quyết vấn đề/debug**.  
 
 Về tác phong, tôi luôn cố gắng hoàn thành tốt nhiệm vụ, tuân thủ nội quy, và tích cực trao đổi với đồng nghiệp để nâng cao hiệu quả công việc.
 
 Để phản ánh một cách khách quan quá trình thực tập, tôi xin tự đánh giá bản thân dựa trên các tiêu chí dưới đây:
 
 
-| STT | Tiêu chí                            | Mô tả                                                                                            | Tốt | Khá | Trung bình |
-| --- | ----------------------------------- | ------------------------------------------------------------------------------------------------ | --- | --- | ---------- |
-| 1   | **Kiến thức và kỹ năng chuyên môn** | Hiểu biết về ngành, áp dụng kiến thức vào thực tế, kỹ năng sử dụng công cụ, chất lượng công việc | ✅   | ☐   | ☐          |
-| 2   | **Khả năng học hỏi**                | Tiếp thu kiến thức mới, học hỏi nhanh                                                            | ☐   | ✅   | ☐          |
-| 3   | **Chủ động**                        | Tự tìm hiểu, nhận nhiệm vụ mà không chờ chỉ dẫn                                                  | ✅   | ☐   | ☐          |
-| 4   | **Tinh thần trách nhiệm**           | Hoàn thành công việc đúng hạn, đảm bảo chất lượng                                                | ✅   | ☐   | ☐          |
-| 5   | **Kỷ luật**                         | Tuân thủ giờ giấc, nội quy, quy trình làm việc                                                   | ☐   | ☐   | ✅          |
-| 6   | **Tính cầu tiến**                   | Sẵn sàng nhận feedback và cải thiện bản thân                                                     | ☐   | ✅   | ☐          |
-| 7   | **Giao tiếp**                       | Trình bày ý tưởng, báo cáo công việc rõ ràng                                                     | ☐   | ✅   | ☐          |
-| 8   | **Hợp tác nhóm**                    | Làm việc hiệu quả với đồng nghiệp, tham gia nhóm                                                 | ✅   | ☐   | ☐          |
-| 9   | **Ứng xử chuyên nghiệp**            | Tôn trọng đồng nghiệp, đối tác, môi trường làm việc                                              | ✅   | ☐   | ☐          |
-| 10  | **Tư duy giải quyết vấn đề**        | Nhận diện vấn đề, đề xuất giải pháp, sáng tạo                                                    | ☐   | ✅   | ☐          |
-| 11  | **Đóng góp vào dự án/tổ chức**      | Hiệu quả công việc, sáng kiến cải tiến, ghi nhận từ team                                         | ✅   | ☐   | ☐          |
-| 12  | **Tổng thể**                        | Đánh giá chung về toàn bộ quá trình thực tập                                                     | ✅   | ☐   | ☐          |
+| STT | Tiêu chí                                              | Mô tả                                                                                                                                                                              | Tốt | Khá | Trung bình |
+| --- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- | --- | ---------- |
+| 1   | **Kiến thức và kỹ năng chuyên môn (AWS & RAG)**         | Nắm vững các dịch vụ AWS cốt lõi (EC2, S3, IAM, VPC endpoints) được áp dụng trong workshop kết nối hybrid, đồng thời triển khai thực tế một pipeline RAG để giải quyết câu hỏi suy luận đa bước trên bộ dữ liệu HotpotQA | ✅   | ☐   | ☐          |
+| 2   | **Khả năng học hỏi (dịch vụ & công cụ AWS mới)**        | Tiếp thu nhanh các dịch vụ AWS mới (S3 Metadata/Annotations, Cost Categories, Glue, Amplify, Cognito) và framework Hugo chỉ trong vài tuần, đủ hiểu rõ để viết thành hai bài blog kỹ thuật | ✅   | ☐   | ☐          |
+| 3   | **Chủ động**                                            | Chủ động thử nghiệm các chiến lược truy xuất (retrieval) khác nhau cho pipeline RAG/HotpotQA thay vì chỉ làm theo yêu cầu tối thiểu, tự phát hiện và khắc phục các lỗi triển khai GitHub Pages (baseURL, canonifyURLs, đường dẫn ảnh) mà không cần ai nhắc | ✅   | ☐   | ☐          |
+| 4   | **Tinh thần trách nhiệm**                               | Hoàn thành worklog hằng tuần, các bài lab workshop và bài blog đúng hạn, đồng thời luôn cập nhật danh sách công việc của dự án RAG | ✅   | ☐   | ☐          |
+| 5   | **Kỷ luật**                                             | Nhìn chung tuân thủ nhịp độ báo cáo hằng tuần, nhưng một vài worklog và bài blog vẫn hoàn thành sát hạn thay vì được dàn đều | ☐   | ✅   | ☐          |
+| 6   | **Tính cầu tiến**                                       | Tiếp thu phản hồi từ mentor khá nhanh, chẳng hạn điều chỉnh pipeline RAG dựa trên kết quả đánh giá và sửa các lỗi build/theme của Hugo sau khi được góp ý | ✅   | ☐   | ☐          |
+| 7   | **Giao tiếp**                                           | Trình bày công việc kỹ thuật khá tốt bằng văn bản (blog, proposal, worklog), nhưng vẫn cần súc tích và có cấu trúc hơn khi báo cáo tiến độ trực tiếp với mentor | ☐   | ✅   | ☐          |
+| 8   | **Hợp tác nhóm**                                        | Phối hợp tốt với mentor và các bạn thực tập sinh FCAJ trong workshop kết nối hybrid S3 và các buổi review blog của study group | ✅   | ☐   | ☐          |
+| 9   | **Ứng xử chuyên nghiệp**                                | Tuân thủ nội quy thực tập, cư xử lịch sự với mentor và cộng đồng AWS Study Group khi chia sẻ blog | ✅   | ☐   | ☐          |
+| 10  | **Tư duy giải quyết vấn đề**                            | Tự mình debug và xử lý các vấn đề kỹ thuật cụ thể, như file ảnh avatar bị gắn sai định dạng, lỗi build GitHub Actions, và các lỗi suy luận trong pipeline RAG | ✅   | ☐   | ☐          |
+| 11  | **Đóng góp vào dự án/tổ chức (dự án RAG & nội dung blog)** | Đóng góp một pipeline RAG hoạt động được cho bài toán hỏi-đáp đa bước trên HotpotQA, nội dung blog chất lượng, và bài viết workshop mà team có thể dùng làm tài liệu tham khảo | ✅   | ☐   | ☐          |
+| 12  | **Tổng thể**                                            | Hoàn thành các mục tiêu thực tập, tạo ra sản phẩm kỹ thuật cụ thể (triển khai RAG, blog, proposal, workshop), và tiến bộ đều ở hầu hết các tiêu chí | ✅   | ☐   | ☐          |
 
 ### Cần cải thiện
 
-* Nâng cao tính kỹ luật, chấp hành nghiêm chỉnh nội quy của công ty hoặc bất kỳ trong một tổ chức nào
-* Cải thiện trong cách tư duy giải quyết vấn đề
-* Học cách giao tiếp tốt hơn trong giao tiếp hằng ngày và trong công việc, xử lý tình huống
+* Nâng cao tính kỷ luật bằng cách dàn đều worklog, bài lab workshop và deadline blog thay vì hoàn thành sát hạn
+* Tiếp tục cải thiện kỹ năng giao tiếp — trình bày công việc kỹ thuật súc tích hơn, cả khi viết lẫn khi trao đổi tiến độ trực tiếp với mentor

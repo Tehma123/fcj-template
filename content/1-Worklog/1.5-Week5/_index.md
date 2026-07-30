@@ -12,46 +12,29 @@ pre: " <b> 1.5. </b> "
 
 ### Week 5 Objectives:
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Understand what Retrieval-Augmented Generation (RAG) is and why it helps reduce hallucination.
+* Build a naive (single-pass) RAG pipeline: chunk → embed → retrieve → generate.
+* Run the naive pipeline on a sample of HotpotQA questions and measure a baseline accuracy.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Day | Task                                                                                                                                       | Start Date | Completion Date | Reference Material                                              |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------------------------------- |
+| 2   | - Learn RAG fundamentals: retrieval + generation, grounding LLM answers in retrieved context                                                  | 07/06/2026 | 07/06/2026      | <https://aws.amazon.com/what-is/retrieval-augmented-generation/> |
+| 3   | - Learn the naive RAG pipeline: <br>&emsp; + Document chunking strategies <br>&emsp; + Embedding the corpus <br>&emsp; + Storing vectors <br>&emsp; + Top-k similarity search | 07/07/2026 | 07/07/2026      |                                                                     |
+| 4   | - **Practice:** chunk and embed a subset of HotpotQA context paragraphs, store the embeddings in a vector index                               | 07/08/2026 | 07/08/2026      |                                                                     |
+| 5   | - **Practice:** implement single-pass retrieval + prompt construction, generate answers for sample questions                                  | 07/09/2026 | 07/09/2026      |                                                                     |
+| 6   | - Evaluate the naive RAG pipeline on a small HotpotQA sample (Exact Match / F1) and note failure cases on multi-hop questions                 | 07/10/2026 | 07/10/2026      |                                                                     |
 
 
 ### Week 5 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Understood the core idea of RAG and why grounding generation in retrieved evidence reduces hallucination.
 
-* Successfully created and configured an AWS Free Tier account.
+* Built a working naive RAG pipeline: chunking, embedding, vector similarity search, and prompt-based generation.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Ran the pipeline end-to-end on a sample of HotpotQA questions.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Measured a baseline accuracy (EM/F1) and observed that naive, single-pass retrieval frequently fails on multi-hop questions that need evidence from more than one document.
 
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
+* Identified this gap as the motivation for exploring advanced RAG techniques next week.
 * ...

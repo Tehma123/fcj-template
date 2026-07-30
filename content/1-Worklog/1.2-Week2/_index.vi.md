@@ -12,48 +12,29 @@ pre: " <b> 1.2. </b> "
 
 ### Mục tiêu tuần 2:
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Hiểu các dịch vụ lưu trữ và định danh cốt lõi của AWS: Amazon S3 và IAM.
+* Hiểu các khái niệm networking cơ bản của AWS với Amazon VPC.
+* Thực hành tạo và bảo mật tài nguyên cloud theo nguyên tắc least privilege.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc                                                                                                                                                                                              | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
+| 2   | - Tìm hiểu Amazon S3: <br>&emsp; + Bucket & object <br>&emsp; + Storage classes <br>&emsp; + Versioning <br> - **Thực hành:** tạo bucket, upload/download object, cấu hình bucket policy            | 15/06/2026   | 15/06/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 3   | - Tìm hiểu IAM: <br>&emsp; + User, group, role <br>&emsp; + Policy & least privilege <br> - **Thực hành:** tạo IAM role với policy giới hạn quyền và kiểm tra quyền truy cập                        | 16/06/2026   | 16/06/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 4   | - Tìm hiểu VPC cơ bản: <br>&emsp; + VPC & subnet (public/private) <br>&emsp; + Route table & internet gateway <br>&emsp; + Security group so với NACL                                               | 17/06/2026   | 17/06/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 5   | - **Thực hành:** dựng một VPC với subnet public/private; khởi tạo EC2 instance bên trong và kiểm soát truy cập bằng security group                                                                  | 18/06/2026   | 18/06/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 6   | - Tìm hiểu S3 Gateway endpoint và các mô hình kết nối riêng tư <br> - Review công việc trong tuần cùng mentor                                                                                        | 19/06/2026   | 19/06/2026      | <https://cloudjourney.awsstudygroup.com/> |
 
 
 ### Kết quả đạt được tuần 2:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Hiểu các khái niệm cốt lõi của S3 (bucket, storage classes, versioning) và đã tạo/cấu hình một S3 bucket kèm bucket policy.
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Hiểu kiến thức nền tảng của IAM và đã tạo một IAM role với quyền hạn theo nguyên tắc least privilege.
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Dựng được một VPC cơ bản với subnet public/private và kiểm soát traffic bằng security group.
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Hiểu cách S3 Gateway endpoint giúp tài nguyên trong VPC truy cập S3 riêng tư mà không cần đi qua internet công cộng.
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
+* Có cái nhìn rõ ràng hơn về cách storage, identity và networking phối hợp với nhau để bảo mật một workload.
 * ...
-
-

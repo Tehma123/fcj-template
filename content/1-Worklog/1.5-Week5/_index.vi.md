@@ -12,48 +12,29 @@ pre: " <b> 1.5. </b> "
 
 ### Mục tiêu tuần 5:
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Hiểu Retrieval-Augmented Generation (RAG) là gì và vì sao nó giúp giảm hallucination.
+* Xây dựng một pipeline RAG đơn giản (naive, một lượt): chunk → embed → retrieve → generate.
+* Chạy pipeline naive trên một mẫu câu hỏi HotpotQA và đo độ chính xác baseline.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc                                                                                                                                    | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                                                    |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ------------------------------------------------------------------ |
+| 2   | - Tìm hiểu nền tảng RAG: retrieval + generation, cách "ground" câu trả lời của LLM vào context đã truy xuất                                | 06/07/2026   | 06/07/2026      | <https://aws.amazon.com/what-is/retrieval-augmented-generation/> |
+| 3   | - Tìm hiểu pipeline naive RAG: <br>&emsp; + Chiến lược chunking tài liệu <br>&emsp; + Embed corpus <br>&emsp; + Lưu vector <br>&emsp; + Top-k similarity search | 07/07/2026   | 07/07/2026      |                                                                      |
+| 4   | - **Thực hành:** chunk và embed một tập nhỏ đoạn context của HotpotQA, lưu embeddings vào vector index                                     | 08/07/2026   | 08/07/2026      |                                                                      |
+| 5   | - **Thực hành:** cài đặt retrieval một lượt + dựng prompt, sinh câu trả lời cho các câu hỏi mẫu                                            | 09/07/2026   | 09/07/2026      |                                                                      |
+| 6   | - Đánh giá pipeline naive RAG trên một mẫu nhỏ HotpotQA (Exact Match / F1) và ghi nhận các trường hợp lỗi với câu hỏi đa bước               | 10/07/2026   | 10/07/2026      |                                                                      |
 
 
 ### Kết quả đạt được tuần 5:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Hiểu ý tưởng cốt lõi của RAG và vì sao việc "ground" câu trả lời vào bằng chứng đã truy xuất giúp giảm hallucination.
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Xây dựng được một pipeline naive RAG hoạt động: chunking, embedding, vector similarity search, và sinh câu trả lời dựa trên prompt.
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Chạy pipeline end-to-end trên một mẫu câu hỏi HotpotQA.
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Đo được độ chính xác baseline (EM/F1) và nhận thấy retrieval một lượt (naive) thường thất bại với các câu hỏi đa bước cần bằng chứng từ nhiều tài liệu.
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
+* Xác định đây chính là động lực để tìm hiểu các kỹ thuật RAG nâng cao trong tuần tới.
 * ...
-
-

@@ -12,46 +12,29 @@ pre: " <b> 1.4. </b> "
 
 ### Week 4 Objectives:
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Get an overview of Amazon SageMaker and its role in the machine learning lifecycle.
+* Understand text embeddings and vector similarity — the foundation of retrieval used later in RAG.
+* Run a first hands-on notebook and inference example on SageMaker.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Day | Task                                                                                                                                             | Start Date | Completion Date | Reference Material                        |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
+| 2   | - Learn SageMaker overview: <br>&emsp; + Studio / notebook instances <br>&emsp; + Training jobs & model registry <br>&emsp; + Endpoints            | 06/29/2026 | 06/29/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 3   | - **Practice:** launch a SageMaker notebook instance, load a small pretrained model, and run inference                                            | 06/30/2026 | 06/30/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 4   | - Learn text embeddings: <br>&emsp; + What an embedding is <br>&emsp; + Cosine similarity <br>&emsp; + Why embeddings enable semantic search       | 07/01/2026 | 07/01/2026      |                                            |
+| 5   | - **Practice:** generate embeddings for a small set of text passages inside a SageMaker notebook and compute similarity scores between them        | 07/02/2026 | 07/02/2026      |                                            |
+| 6   | - Explore the HotpotQA dataset structure (questions, supporting facts, context paragraphs) to prepare for the RAG project                          | 07/03/2026 | 07/03/2026      | <https://hotpotqa.github.io/>             |
 
 
 ### Week 4 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Understood the role of SageMaker in the ML lifecycle (build, train, deploy).
 
-* Successfully created and configured an AWS Free Tier account.
+* Deployed and queried a model from a SageMaker notebook instance.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Understood how text embeddings represent semantic meaning and how cosine similarity is used to compare them.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Computed embeddings and similarity scores for a small text sample as a warm-up for retrieval.
 
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
+* Explored the structure of the HotpotQA dataset and identified what "multi-hop" means in practice.
 * ...

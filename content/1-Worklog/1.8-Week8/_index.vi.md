@@ -12,48 +12,28 @@ pre: " <b> 1.8. </b> "
 
 ### Mục tiêu tuần 8:
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Kết hợp toàn bộ các thành phần của pipeline thành một hệ thống RAG hoàn chỉnh và triển khai (deploy).
+* Deploy hệ thống phía sau CloudFront và kiểm chứng toàn bộ end-to-end.
+* Hoàn thiện tài liệu, kết quả đánh giá và báo cáo thực tập.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc                                                                                                                        | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
+| --- | --------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
+| 2   | - Tích hợp ingestion, retrieval, suy luận đa bước và generation thành một pipeline duy nhất, triển khai end-to-end          | 27/07/2026   | 27/07/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 3   | - **Thực hành:** đặt CloudFront trước API endpoint/static assets và hoàn thiện CloudWatch dashboard cho hệ thống đã deploy  | 28/07/2026   | 28/07/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 4   | - Chạy đánh giá cuối cùng trên tập test của HotpotQA và ghi nhận độ chính xác cùng độ trễ end-to-end                        | 29/07/2026   | 29/07/2026      |                                            |
+| 5   | - Ghi lại kiến trúc cuối cùng, tổng hợp kết quả, chuẩn bị blog, proposal và self-evaluation để nộp báo cáo thực tập          | 30/07/2026   | 30/07/2026      |                                            |
 
 
 ### Kết quả đạt được tuần 8:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Kết hợp thành công ingestion, retrieval, suy luận đa bước và generation thành một pipeline RAG duy nhất đã được deploy cho HotpotQA.
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Deploy hệ thống phía sau CloudFront kèm giám sát bằng CloudWatch.
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Đo được độ chính xác (EM/F1) và độ trễ end-to-end cuối cùng của pipeline đã deploy.
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Ghi lại đầy đủ kiến trúc, từ bước nạp dữ liệu đến khi deploy.
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
+* Hoàn thiện các sản phẩm bàn giao của kỳ thực tập: blog, proposal và self-evaluation.
 * ...
-
-

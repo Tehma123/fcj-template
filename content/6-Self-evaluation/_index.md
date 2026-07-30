@@ -6,30 +6,29 @@ chapter: false
 pre: " <b> 6. </b> "
 ---
 
-During my internship at **FCAJ** from **10/6/2026** to **15/8/2026**, I had the opportunity to learn, practice, and apply the knowledge acquired in school to a real-world working environment.  
-I participated in **[briefly describe the main project or task]**, through which I improved my skills in **[list skills: programming, analysis, reporting, communication, etc.]**.  
+During my internship at **FCAJ** from **10/6/2026** to **30/7/2026**, I had the opportunity to learn, practice, and apply the knowledge acquired in school to a real-world working environment.  
+I participated in **Deploy RAG to solve multi-hop reasoning questions with datasets taken from hotpot_qa**, through which I improved my skills in **AWS cloud services, RAG system design, technical writing, static site deployment with Hugo and GitHub Actions, and problem-solving/debugging**.  
 
 In terms of work ethic, I always strived to complete tasks well, complied with workplace regulations, and actively engaged with colleagues to improve work efficiency.
 
 To objectively reflect on my internship period, I would like to evaluate myself based on the following criteria:
 
-| No. | Criteria                            | Description                                                                                      | Good | Fair | Average |
-| --- | ----------------------------------- | ------------------------------------------------------------------------------------------------ | ---- | ---- | ------- |
-| 1   | **Professional knowledge & skills** | Understanding of the field, applying knowledge in practice, proficiency with tools, work quality | ✅    | ☐    | ☐       |
-| 2   | **Ability to learn**                | Ability to absorb new knowledge and learn quickly                                                | ☐    | ✅    | ☐       |
-| 3   | **Proactiveness**                   | Taking initiative, seeking out tasks without waiting for instructions                            | ✅    | ☐    | ☐       |
-| 4   | **Sense of responsibility**         | Completing tasks on time and ensuring quality                                                    | ✅    | ☐    | ☐       |
-| 5   | **Discipline**                      | Adhering to schedules, rules, and work processes                                                 | ☐    | ☐    | ✅       |
-| 6   | **Progressive mindset**             | Willingness to receive feedback and improve oneself                                              | ☐    | ✅    | ☐       |
-| 7   | **Communication**                   | Presenting ideas and reporting work clearly                                                      | ☐    | ✅    | ☐       |
-| 8   | **Teamwork**                        | Working effectively with colleagues and participating in teams                                   | ✅    | ☐    | ☐       |
-| 9   | **Professional conduct**            | Respecting colleagues, partners, and the work environment                                        | ✅    | ☐    | ☐       |
-| 10  | **Problem-solving skills**          | Identifying problems, proposing solutions, and showing creativity                                | ☐    | ✅    | ☐       |
-| 11  | **Contribution to project/team**    | Work effectiveness, innovative ideas, recognition from the team                                  | ✅    | ☐    | ☐       |
-| 12  | **Overall**                         | General evaluation of the entire internship period                                               | ✅    | ☐    | ☐       |
+| No. | Criteria                                                | Description                                                                                                                                                                  | Good | Fair | Average |
+| --- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---- | ---- | ------- |
+| 1   | **Professional knowledge & skills (AWS & RAG)**           | Solid grasp of core AWS services (EC2, S3, IAM, VPC endpoints) applied in the hybrid-connectivity workshop, plus hands-on deployment of a RAG pipeline for multi-hop reasoning on the HotpotQA dataset | ✅    | ☐    | ☐       |
+| 2   | **Ability to learn (new AWS services & tools)**           | Picked up new AWS services (S3 Metadata/Annotations, Cost Categories, Glue, Amplify, Cognito) and the Hugo static-site framework within a few weeks, and could explain them clearly enough to publish two technical blogs | ✅    | ☐    | ☐       |
+| 3   | **Proactiveness**                                         | Took initiative to explore retrieval strategies for the RAG/HotpotQA pipeline beyond the minimum ask, and self-diagnosed/fixed GitHub Pages deployment issues (baseURL, canonifyURLs, image assets) without being asked | ✅    | ☐    | ☐       |
+| 4   | **Sense of responsibility**                                | Delivered weekly worklogs, workshop labs, and blog posts on schedule, and kept the RAG project's task list up to date | ✅    | ☐    | ☐       |
+| 5   | **Discipline**                                             | Generally followed the weekly reporting cadence, but a few worklog and blog deliverables were finished close to the deadline instead of being spaced out evenly | ☐    | ✅    | ☐       |
+| 6   | **Progressive mindset**                                    | Incorporated mentor feedback quickly, such as adjusting the RAG pipeline based on evaluation results and correcting Hugo build/theme errors after review | ✅    | ☐    | ☐       |
+| 7   | **Communication**                                          | Explains technical work well in writing (blogs, proposal, worklogs), but still needs to be more concise and structured when reporting progress verbally to mentors | ☐    | ✅    | ☐       |
+| 8   | **Teamwork**                                               | Coordinated with FCAJ mentors and fellow interns during the S3 hybrid-connectivity workshop and study-group blog reviews | ✅    | ☐    | ☐       |
+| 9   | **Professional conduct**                                   | Respected internship rules and regulations, and engaged courteously with mentors and the AWS Study Group community when sharing blogs | ✅    | ☐    | ☐       |
+| 10  | **Problem-solving skills**                                 | Debugged and resolved concrete technical issues independently, such as a mislabeled avatar image file, a broken GitHub Actions build, and reasoning failures in the RAG pipeline | ✅    | ☐    | ☐       |
+| 11  | **Contribution to project/team (RAG project & blog content)** | Contributed a working RAG pipeline for multi-hop QA on HotpotQA, working blog content, and a workshop write-up that the team can reuse as reference material | ✅    | ☐    | ☐       |
+| 12  | **Overall**                                                | Completed the internship objectives, produced tangible technical output (RAG deployment, blogs, proposal, workshop), and grew steadily across most competencies | ✅    | ☐    | ☐       |
 
 ### Needs Improvement
 
-* Strengthen discipline and strictly comply with the rules and regulations of the company or any organization  
-* Improve problem-solving thinking  
-* Enhance communication skills in both daily interactions and professional contexts, including handling situations effectively
+* Strengthen discipline by spacing out weekly worklogs, workshop labs, and blog deadlines more evenly instead of finishing them close to the due date
+* Continue improving communication skills — presenting technical work more concisely, both in writing and when discussing progress verbally with mentors

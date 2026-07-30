@@ -12,46 +12,29 @@ pre: " <b> 1.2. </b> "
 
 ### Week 2 Objectives:
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Understand core AWS storage and identity services: Amazon S3 and IAM.
+* Understand basic AWS networking concepts with Amazon VPC.
+* Practice creating and securing cloud resources following the principle of least privilege.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Day | Task                                                                                                                                                                                                     | Start Date | Completion Date | Reference Material                        |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
+| 2   | - Learn Amazon S3: <br>&emsp; + Buckets & objects <br>&emsp; + Storage classes <br>&emsp; + Versioning <br> - **Practice:** create a bucket, upload/download objects, configure a bucket policy         | 06/15/2026 | 06/15/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 3   | - Learn IAM: <br>&emsp; + Users, groups, roles <br>&emsp; + Policies & least privilege <br> - **Practice:** create an IAM role with a scoped-down policy and test access                                | 06/16/2026 | 06/16/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 4   | - Learn VPC basics: <br>&emsp; + VPC & subnets (public/private) <br>&emsp; + Route tables & internet gateway <br>&emsp; + Security groups vs. NACLs                                                     | 06/17/2026 | 06/17/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 5   | - **Practice:** build a VPC with public/private subnets; launch an EC2 instance inside it and control access with security groups                                                                       | 06/18/2026 | 06/18/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 6   | - Learn about S3 Gateway endpoints and private connectivity patterns <br> - Review the week's work with mentor                                                                                           | 06/19/2026 | 06/19/2026      | <https://cloudjourney.awsstudygroup.com/> |
 
 
 ### Week 2 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Understood core S3 concepts (buckets, storage classes, versioning) and created/configured an S3 bucket with a bucket policy.
 
-* Successfully created and configured an AWS Free Tier account.
+* Understood IAM fundamentals and created an IAM role with least-privilege permissions.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Built a basic VPC with public/private subnets and controlled traffic using security groups.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Learned how S3 Gateway endpoints let resources inside a VPC reach S3 privately, without traversing the public internet.
 
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
+* Gained a clearer picture of how storage, identity, and networking work together to secure a workload.
 * ...
