@@ -587,6 +587,13 @@ def preprocess_markdown(content, meta=None):
     content = content.replace("\u26a0", "!")
     content = content.replace("\u2192", r"$\rightarrow$")
 
+    # Box-drawing characters (ASCII tree diagrams in code fences) aren't
+    # available in pdfTeX's default fonts; fall back to plain ASCII art.
+    content = content.replace("\u251c", "|")  # box drawings light vertical and right
+    content = content.replace("\u2514", "`")  # box drawings light up and right
+    content = content.replace("\u2502", "|")  # box drawings light vertical
+    content = content.replace("\u2500", "-")  # box drawings light horizontal
+
     return content
 # ---------------------------------------------------------------------------
 # Pandoc LaTeX conversion
@@ -811,6 +818,21 @@ def build_include_file(lang, pages, containers):
     lines.append(r"\providecommand{\tightlist}{%")
     lines.append(r"  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}%")
     lines.append(r"}")
+    lines.append("")
+
+    # Pandoc (>=3.x) wraps every \includegraphics call in \pandocbounded, but
+    # we don't use pandoc's own LaTeX template, so the macro is never defined.
+    # main.tex/main_en.tex already force width=\textwidth,keepaspectratio on
+    # every \includegraphics, so a plain passthrough is enough here.
+    lines.append(r"\providecommand{\pandocbounded}[1]{#1}")
+    lines.append("")
+
+    # Pandoc emits `{\def\LTcaptype{none} ... \begin{longtable}...}` around
+    # every uncaptioned table to tell longtable/caption not to number it.
+    # Current longtable/caption versions try to step a counter named after
+    # \LTcaptype's value, so without a "none" counter this hard-errors on
+    # every single table in the report.
+    lines.append(r"\newcounter{none}")
     lines.append("")
 
     lines.append(f"\\section{{{sanitize_latex_text(top_body)}}}")
