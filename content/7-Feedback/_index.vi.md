@@ -5,9 +5,6 @@ weight: 7
 chapter: false
 pre: " <b> 7. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
 >Tại đây bạn có thể tự do đóng góp ý kiến cá nhân về những trải nghiệm khi tham gia chương trình First Cloud AI Journey, giúp team FCAJ cải thiện những vấn đề còn thiếu sót dựa trên các hạng mục sau:
 
@@ -33,12 +30,23 @@ Công ty có hỗ trợ phụ cấp thực tập và tạo điều kiện về t
 
 
 ### Một số câu hỏi khác
-- Điều bạn **hài lòng nhất** trong thời gian thực tập?  
-- Điều bạn nghĩ công ty **cần cải thiện** cho các thực tập sinh sau?  
-- Nếu giới thiệu cho bạn bè, bạn có **khuyên họ thực tập ở đây không**? Vì sao?  
 
+**Điều bạn hài lòng nhất trong thời gian thực tập?**  
+Điều khiến mình hài lòng nhất là được biến những gì đã học thành sản phẩm thật — từ việc tự xây dựng trang báo cáo thực tập bằng Hugo, viết các blog kỹ thuật, cho đến hoàn thành trọn vẹn workshop về S3 VPC endpoint. Cảm giác thấy một cấu hình AWS chạy đúng hoặc một bài blog được đăng lên sau khi tự mày mò sửa lỗi thực sự rất đáng nhớ.
+
+**Điều bạn nghĩ công ty cần cải thiện cho các thực tập sinh sau?**  
+Mình nghĩ nên có thêm các mốc kiểm tra kỹ thuật (checkpoint) sớm hơn trong quá trình thực tập, thay vì chỉ tập trung vào các cột mốc lớn, để phát hiện sớm những hiểu lầm nhỏ trước khi chúng trở thành vướng mắc lớn. Có thêm các buổi chia sẻ, xử lý sự cố thực tế giống như sự kiện "AI Agent Build Week" cũng sẽ rất hữu ích.
+
+**Nếu giới thiệu cho bạn bè, bạn có khuyên họ thực tập ở đây không? Vì sao?**  
+Có, mình chắc chắn sẽ giới thiệu. Chương trình cân bằng tốt giữa việc học có cấu trúc (worklog, workshop) và sự chủ động thực sự — bạn được khuyến khích tự tìm hiểu, tự mắc lỗi và tự sửa, trong khi mentor luôn ở đó để định hướng thay vì đưa sẵn đáp án. Đó chính xác là điều mình mong muốn ở một kỳ thực tập.
 
 ### Đề xuất & mong muốn
-- Bạn có đề xuất gì để cải thiện trải nghiệm trong kỳ thực tập?  
-- Bạn có muốn tiếp tục chương trình này trong tương lai?
-- Góp ý khác (tự do chia sẻ):
+
+**Bạn có đề xuất gì để cải thiện trải nghiệm trong kỳ thực tập?**  
+Có thể bổ sung một buổi checkpoint giữa kỳ để các thực tập sinh không chính thức chia sẻ tiến độ với nhau (tương tự tinh thần của sự kiện "AI Agent Build Week"), giúp tăng cường học hỏi lẫn nhau giữa các bạn thực tập sinh, chứ không chỉ giữa mentor và thực tập sinh.
+
+**Bạn có muốn tiếp tục chương trình này trong tương lai?**  
+Có, mình rất mong được tiếp tục phát triển cùng FCAJ, dù là tham gia các workshop AWS nâng cao hơn hay sau này có cơ hội đồng hành, hỗ trợ các bạn thực tập sinh mới giống như cách mentor đã hỗ trợ mình.
+
+**Góp ý khác (tự do chia sẻ):**  
+Nhìn chung, kỳ thực tập này giúp mình hình dung rõ ràng hơn rất nhiều về công việc thực tế của một kỹ sư cloud hằng ngày. Cảm ơn team FCAJ và mentor đã đồng hành, hỗ trợ mình trong suốt thời gian qua.

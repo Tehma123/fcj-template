@@ -6,9 +6,6 @@ chapter: false
 pre: " <b> 7. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
 > Here, you can freely share your personal opinions about your experience participating in the First Cloud AI Journey program. This will help the FCAJ team improve any shortcomings based on the following aspects:
 
@@ -35,13 +32,25 @@ The company provides an internship allowance and offers flexible working hours w
 ---
 
 ### Additional Questions
-- What did you find **most satisfying** during your internship?  
-- What do you think the company **should improve** for future interns?  
-- If recommending to a friend, would you **suggest they intern here**? Why or why not?  
+
+**What did you find most satisfying during your internship?**  
+Being able to turn what I learned into something real was the most satisfying part — building this internship report site with Hugo, writing technical blogs, and working through the S3 VPC endpoint workshop end-to-end. Seeing a working AWS setup or a published blog post after debugging through errors myself felt genuinely rewarding.
+
+**What do you think the company should improve for future interns?**  
+I think adding technical checkpoints earlier in the program, rather than only at major milestones, would help catch small misunderstandings before they turn into bigger blockers. More hands-on sharing sessions, similar to the "AI Agent Build Week" event, would also be valuable.
+
+**If recommending to a friend, would you suggest they intern here? Why or why not?**  
+Yes, I would. The program balances structured learning (worklogs, workshops) with real autonomy — you're expected to research, make mistakes, and fix them yourself, with a mentor there to guide rather than hand you the answer. That combination is exactly what I'd want from an internship.
 
 ---
 
 ### Suggestions & Expectations
-- Do you have any suggestions to improve the internship experience?  
-- Would you like to continue this program in the future?  
-- Any other comments (free sharing):
+
+**Do you have any suggestions to improve the internship experience?**  
+Adding a short mid-program checkpoint where interns can informally share progress with each other (similar in spirit to "AI Agent Build Week") would build more peer-to-peer learning, not just mentor-to-intern learning.
+
+**Would you like to continue this program in the future?**  
+Yes — I'd be glad to keep growing within FCAJ, whether through more advanced AWS workshops or, eventually, helping guide newer interns the way my mentor guided me.
+
+**Any other comments (free sharing):**  
+Overall, this internship gave me a much clearer picture of what working in cloud engineering actually looks like day to day. Thank you to the FCAJ team and my mentor for the support throughout.

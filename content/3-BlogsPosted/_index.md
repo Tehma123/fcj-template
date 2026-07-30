@@ -6,9 +6,6 @@ chapter: false
 pre: " <b> 3. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
 This section will list and introduce the blogs you have posted to [AWS Study Group](https://www.facebook.com/groups/awsstudygroupfcj). For example:
 
@@ -18,5 +15,5 @@ This blog introduces Amazon S3 Annotations, a new way to attach named, independe
 ###  [Blog 2 - AWS Cost Optimization: Don't Just Look at the Bill](3.2-Blog2/)
 This blog walks through the AWS Well-Architected approach to cost optimization: knowing where cost comes from, measuring it against business output, matching resources to demand, assigning clear ownership, and building it into a continuous habit instead of a one-time cut.
 
-###  [Blog 3 - ...](3.3-Blog3/)
-This blog introduces the newly added session policies feature in Amazon EKS Pod Identity, which allows you to narrow IAM permissions flexibly and precisely for each pod without needing to create multiple separate IAM roles. This is an important step forward that helps apply the principle of least privilege more effectively in large-scale Kubernetes environments.
+###  [Blog 3 - Extending Amazon CloudWatch with Cribl Stream for Any Data Source](3.3-Blog3/)
+This blog explains how Cribl Stream, an AWS partner solution, extends Amazon CloudWatch's native log ingestion to sources outside the AWS ecosystem (syslog, Apache Kafka, APM tools) through a lean 3-tier architecture, and how the resulting normalized logs can even be queried directly by AI agents via the Amazon CloudWatch MCP server.

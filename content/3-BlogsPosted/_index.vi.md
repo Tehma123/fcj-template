@@ -6,9 +6,6 @@ chapter: false
 pre: " <b> 3. </b> "
 ---
 
-{{% notice warning %}}  
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
 Tại đây sẽ là phần liệt kê, giới thiệu các blogs mà các bạn đã đăng trên [AWS Study Group](https://www.facebook.com/groups/awsstudygroupfcj). Ví dụ:
 
@@ -18,5 +15,5 @@ Blog này giới thiệu Amazon S3 Annotations, một cách mới để gắn c�
 ###  [Blog 2 - Tối Ưu Chi Phí AWS: Đừng Chỉ Nhìn Vào Hóa Đơn](3.2-Blog2/)
 Blog này trình bày cách tiếp cận tối ưu chi phí theo AWS Well-Architected Framework: biết chi phí đến từ đâu, đo chi phí cùng với kết quả kinh doanh, điều chỉnh tài nguyên theo nhu cầu, xác định người phụ trách minh bạch và biến việc này thành một thói quen thay vì một đợt cắt giảm nhất thời.
 
-###  [Blog 3 - ...](3.3-Blog3/)
-Blog này giới thiệu Amazon EKS Pod Identity vừa bổ sung tính năng session policies, cho phép bạn thu hẹp quyền IAM một cách linh hoạt và chính xác cho từng pod mà không cần tạo thêm nhiều IAM roles riêng biệt. Đây là bước tiến quan trọng giúp áp dụng nguyên tắc least privilege hiệu quả hơn trong môi trường Kubernetes quy mô lớn.
+###  [Blog 3 - Mở Rộng Amazon CloudWatch Bằng Cribl Stream Cho Mọi Nguồn Dữ Liệu](3.3-Blog3/)
+Blog này trình bày cách Cribl Stream — một đối tác của AWS — mở rộng khả năng thu thập log tự nhiên của Amazon CloudWatch tới các nguồn nằm ngoài hệ sinh thái AWS (syslog, Apache Kafka, công cụ APM) thông qua kiến trúc 3 lớp tinh gọn, và cách dữ liệu log đã chuẩn hóa có thể được các AI agent truy vấn trực tiếp qua máy chủ Amazon CloudWatch MCP.

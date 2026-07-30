@@ -6,9 +6,6 @@ chapter: false
 pre: " <b> 6. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
 Trong suốt thời gian thực tập tại **FCAJ** từ **10/6/2026** đến **30/7/2026**, tôi đã có cơ hội học hỏi, rèn luyện và áp dụng kiến thức đã được trang bị tại trường vào môi trường làm việc thực tế.  
 Tôi đã tham gia **triển khai RAG để giải quyết các câu hỏi suy luận đa bước (multi-hop reasoning) với bộ dữ liệu HotpotQA**, qua đó cải thiện kỹ năng **sử dụng dịch vụ AWS, thiết kế hệ thống RAG, viết tài liệu kỹ thuật, triển khai trang web tĩnh với Hugo và GitHub Actions, cùng khả năng giải quyết vấn đề/debug**.  
