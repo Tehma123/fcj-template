@@ -8,6 +8,9 @@ pre: " <b> 3.1. </b> "
 
 # Amazon S3 Annotations: Metadata Có Thể Cập Nhật Và Truy Vấn Cho Từng Object
 
+![Bài viết đã đăng trên nhóm Facebook AWS Study Group VN](/images/BlogsPosted/blog1.png)
+*Đã đăng lên nhóm Facebook AWS Study Group VN.*
+
 Amazon S3 đã hỗ trợ nhiều loại metadata để mô tả và quản lý object, chẳng hạn kích thước, storage class, cùng object tags và user-defined metadata cho các nhu cầu quản lý khác nhau.
 
 Tuy nhiên, trong các pipeline xử lý dữ liệu và AI, một object thường còn đi kèm nhiều thông tin được tạo ra sau quá trình xử lý. Hệ thống có thể tạo transcript, kết quả OCR và bản tóm tắt, đồng thời trích xuất các thông tin quan trọng như tên người, tổ chức, ngày tháng hoặc mã tài liệu. Mô hình cũng có thể sinh nhãn phân loại, embedding, confidence score, cờ phát hiện PII hoặc kết quả kiểm duyệt nội dung. Những metadata này thường vẫn phải được lưu trong cơ sở dữ liệu hoặc file riêng.

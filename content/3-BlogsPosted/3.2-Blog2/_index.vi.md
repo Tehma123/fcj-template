@@ -8,6 +8,9 @@ pre: " <b> 3.2. </b> "
 
 # Tối Ưu Chi Phí AWS: Đừng Chỉ Nhìn Vào Hóa Đơn
 
+![Bài viết đã đăng trên nhóm Facebook AWS Study Group VN](/images/BlogsPosted/blog2.png)
+*Đã đăng lên nhóm Facebook AWS Study Group VN.*
+
 Khi hóa đơn AWS tăng, phản ứng đầu tiên của nhiều đội ngũ là tìm tài nguyên nào có thể tắt, cấu hình nào có thể thu nhỏ hoặc dịch vụ nào đang tốn tiền nhất. Những việc này có thể giúp giảm chi phí trước mắt, nhưng chưa đủ để kết luận hệ thống đã được tối ưu.
 
 Một hệ thống rẻ hơn chưa chắc đã tốt hơn. Nếu chi phí giảm nhưng ứng dụng chậm đi, khách hàng gặp lỗi nhiều hơn hoặc đội kỹ thuật phải mất thêm thời gian vận hành, doanh nghiệp có thể đang tiết kiệm một cách sai lầm.
