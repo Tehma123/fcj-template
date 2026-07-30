@@ -23,49 +23,52 @@ content/ (.md)  ──►  scripts/convert_hugo_to_latex.py  ──►  report/g
 
 Script **không cần sửa gì thêm khi bạn thêm trang mới** — nó tự dò `content/` mỗi lần chạy.
 
-## 2. Chạy sinh PDF ở máy local
+## 2. Chạy sinh PDF ở máy local (Windows)
 
-Cài đặt (Ubuntu/Debian):
+Script Python tự nó chạy tốt trên Windows (không có phần nào phụ thuộc Linux), chỉ cần cài thêm **pandoc** và một bản **LaTeX cho Windows** (khuyên dùng MiKTeX — có sẵn `latexmk`, không cần cài Perl riêng).
 
-```bash
-sudo apt-get install -y pandoc texlive-latex-recommended texlive-latex-extra \
-  texlive-fonts-recommended texlive-lang-other latexmk
+Cài đặt qua **winget** (có sẵn trên Windows 11):
+
+```powershell
+winget install --id JohnMacFarlane.Pandoc -e
+winget install --id MiKTeX.MiKTeX -e
 pip install pyyaml
 ```
 
-macOS:
+(Nếu ID trên không khớp phiên bản winget của bạn, tìm lại bằng `winget search pandoc` / `winget search miktex`.)
 
-```bash
-brew install pandoc
-brew install --cask mactex
-pip install pyyaml
-```
+Sau khi cài MiKTeX, mở **MiKTeX Console** → Settings → bật *"Always install missing packages on-the-fly"* để nó tự cài các gói LaTeX còn thiếu (`vntex`, `mdframed`, `pdfpages`, `tikz`...) ngay lần build đầu tiên mà không bị hỏi liên tục.
 
-Chạy:
+> Đã kiểm tra trên máy đang dùng cho repo này: có sẵn **Python 3.13**, nhưng **chưa cài pandoc** và **chưa có bản LaTeX nào** — cần cài 2 thứ trên trước khi build local, nếu không script sẽ báo lỗi `pandoc is not installed or not in PATH`.
 
-```bash
+Chạy (PowerShell):
+
+```powershell
 # 1. Convert Hugo content -> LaTeX
-python3 scripts/convert_hugo_to_latex.py
+python scripts/convert_hugo_to_latex.py
 
 # 2. Build PDF tiếng Việt (chạy 3 lần để mục lục/tham chiếu đúng)
 cd report
 latexmk -pdf -interaction=nonstopmode main.tex
 latexmk -pdf -interaction=nonstopmode main.tex
 latexmk -pdf -interaction=nonstopmode main.tex
-cp main.pdf ../report_vn.pdf
+Copy-Item main.pdf ..\report_vn.pdf
 
 # 3. Build PDF tiếng Anh
 latexmk -pdf -interaction=nonstopmode main_en.tex
 latexmk -pdf -interaction=nonstopmode main_en.tex
 latexmk -pdf -interaction=nonstopmode main_en.tex
-cp main_en.pdf ../report_en.pdf
+Copy-Item main_en.pdf ..\report_en.pdf
+cd ..
 ```
 
 Kết quả: `report_vn.pdf` và `report_en.pdf` ở thư mục gốc repo.
 
+(Nếu chạy qua Git Bash thay vì PowerShell thuần, dùng `python3`, `cp` thay cho `python`, `Copy-Item` — mọi lệnh khác giữ nguyên.)
+
 ## 3. Tự động chạy trên GitHub Actions
 
-Job **`build-pdf`** đã được thêm vào `.github/workflows/hugo.yml` (chạy song song với job `build-deploy` deploy site có sẵn), mỗi khi push lên `main`:
+Job **`build-pdf`** chạy trên runner **Ubuntu** của GitHub (không phụ thuộc hệ điều hành máy bạn) — nên kể cả khi máy local là Windows và **chưa cài pandoc/LaTeX gì cả**, chỉ cần push code lên `main` là PDF vẫn được build tự động và đính vào Release, không cần cài gì ở máy local. Job đã được thêm vào `.github/workflows/hugo.yml` (chạy song song với job `build-deploy` deploy site có sẵn), mỗi khi push lên `main`:
 
 1. Cài TeX Live + pandoc trên runner Ubuntu.
 2. Chạy `convert_hugo_to_latex.py`, build 2 bản PDF (VI/EN) như ở mục 2.
