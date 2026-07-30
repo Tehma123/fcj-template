@@ -61,4 +61,4 @@ Nhờ việc đưa dữ liệu ngoài hệ sinh thái AWS về nằm cạnh các
 
 Nhờ vậy, các trợ lý AI tương thích như Claude Code, Kiro, hoặc GitHub Copilot có thể phân tích trực tiếp dữ liệu log. Thay vì viết câu lệnh SQL, các kỹ sư trực hệ thống chỉ cần yêu cầu AI: *"Hãy tóm tắt các lần đăng nhập thất bại từ nhà cung cấp danh tính và AWS CloudTrail trong giờ qua"*, và AI sẽ trả về kết quả dựa trên dữ liệu thật.
 
-*(Bổ sung link nguồn tham khảo và hình ảnh minh họa sau)*
+**Link tham khảo:** <https://aws.amazon.com/blogs/mt/extend-amazon-cloudwatch-beyond-native-connectors-with-cribl-stream/>

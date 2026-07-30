@@ -32,3 +32,20 @@ To objectively reflect on my internship period, I would like to evaluate myself 
 
 * Strengthen discipline by spacing out weekly worklogs, workshop labs, and blog deadlines more evenly instead of finishing them close to the due date
 * Continue improving communication skills — presenting technical work more concisely, both in writing and when discussing progress verbally with mentors
+
+### Personal Contribution
+
+**Self-implementation level**
+
+* Not just copying a template: I designed and wrote the entire RAG pipeline myself (chunking, indexing, retrieval, hop planning, generation) rather than reusing an existing RAG tutorial/template as-is.
+* Customization:
+  * **Added features:** Implemented Query Decomposition (breaking multi-hop questions into sub-questions via an LLM) and an Adaptive Hop Planner (deciding the next retrieval hop dynamically based on the evidence gathered so far) — both go beyond a "naive" retrieve-once, generate-once RAG pipeline.
+  * **Added services:** Integrated Amazon S3 Vectors as the production vector store (replacing local ChromaDB), plus a FastAPI service layer with dedicated health-check/warmup endpoints.
+  * **Different data handling:** Used a self-processed HotpotQA validation slice with custom parent/child chunking and self-built BM25 and vector indexes, instead of a pre-processed dataset.
+  * **Different testing approach:** Built a proper Exact Match/F1 evaluation suite matching the HotpotQA scoring standard, instead of just running a demo on a handful of sample questions.
+
+**Short reflection**
+
+* **Difficulty encountered:** The biggest constraint was infrastructure — since only AWS Free Tier was available (no GPU), the cross-encoder reranking step, which needs a transformer model to re-score retrieved candidates, couldn't run efficiently in production, so the reranker had to be disabled in the actual deployment.
+* **How it was solved:** I designed the system for graceful degradation — when the reranker is disabled, the pipeline still works correctly by keeping the ranking order from hybrid retrieval (BM25 ⊕ Vector via Reciprocal Rank Fusion) instead of crashing or hard-requiring a GPU.
+* **Future direction:** With access to GPU infrastructure (e.g., a GPU-backed EC2 instance or a managed inference service), I would re-enable cross-encoder reranking to improve the accuracy of the context fed into answer generation, especially for multi-hop questions with many distracting candidates.

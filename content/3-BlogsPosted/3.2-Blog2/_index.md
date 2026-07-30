@@ -133,8 +133,4 @@ When these questions are answered regularly, cost optimization stops being a bud
 
 *Reference: AWS Well-Architected Framework – Cost Optimization Pillar.*
 
-...Image...
-
-...Link...
-
-...Guide...
+**Reference link:** <https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html>

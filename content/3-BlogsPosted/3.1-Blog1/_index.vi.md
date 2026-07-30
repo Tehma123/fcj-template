@@ -121,8 +121,4 @@ S3 Annotations không thay thế object tags hay cơ sở dữ liệu. Nó phù 
 
 *Nguồn: AWS – Amazon S3 User Guide, "Annotating your objects"*
 
-...Hình ảnh...
-
-...Link...
-
-...Hướng dẫn...
+**Link tham khảo:** <https://docs.aws.amazon.com/AmazonS3/latest/userguide/annotations-overview.html>

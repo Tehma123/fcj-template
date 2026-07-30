@@ -45,3 +45,12 @@ Attended the "AI Agent Build Week" workshop organized by FCAJ. During the event,
 - Personal Takeaways: Hearing first-hand accounts of the technical hurdles and design choices behind successful projects provided a highly pragmatic perspective that textbook learning often lacks. It was especially rewarding to see how abstract concepts in AI and cloud architecture were applied to solve tangible domain-specific problems.
 
 - Overall Reflection: Attending this event proved to be an invaluable experience, broadening my technical horizons and greatly motivating me to explore advanced AI agent frameworks and cloud integration paradigms in upcoming projects.
+
+![KFC Order Liveboard demo](/images/4-EventsParticipated/event2_1.png)
+*A team demoing the "KFC Order Liveboard" — tracking orders and AI agent activity in real time.*
+
+![AABW - Adaptive AML/KYT Workflow Engine architecture](/images/4-EventsParticipated/event2_2.png)
+*The "AABW - Adaptive AML/KYT Workflow Engine" architecture for detecting and handling suspicious transactions.*
+
+![At the AI Agent Build Week event](/images/4-EventsParticipated/event2_3.png)
+*A moment from attending the AI Agent Build Week event.*

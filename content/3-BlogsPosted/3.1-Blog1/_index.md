@@ -121,8 +121,4 @@ S3 Annotations doesn't replace object tags or databases. It fills the gap betwee
 
 *Source: AWS – Amazon S3 User Guide, "Annotating your objects"*
 
-...Image...
-
-...Link...
-
-...Guide...
+**Reference link:** <https://docs.aws.amazon.com/AmazonS3/latest/userguide/annotations-overview.html>

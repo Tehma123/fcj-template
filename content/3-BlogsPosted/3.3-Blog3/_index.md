@@ -61,4 +61,4 @@ Notably, because the data is normalized into an open format, it can be connected
 
 As a result, compatible AI assistants such as Claude Code, Kiro, or GitHub Copilot can analyze log data directly. Instead of writing SQL queries, on-call engineers simply need to ask the AI: *"Summarize the failed logins from the identity provider and AWS CloudTrail over the past hour"*, and the AI will return results based on real data.
 
-*(Add the reference source link and illustrative images later)*
+**Reference link:** <https://aws.amazon.com/blogs/mt/extend-amazon-cloudwatch-beyond-native-connectors-with-cribl-stream/>

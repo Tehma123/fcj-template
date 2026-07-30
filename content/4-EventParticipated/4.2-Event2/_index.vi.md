@@ -45,3 +45,12 @@ Tham gia workshop "AI Agent Build Week" do FCAJ tổ chức. Trong sự kiện, 
 - Ấn tượng cá nhân: Những chia sẻ chân thực về khó khăn thực tế và cách đưa ra quyết định kiến trúc của các đội thi giúp tôi tích lũy được nhiều góc nhìn thực chiến mà sách vở ít khi đề cập. Rất ấn tượng khi thấy những khái niệm AI và Cloud lý thuyết được hiện thực hóa thành các sản phẩm giải quyết bài toán cụ thể.
 
 - Đánh giá chung: Đây là một trải nghiệm đặc biệt giá trị, giúp mở rộng góc nhìn chuyên môn và tiếp thêm động lực lớn để tôi chủ động nghiên cứu, áp dụng các mô hình AI Agent cũng như kiến trúc Cloud vào các dự án cá nhân trong tương lai.
+
+![Demo KFC Order Liveboard](/images/4-EventsParticipated/event2_1.png)
+*Đội thi trình bày demo "KFC Order Liveboard" — theo dõi đơn hàng và hoạt động AI Agent theo thời gian thực.*
+
+![Kiến trúc AABW - Adaptive AML/KYT Workflow Engine](/images/4-EventsParticipated/event2_2.png)
+*Kiến trúc hệ thống "AABW - Adaptive AML/KYT Workflow Engine" giúp phát hiện và xử lý các giao dịch đáng ngờ.*
+
+![Tại sự kiện AI Agent Build Week](/images/4-EventsParticipated/event2_3.png)
+*Khoảnh khắc tham gia sự kiện AI Agent Build Week.*

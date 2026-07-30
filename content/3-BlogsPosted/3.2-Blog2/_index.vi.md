@@ -133,8 +133,4 @@ Khi những câu hỏi này được trả lời thường xuyên, tối ưu chi
 
 *Nguồn tham khảo: AWS Well-Architected Framework – Cost Optimization Pillar.*
 
-...Hình ảnh...
-
-...Link...
-
-...Hướng dẫn...
+**Link tham khảo:** <https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/welcome.html>

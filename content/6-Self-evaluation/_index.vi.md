@@ -34,3 +34,20 @@ Về tác phong, tôi luôn cố gắng hoàn thành tốt nhiệm vụ, tuân t
 
 * Nâng cao tính kỷ luật bằng cách dàn đều worklog, bài lab workshop và deadline blog thay vì hoàn thành sát hạn
 * Tiếp tục cải thiện kỹ năng giao tiếp — trình bày công việc kỹ thuật súc tích hơn, cả khi viết lẫn khi trao đổi tiến độ trực tiếp với mentor
+
+### Đóng góp cá nhân
+
+**Mức độ tự làm**
+
+* Không chỉ copy mẫu: Toàn bộ pipeline RAG (chunking, indexing, retrieval, hop planning, generation) do tôi tự thiết kế và code, không dùng lại nguyên vẹn một RAG tutorial/template có sẵn.
+* Có tùy biến:
+  * **Thêm feature:** Tự triển khai Query Decomposition (phân rã câu hỏi đa chặng bằng LLM) và Adaptive Hop Planner (lập kế hoạch hop tiếp theo một cách động dựa trên bằng chứng vừa truy hồi được) — cả hai đều vượt ngoài một pipeline RAG "naive" chỉ retrieve một lần rồi generate một lần.
+  * **Thêm service:** Tích hợp Amazon S3 Vectors làm vector store cho production (thay thế ChromaDB cục bộ), cùng một FastAPI service layer với endpoint health-check/warmup riêng.
+  * **Data khác:** Dùng một validation slice của HotpotQA tự xử lý (tự chunking parent/child, tự xây chỉ mục BM25 và vector), không dùng dataset đã tiền xử lý sẵn.
+  * **Cách test khác:** Tự xây bộ eval đo Exact Match/F1 đúng theo chuẩn chấm điểm của HotpotQA, thay vì chỉ chạy demo trên vài câu hỏi mẫu.
+
+**Reflection ngắn**
+
+* **Khó khăn gặp phải:** Hạn chế lớn nhất nằm ở hạ tầng — vì chỉ dùng được AWS Free Tier (không có GPU), bước cross-encoder reranking (cần chạy một mô hình transformer để tái xếp hạng các candidate đã truy hồi) không thể chạy hiệu quả trong môi trường production, nên phải tắt reranker khi deploy thực tế.
+* **Cách giải quyết:** Tôi thiết kế hệ thống theo hướng graceful degradation — khi reranker bị tắt, pipeline vẫn hoạt động đúng bằng cách giữ nguyên thứ hạng từ hybrid retrieval (BM25 ⊕ Vector qua Reciprocal Rank Fusion) thay vì làm sập hệ thống hoặc bắt buộc phải có GPU.
+* **Hướng phát triển trong tương lai:** Nếu có hạ tầng GPU (ví dụ EC2 instance có GPU hoặc một dịch vụ inference managed), tôi sẽ bật lại cross-encoder reranking để cải thiện độ chính xác của ngữ cảnh đưa vào bước sinh câu trả lời, đặc biệt với các câu hỏi multi-hop có nhiều candidate gây nhiễu.
