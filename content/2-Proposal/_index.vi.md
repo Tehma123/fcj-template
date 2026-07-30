@@ -36,14 +36,19 @@ Browser (React / Vite)
        -> Amazon S3 Vectors        (dense vector retrieval)
        -> AWS Systems Manager Parameter Store (non-secret runtime config)
        -> AWS Secrets Manager      (Groq API key)
+       -> Amazon CloudWatch        (logs & metrics)
        -> Groq API (third-party)   (query decomposition, hop planning, answer generation)
 ```
+
+![Kiến trúc triển khai trên AWS: Amplify -> API Gateway -> EC2 (VPC, public subnet) -> S3 (sparse search), S3 Vectors (dense search), Secrets Manager, Systems Manager, và CloudWatch, với EC2 gọi trực tiếp Groq LLM API bên ngoài](/images/2-Proposal/AWS-RAG.drawio.png)
+*Kiến trúc triển khai: trình duyệt tiếp cận backend FastAPI qua Amplify và API Gateway; instance EC2 (gắn IAM role, nằm trong public subnet của VPC) lấy Groq API key từ Secrets Manager, đọc chỉ mục sparse/dense từ S3 và S3 Vectors, được cấu hình qua Systems Manager, gửi log và metrics về Amazon CloudWatch, và gọi trực tiếp Groq API bên ngoài để inference LLM.*
 
 #### Dịch vụ AWS sử dụng
 - **Amazon S3** — lưu trữ bền vững cho các artifact offline: file JSONL parent/child document, chỉ mục BM25 đã serialize, và index manifest ghi lại embedding model, kích thước chunk, và checksum cho mỗi lần build.
 - **Amazon S3 Vectors** — dịch vụ vector-search được quản lý dùng cho dense retrieval ở production, được truy vấn theo từng request qua `QueryVectors` và được nạp dữ liệu lúc build qua `PutVectors`; thay thế một instance ChromaDB cục bộ dùng trong giai đoạn phát triển.
 - **Groq API (lưu key qua AWS Secrets Manager)** — host các LLM dùng cho phân rã truy vấn, lập kế hoạch hop thích nghi, và sinh câu trả lời dạng ngắn; bản thân API key được lưu và truy xuất từ AWS Secrets Manager thay vì hard-code.
 - **Amazon EC2, Amazon API Gateway, AWS Amplify Hosting, AWS Systems Manager (Parameter Store + Session Manager), AWS IAM, và một Elastic IP** — các dịch vụ compute, API, hosting, cấu hình, kiểm soát truy cập, và networking cùng nhau host và expose pipeline như một endpoint demo công khai (chi tiết đầy đủ ở Mục 4).
+- **Amazon CloudWatch** — thu thập log và metrics từ dịch vụ chạy trên EC2 để theo dõi lưu lượng request, lỗi, và độ trễ của bản demo đã triển khai.
 
 #### Thiết kế thành phần
 - **Tiếp nhận dữ liệu (Data Ingestion)**: `scripts/build_offline_artifacts.py` đọc một validation slice của HotpotQA (`corpus.jsonl`), và `advanced_rag/chunking.py` song song hóa (qua `multiprocessing.Pool`) việc tách thành parent document (toàn văn bài viết) và child document (chunk 250–500 ký tự với 20% overlap, dùng một recursive character splitter ưu tiên ranh giới đoạn văn/câu).

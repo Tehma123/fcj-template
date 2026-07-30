@@ -36,14 +36,19 @@ Browser (React / Vite)
        -> Amazon S3 Vectors        (dense vector retrieval)
        -> AWS Systems Manager Parameter Store (non-secret runtime config)
        -> AWS Secrets Manager      (Groq API key)
+       -> Amazon CloudWatch        (logs & metrics)
        -> Groq API (third-party)   (query decomposition, hop planning, answer generation)
 ```
+
+![AWS deployment architecture: Amplify -> API Gateway -> EC2 (VPC, public subnet) -> S3 (sparse search), S3 Vectors (dense search), Secrets Manager, Systems Manager, and CloudWatch, with EC2 calling the external Groq LLM API](/images/2-Proposal/AWS-RAG.drawio.png)
+*Deployment architecture: the browser reaches the FastAPI backend through Amplify and API Gateway; the EC2 instance (behind an IAM role, inside a VPC public subnet) pulls its Groq API key from Secrets Manager, reads sparse/dense indexes from S3 and S3 Vectors, is configured via Systems Manager, ships logs and metrics to Amazon CloudWatch, and calls the external Groq API directly for LLM inference.*
 
 #### AWS Services Used
 - **Amazon S3** — durable storage for offline artifacts: parent/child document JSONL files, the serialized BM25 index, and the index manifest that records embedding model, chunk sizes, and checksums for each build.
 - **Amazon S3 Vectors** — the managed vector-search service used for dense retrieval in production, queried per-request via `QueryVectors` and populated at build time via `PutVectors`; replaces a local ChromaDB instance used during development.
 - **Groq API (via AWS Secrets Manager for key storage)** — hosts the LLMs used for query decomposition, adaptive hop planning, and short-form answer generation; the API key itself is stored in and retrieved from AWS Secrets Manager rather than hard-coded.
 - **Amazon EC2, Amazon API Gateway, AWS Amplify Hosting, AWS Systems Manager (Parameter Store + Session Manager), AWS IAM, and an Elastic IP** — the compute, API, hosting, configuration, access-control, and networking services that together host and expose the pipeline as a public demo endpoint (full breakdown in Section 4).
+- **Amazon CloudWatch** — collects logs and metrics from the EC2-hosted service for monitoring request volume, errors, and latency in the deployed demo.
 
 #### Component Design
 - **Data Ingestion**: `scripts/build_offline_artifacts.py` reads a HotpotQA validation slice (`corpus.jsonl`), and `advanced_rag/chunking.py` parallelizes (via `multiprocessing.Pool`) the split into parent documents (full article text) and child documents (250–500 character chunks with a 20% overlap, using a recursive character splitter that prefers paragraph/sentence boundaries).
