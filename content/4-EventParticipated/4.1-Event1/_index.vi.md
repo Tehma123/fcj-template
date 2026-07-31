@@ -7,7 +7,7 @@ pre: " <b> 4.1. </b> "
 ---
 
 
-# Bài thu hoạch: Workshop FCAJ *(bổ sung tên chính thức của sự kiện)*
+# Bài thu hoạch: Workshop FCAJ
 
 ### Thông tin sự kiện
 

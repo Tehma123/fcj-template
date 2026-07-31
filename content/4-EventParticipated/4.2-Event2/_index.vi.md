@@ -15,7 +15,7 @@ pre: " <b> 4.2. </b> "
 
 &emsp; **Thời gian:** 25/07/2026
 
-&emsp; **Địa điểm:** *(bổ sung sau)*
+&emsp; **Địa điểm:** Tầng 26, Bitexco Tower, 02 Hải Triều, Phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh
 
 &emsp; **Vai trò:** Người tham dự
 

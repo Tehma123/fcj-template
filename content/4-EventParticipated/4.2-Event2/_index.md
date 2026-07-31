@@ -15,7 +15,7 @@ pre: " <b> 4.2. </b> "
 
 &emsp; **Date & Time:** July 25, 2026
 
-&emsp; **Location:** *(to be added)*
+&emsp; **Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City
 
 &emsp; **Role:** Attendee
 

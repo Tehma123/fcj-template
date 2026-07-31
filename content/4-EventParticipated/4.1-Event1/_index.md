@@ -7,7 +7,7 @@ pre: " <b> 4.1. </b> "
 ---
 
 
-# Summary Report: FCAJ Workshop *(add the event's official name)*
+# Summary Report: FCAJ Workshop
 
 ### Event Information
 
