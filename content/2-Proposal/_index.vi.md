@@ -10,7 +10,7 @@ pre: " <b> 2. </b> "
 ## Một Pipeline RAG Hybrid-Retrieval Thích Nghi Với Lập Kế Hoạch Truy Vấn Theo Hop, Triển Khai Trên AWS
 
 ### 1. Tóm tắt điều hành
-Dự án này thiết kế và triển khai một hệ thống Retrieval-Augmented Generation (RAG) để trả lời các câu hỏi suy luận đa bước (multi-hop) từ bộ dữ liệu HotpotQA — những câu hỏi mà câu trả lời đòi hỏi kết hợp bằng chứng từ nhiều tài liệu thay vì chỉ một đoạn văn bản. Hệ thống được xác định phạm vi như một demo end-to-end đầy đủ: một pipeline lập chỉ mục offline chunk và embed một validation slice của HotpotQA, một dịch vụ truy xuất-và-sinh câu trả lời online bằng FastAPI expose một API công khai, và một front end React để kiểm thử tương tác. Quy mô mục tiêu là một demo nhỏ, tiết kiệm chi phí (subset validation HotpotQA gồm 100 tài liệu, lưu lượng truy vấn thấp) thay vì một dịch vụ quy mô production, phục vụ mục đích đánh giá nội bộ, trình diễn workshop, và làm kiến trúc tham chiếu có thể mở rộng sau này cho corpus lớn hơn. Đối tượng sử dụng dự kiến là người đánh giá workshop, đội kỹ thuật đánh giá chất lượng truy xuất, và các kỹ sư tương lai sẽ mở rộng pipeline này sang các bộ tài liệu khác.
+Dự án này thiết kế và triển khai một hệ thống Retrieval-Augmented Generation (RAG) để trả lời các câu hỏi suy luận đa bước (multi-hop) từ bộ dữ liệu HotpotQA — những câu hỏi mà câu trả lời đòi hỏi kết hợp bằng chứng từ nhiều tài liệu thay vì chỉ một đoạn văn bản. Hệ thống được xác định phạm vi như một demo end-to-end đầy đủ: một pipeline lập chỉ mục offline chunk và embed một validation slice của HotpotQA, một dịch vụ truy xuất-và-sinh câu trả lời online bằng FastAPI expose một API công khai, và một front end React để kiểm thử tương tác. Quy mô mục tiêu là một demo nhỏ, tiết kiệm chi phí (subset validation HotpotQA gồm 500 tài liệu, lưu lượng truy vấn thấp) thay vì một dịch vụ quy mô production, phục vụ mục đích đánh giá nội bộ, trình diễn workshop, và làm kiến trúc tham chiếu có thể mở rộng sau này cho corpus lớn hơn. Đối tượng sử dụng dự kiến là người đánh giá workshop, đội kỹ thuật đánh giá chất lượng truy xuất, và các kỹ sư tương lai sẽ mở rộng pipeline này sang các bộ tài liệu khác.
 
 ### 2. Tuyên bố vấn đề
 #### Vấn đề hiện tại
@@ -32,21 +32,19 @@ Browser (React / Vite)
   -> HTTP:  Amazon EC2 (FastAPI under systemd)
        -> Amazon S3                (processed docs + BM25 index + manifest)
        -> Amazon S3 Vectors        (dense vector retrieval)
-       -> AWS Systems Manager Parameter Store (non-secret runtime config)
-       -> AWS Secrets Manager      (Groq API key)
-       -> Amazon CloudWatch        (logs & metrics)
+       -> .env.prod trên instance  (Groq API key + cấu hình runtime; việc chuyển sang Parameter Store/Secrets Manager đã thiết kế nhưng chưa triển khai)
        -> Groq API (third-party)   (query decomposition, hop planning, answer generation)
 ```
 
-![Kiến trúc triển khai trên AWS: Amplify -> API Gateway -> EC2 (VPC, public subnet) -> S3 (sparse search), S3 Vectors (dense search), Secrets Manager, Systems Manager, và CloudWatch, với EC2 gọi trực tiếp Groq LLM API bên ngoài](/images/2-Proposal/AWS-RAG.drawio.png)
-*Kiến trúc triển khai: trình duyệt tiếp cận backend FastAPI qua Amplify và API Gateway; instance EC2 (gắn IAM role, nằm trong public subnet của VPC) lấy Groq API key từ Secrets Manager, đọc chỉ mục sparse/dense từ S3 và S3 Vectors, được cấu hình qua Systems Manager, gửi log và metrics về Amazon CloudWatch, và gọi trực tiếp Groq API bên ngoài để inference LLM.*
+![Kiến trúc triển khai trên AWS: Amplify -> API Gateway -> EC2 (VPC, public subnet) -> S3 (sparse search) và S3 Vectors (dense search), với EC2 gọi trực tiếp Groq LLM API bên ngoài](/images/2-Proposal/AWS-RAG.drawio.png)
+*Kiến trúc triển khai: trình duyệt tiếp cận backend FastAPI qua Amplify và API Gateway; instance EC2 (gắn IAM role, nằm trong public subnet của VPC) đọc chỉ mục sparse/dense từ S3 và S3 Vectors, và gọi trực tiếp Groq API bên ngoài để inference LLM. Sơ đồ cũng thể hiện phần tích hợp Secrets Manager/Systems Manager/CloudWatch từng được lên kế hoạch ban đầu; ở hệ thống thực tế đã triển khai, Groq API key và toàn bộ cấu hình runtime nằm trong một file `.env.prod` duy nhất trên instance, còn khả năng quan sát vận hành đến từ systemd journal và kiểm tra thủ công `/health`/`/warmup` thay vì CloudWatch — xem ghi chú "Dịch vụ AWS sử dụng" bên dưới.*
 
 #### Dịch vụ AWS sử dụng
 - **Amazon S3** — lưu trữ bền vững cho các artifact offline: file JSONL parent/child document, chỉ mục BM25 đã serialize, và index manifest ghi lại embedding model, kích thước chunk, và checksum cho mỗi lần build.
 - **Amazon S3 Vectors** — dịch vụ vector-search được quản lý dùng cho dense retrieval ở production, được truy vấn theo từng request qua `QueryVectors` và được nạp dữ liệu lúc build qua `PutVectors`; thay thế một instance ChromaDB cục bộ dùng trong giai đoạn phát triển.
-- **Groq API (lưu key qua AWS Secrets Manager)** — host các LLM dùng cho phân rã truy vấn, lập kế hoạch hop thích nghi, và sinh câu trả lời dạng ngắn; bản thân API key được lưu và truy xuất từ AWS Secrets Manager thay vì hard-code.
-- **Amazon EC2, Amazon API Gateway, AWS Amplify Hosting, AWS Systems Manager (Parameter Store + Session Manager), AWS IAM, và một Elastic IP** — các dịch vụ compute, API, hosting, cấu hình, kiểm soát truy cập, và networking cùng nhau host và expose pipeline như một endpoint demo công khai (chi tiết đầy đủ ở Mục 4).
-- **Amazon CloudWatch** — thu thập log và metrics từ dịch vụ chạy trên EC2 để theo dõi lưu lượng request, lỗi, và độ trễ của bản demo đã triển khai.
+- **Groq API** — host các LLM dùng cho phân rã truy vấn, lập kế hoạch hop thích nghi, và sinh câu trả lời dạng ngắn. API key hiện đang nằm dạng plaintext trong một file `.env.prod` trên instance EC2 thay vì trong AWS Secrets Manager; việc chuyển sang nạp Groq key từ AWS Secrets Manager và các thiết lập không bí mật từ AWS Systems Manager Parameter Store đã được thiết kế và viết code nhưng **chưa triển khai**, và được ghi nhận là một hạn chế còn để ngỏ chứ không phải vấn đề đã giải quyết.
+- **Amazon EC2, Amazon API Gateway, AWS Amplify Hosting, AWS Systems Manager Session Manager, AWS IAM, và một Elastic IP** — các dịch vụ compute, API, hosting, truy cập quản trị, kiểm soát truy cập, và networking cùng nhau host và expose pipeline như một endpoint demo công khai (chi tiết đầy đủ ở Mục 4).
+- **Không dùng Amazon CloudWatch.** Amazon CloudWatch không phải là một phần của hệ thống đã triển khai; khả năng quan sát vận hành thay vào đó đến từ systemd journal của instance EC2 và kiểm tra thủ công `/health` / `/warmup`.
 
 #### Thiết kế thành phần
 - **Tiếp nhận dữ liệu (Data Ingestion)**: `scripts/build_offline_artifacts.py` đọc một validation slice của HotpotQA (`corpus.jsonl`), và `advanced_rag/chunking.py` song song hóa (qua `multiprocessing.Pool`) việc tách thành parent document (toàn văn bài viết) và child document (chunk 250–500 ký tự với 20% overlap, dùng một recursive character splitter ưu tiên ranh giới đoạn văn/câu).
@@ -66,9 +64,9 @@ Browser (React / Vite)
 7. Tối ưu độ trễ — thêm một endpoint `/warmup` và một cờ cấu hình `RAG_FAST_MODE` để giữ độ trễ request trong giới hạn timeout của API Gateway trên phần cứng chỉ có CPU.
 
 **Yêu cầu kỹ thuật**
-- Bộ dữ liệu: HotpotQA (bộ dữ liệu hỏi-đáp suy luận đa bước), một validation slice 100 dòng cho bản triển khai demo.
+- Bộ dữ liệu: HotpotQA (bộ dữ liệu hỏi-đáp suy luận đa bước), một validation slice 500 dòng cho bản triển khai demo.
 - Framework/thư viện: LangChain (`langchain-core`, `langchain-classic`, `langchain-chroma`, `langchain-huggingface`), `sentence-transformers` (embedding BAAI/bge-m3, cross-encoder reranker `ms-marco-MiniLM-L-6-v2`), `bm25s`, ChromaDB, FastAPI, và Groq Python SDK.
-- Dịch vụ/công cụ AWS cần thiết để chạy và đánh giá pipeline: Amazon EC2 (compute backend), Amazon S3 (lưu trữ artifact), Amazon S3 Vectors (dense retrieval), Amazon API Gateway (API HTTPS công khai), AWS Amplify (hosting frontend), AWS Systems Manager Parameter Store và Session Manager (cấu hình runtime và truy cập admin), AWS Secrets Manager (Groq API key), và AWS IAM (quyền instance role thay cho credential hard-code).
+- Dịch vụ/công cụ AWS cần thiết để chạy và đánh giá pipeline: Amazon EC2 (compute backend), Amazon S3 (lưu trữ artifact), Amazon S3 Vectors (dense retrieval), Amazon API Gateway (API HTTPS công khai), AWS Amplify (hosting frontend), AWS Systems Manager Session Manager (truy cập admin), và AWS IAM (quyền instance role thay cho credential hard-code). Cấu hình runtime, bao gồm Groq API key, hiện đang nằm trong một file `.env.prod` trên instance; việc chuyển cấu hình không bí mật sang AWS Systems Manager Parameter Store và Groq key sang AWS Secrets Manager đã được thiết kế nhưng chưa triển khai.
 
 ### 5. Lộ trình & Mốc triển khai
 **Lộ trình dự án**
@@ -82,24 +80,24 @@ Browser (React / Vite)
 - Tuần 10: Báo cáo cuối kỳ, tài liệu hóa (`docs/STEP_*.md`, proposal này), và thuyết trình workshop.
 
 ### 6. Ước tính ngân sách
-Bản triển khai demo được thiết kế để nằm trong giới hạn AWS Free Tier bất cứ khi nào có thể, giả định một tài khoản AWS mới/đủ điều kiện, một instance EC2 nhỏ chạy liên tục, và lưu lượng ở mức demo (khoảng vài trăm request `/query` mỗi tháng, thấp hơn nhiều so với bất kỳ giới hạn request Free Tier nào). Các con số dưới đây là **ước tính phục vụ mục đích lập kế hoạch**, không phải số tiền thực tế bị tính phí.
+Phần lớn hệ thống tính phí theo mức dùng và gần như miễn phí ở quy mô này — Amazon S3, Amazon S3 Vectors, Amazon API Gateway và AWS Amplify Hosting chỉ tính phí theo đúng những gì thực sự được lưu trữ hoặc request. Ngoại lệ nằm ở tầng compute: **Amazon EC2, Elastic IP gắn kèm, và EBS root volume đều tính phí liên tục theo giờ, bất kể có ai gửi truy vấn hay không**, và chỉ giảm bớt (chứ không loại bỏ hoàn toàn) khi dừng instance lúc không demo. Các con số dưới đây là **ước tính phục vụ mục đích lập kế hoạch**, không phải số tiền thực tế bị tính phí.
 
-| Dịch vụ AWS | Hạn mức Free Tier (điển hình) | Mức sử dụng demo giả định | Chi phí ước tính hằng tháng |
+| Dịch vụ AWS | Hình thức tính phí | Mức sử dụng demo giả định | Chi phí ước tính hằng tháng |
 | --- | --- | --- | --- |
-| Amazon EC2 (t2/t3.micro) | 750 giờ instance/tháng trong 12 tháng | 1 instance, ~730 giờ/tháng | $0.00 |
-| Amazon EC2 Elastic IP | Miễn phí khi gắn với instance đang chạy | 1 địa chỉ, luôn được gắn | $0.00 |
-| Amazon S3 (Standard) | 5 GB lưu trữ, 20.000 GET / 2.000 PUT mỗi tháng | Artifact offline ≪ 5 GB, lượng request thấp | $0.00 |
-| Amazon S3 Vectors | Chưa có free tier riêng tại thời điểm viết | ~100 tài liệu, lượng truy vấn thấp | ~$0.50 |
-| Amazon API Gateway (HTTP API) | 1.000.000 request/tháng trong 12 tháng | Vài trăm request/tháng | $0.00 |
-| AWS Amplify Hosting | 1.000 phút build + 15 GB served/tháng | 1 bản build React nhỏ, lượng người xem thấp | $0.00 |
-| AWS Systems Manager (Parameter Store standard, Session Manager) | Luôn miễn phí (tier standard) | ~18 parameter, thi thoảng có phiên admin | $0.00 |
+| Amazon EC2 (t2/t3.micro) | Liên tục khi đang chạy, tính phí theo giờ | 1 instance, ~730 giờ/tháng | $0.00 nếu còn đủ điều kiện Free Tier (12 tháng đầu); tính phí theo giờ nếu không |
+| Amazon EC2 Elastic IP | Liên tục, tính phí theo giờ bất kể trạng thái instance (giá public IPv4 hiện hành của AWS) | 1 địa chỉ, luôn được gắn | ~$3.60 |
+| Amazon EBS (root volume) | Liên tục, vẫn tính phí kể cả khi instance đã dừng | 1 volume gp3, ~20-30 GB | ~$2.00 |
+| Amazon S3 (Standard) | Theo GB lưu trữ + request | Artifact offline nhỏ hơn nhiều so với 5 GB, lượng request thấp | $0.00 (trong hạn mức Free Tier) |
+| Amazon S3 Vectors | Theo vector lưu trữ + truy vấn, không tính phí lúc idle | ~500 tài liệu, lượng truy vấn thấp | ~$0.50 |
+| Amazon API Gateway (HTTP API) | Theo request | Vài trăm request/tháng | $0.00 (trong hạn mức Free Tier) |
+| AWS Amplify Hosting | Phút build + lưu trữ + băng thông | 1 bản build React nhỏ, lượng người xem thấp | $0.00 (trong hạn mức Free Tier) |
+| AWS Systems Manager Session Manager | Luôn miễn phí | Thi thoảng có phiên admin; không tạo tham số Parameter Store nào (cấu hình nằm trong `.env.prod`) | $0.00 |
 | AWS IAM | Luôn miễn phí | 1 instance role, 2 inline policy | $0.00 |
-| Amazon CloudWatch | 5 GB log ingestion/lưu trữ, 10 custom metrics, 1.000.000 request API/tháng trong 12 tháng | Log ứng dụng + metrics cơ bản từ 1 instance EC2 nhỏ, lưu lượng thấp | $0.00 |
-| AWS Secrets Manager | Dùng thử miễn phí 30 ngày mỗi secret, sau đó ~$0.40/secret/tháng | 1 secret (Groq API key), sau khi hết dùng thử | ~$0.40 |
-| Groq API (ngoài AWS, pass-through) | Tier miễn phí/chi phí thấp cho lượng request thấp | Lượng truy vấn ở mức demo | ~$0.00–$1.00 |
-| **Tổng ước tính** | | | **≈ $1–2 / tháng** |
+| AWS Secrets Manager | Theo secret mỗi tháng | Có 1 secret tồn tại nhưng **chưa được nối vào ứng dụng** (xem Mục 3) | ~$0.40 |
+| Groq API (ngoài AWS, pass-through) | Theo token | Lượng truy vấn ở mức demo | ~$0.00–$1.00 |
+| **Tổng ước tính** | | | **~$6-8 / tháng khi instance chạy liên tục; gần $0 phát sinh thêm ngoài EC2/Elastic IP/EBS nếu dừng giữa các lần demo** |
 
-Ước tính này giả định đồng hồ Free Tier chưa bị các workload khác trên cùng tài khoản dùng hết, và lưu lượng vẫn ở quy mô demo; một bản triển khai quy mô production (lưu lượng truy vấn cao hơn, corpus lớn hơn, inference dùng GPU) sẽ cần một mô hình chi phí riêng, lưu lượng cao hơn.
+Amazon CloudWatch không xuất hiện trong bảng này một cách có chủ đích: nó không phải một phần của hệ thống đã triển khai, việc theo dõi vận hành thay vào đó dựa vào systemd journal của instance EC2 và kiểm tra thủ công `/health`/`/warmup`. Ước tính này giả định đồng hồ Free Tier chưa bị các workload khác trên cùng tài khoản dùng hết, và lưu lượng vẫn ở quy mô demo; một bản triển khai quy mô production (lưu lượng truy vấn cao hơn, corpus lớn hơn, inference dùng GPU) sẽ cần một mô hình chi phí riêng, lưu lượng cao hơn.
 
 ### 7. Đánh giá rủi ro
 #### Ma trận rủi ro
@@ -108,7 +106,7 @@ Bản triển khai demo được thiết kế để nằm trong giới hạn AWS
 | Lỗi truy xuất bridge-entity (tài liệu đúng không bao giờ lọt vào candidate pool) | Trung bình | Cao — giới hạn trực tiếp EM/F1 có thể đạt được |
 | Câu trả lời cuối bị hallucinate hoặc không có căn cứ | Trung bình | Cao — làm suy yếu giá trị cốt lõi của RAG |
 | Độ trễ request tiệm cận/vượt timeout ~30s của API Gateway trên EC2 chỉ có CPU | Trung bình | Trung bình — request thất bại trong demo |
-| Tập đánh giá nhỏ (validation slice 100 tài liệu) đánh giá quá cao độ chính xác thực tế | Cao | Trung bình — kết quả có thể không generalize sang corpus lớn hơn |
+| Tập đánh giá nhỏ (validation slice 500 tài liệu) đánh giá quá cao độ chính xác thực tế | Cao | Trung bình — kết quả có thể không generalize sang corpus lớn hơn |
 | Giới hạn rate limit hoặc lỗi tạm thời của Groq API trong lúc đánh giá hoặc demo | Trung bình | Thấp–Trung bình — được xử lý bằng retry/fallback, nhưng vẫn có thể làm giảm chất lượng một vài câu trả lời đơn lẻ |
 | Không có authentication trên API demo công khai | Cao (chủ đích, cho một demo) | Thấp với một demo workshop ngắn hạn, cao hơn nếu để chạy lâu dài |
 | Giới hạn tài nguyên free-tier hạn chế khả năng của pipeline: (a) cross-encoder reranker phải giữ ở trạng thái tắt trong production vì quá chậm trên một instance EC2 Free-Tier chỉ có CPU; (b) giới hạn token/phút theo từng model của tier miễn phí Groq làm throttle hoặc chặn các lệnh gọi decomposition/hop-planning/generation dưới bất kỳ tải đồng thời thực tế nào; (c) bước truy xuất hybrid BM25+vector đôi khi có thể lỗi hoặc timeout dưới giới hạn CPU/memory của một instance Free-Tier đang chạy đồng thời BM25 search và embedding inference | Cao | Cao — giảm trực tiếp chất lượng câu trả lời (không có rerank) và có thể gây thất bại request `/query` |

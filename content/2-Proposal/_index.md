@@ -10,7 +10,7 @@ pre: " <b> 2. </b> "
 ## An Adaptive Hybrid-Retrieval RAG Pipeline with Hop-Aware Query Planning, Deployed on AWS
 
 ### 1. Executive Summary
-This project designs and deploys a Retrieval-Augmented Generation (RAG) system to answer multi-hop reasoning questions from the HotpotQA dataset — questions whose answers require combining evidence from multiple documents rather than a single passage. The system is scoped as a full end-to-end demo: an offline indexing pipeline that chunks and embeds a HotpotQA validation slice, an online FastAPI retrieval-and-generation service exposing a public API, and a React front end for interactive testing. The target scale is a small, cost-conscious demo deployment (a 100-document HotpotQA validation subset, low query volume) rather than a production-scale service, intended for internal evaluation, workshop demonstration, and as a reference architecture that can later be scaled to larger corpora. Intended users are workshop reviewers, the engineering team evaluating retrieval quality, and future engineers who will extend the pipeline to other document collections.
+This project designs and deploys a Retrieval-Augmented Generation (RAG) system to answer multi-hop reasoning questions from the HotpotQA dataset — questions whose answers require combining evidence from multiple documents rather than a single passage. The system is scoped as a full end-to-end demo: an offline indexing pipeline that chunks and embeds a HotpotQA validation slice, an online FastAPI retrieval-and-generation service exposing a public API, and a React front end for interactive testing. The target scale is a small, cost-conscious demo deployment (a 500-document HotpotQA validation subset, low query volume) rather than a production-scale service, intended for internal evaluation, workshop demonstration, and as a reference architecture that can later be scaled to larger corpora. Intended users are workshop reviewers, the engineering team evaluating retrieval quality, and future engineers who will extend the pipeline to other document collections.
 
 ### 2. Problem Statement
 #### What's the Problem?
@@ -32,21 +32,19 @@ Browser (React / Vite)
   -> HTTP:  Amazon EC2 (FastAPI under systemd)
        -> Amazon S3                (processed docs + BM25 index + manifest)
        -> Amazon S3 Vectors        (dense vector retrieval)
-       -> AWS Systems Manager Parameter Store (non-secret runtime config)
-       -> AWS Secrets Manager      (Groq API key)
-       -> Amazon CloudWatch        (logs & metrics)
+       -> .env.prod on the instance (Groq API key + runtime config; Parameter Store/Secrets Manager migration designed, not yet deployed)
        -> Groq API (third-party)   (query decomposition, hop planning, answer generation)
 ```
 
-![AWS deployment architecture: Amplify -> API Gateway -> EC2 (VPC, public subnet) -> S3 (sparse search), S3 Vectors (dense search), Secrets Manager, Systems Manager, and CloudWatch, with EC2 calling the external Groq LLM API](/images/2-Proposal/AWS-RAG.drawio.png)
-*Deployment architecture: the browser reaches the FastAPI backend through Amplify and API Gateway; the EC2 instance (behind an IAM role, inside a VPC public subnet) pulls its Groq API key from Secrets Manager, reads sparse/dense indexes from S3 and S3 Vectors, is configured via Systems Manager, ships logs and metrics to Amazon CloudWatch, and calls the external Groq API directly for LLM inference.*
+![AWS deployment architecture: Amplify -> API Gateway -> EC2 (VPC, public subnet) -> S3 (sparse search) and S3 Vectors (dense search), with EC2 calling the external Groq LLM API](/images/2-Proposal/AWS-RAG.drawio.png)
+*Deployment architecture: the browser reaches the FastAPI backend through Amplify and API Gateway; the EC2 instance (behind an IAM role, inside a VPC public subnet) reads sparse/dense indexes from S3 and S3 Vectors and calls the external Groq API directly for LLM inference. The diagram also shows the originally planned Secrets Manager / Systems Manager / CloudWatch integration; in the deployed system the Groq API key and all runtime configuration instead live in a single `.env.prod` file on the instance, and operational visibility comes from the systemd journal and manual `/health`/`/warmup` checks rather than CloudWatch — see the "AWS Services Used" note below.*
 
 #### AWS Services Used
 - **Amazon S3** — durable storage for offline artifacts: parent/child document JSONL files, the serialized BM25 index, and the index manifest that records embedding model, chunk sizes, and checksums for each build.
 - **Amazon S3 Vectors** — the managed vector-search service used for dense retrieval in production, queried per-request via `QueryVectors` and populated at build time via `PutVectors`; replaces a local ChromaDB instance used during development.
-- **Groq API (via AWS Secrets Manager for key storage)** — hosts the LLMs used for query decomposition, adaptive hop planning, and short-form answer generation; the API key itself is stored in and retrieved from AWS Secrets Manager rather than hard-coded.
-- **Amazon EC2, Amazon API Gateway, AWS Amplify Hosting, AWS Systems Manager (Parameter Store + Session Manager), AWS IAM, and an Elastic IP** — the compute, API, hosting, configuration, access-control, and networking services that together host and expose the pipeline as a public demo endpoint (full breakdown in Section 4).
-- **Amazon CloudWatch** — collects logs and metrics from the EC2-hosted service for monitoring request volume, errors, and latency in the deployed demo.
+- **Groq API** — hosts the LLMs used for query decomposition, adaptive hop planning, and short-form answer generation. The API key currently lives in plain text in a `.env.prod` file on the EC2 instance rather than in AWS Secrets Manager; a migration that loads the Groq key from AWS Secrets Manager and non-secret settings from AWS Systems Manager Parameter Store is designed and coded but **not yet deployed**, and is tracked as an open limitation rather than a solved problem.
+- **Amazon EC2, Amazon API Gateway, AWS Amplify Hosting, AWS Systems Manager Session Manager, AWS IAM, and an Elastic IP** — the compute, API, hosting, admin-access, access-control, and networking services that together host and expose the pipeline as a public demo endpoint (full breakdown in Section 4).
+- **No Amazon CloudWatch.** Amazon CloudWatch is not part of the implemented system; operational visibility instead comes from the EC2 instance's systemd journal and manual `/health` / `/warmup` checks.
 
 #### Component Design
 - **Data Ingestion**: `scripts/build_offline_artifacts.py` reads a HotpotQA validation slice (`corpus.jsonl`), and `advanced_rag/chunking.py` parallelizes (via `multiprocessing.Pool`) the split into parent documents (full article text) and child documents (250–500 character chunks with a 20% overlap, using a recursive character splitter that prefers paragraph/sentence boundaries).
@@ -66,9 +64,9 @@ Browser (React / Vite)
 7. Latency hardening — introduce a `/warmup` endpoint and a `RAG_FAST_MODE` configuration flag to keep request latency within API Gateway's timeout on CPU-only hardware.
 
 **Technical Requirements**
-- Dataset: HotpotQA (multi-hop reasoning question-answering dataset), a 100-row validation slice for the demo deployment.
+- Dataset: HotpotQA (multi-hop reasoning question-answering dataset), a 500-row validation slice for the demo deployment.
 - Frameworks/libraries: LangChain (`langchain-core`, `langchain-classic`, `langchain-chroma`, `langchain-huggingface`), `sentence-transformers` (BAAI/bge-m3 embeddings, `ms-marco-MiniLM-L-6-v2` cross-encoder reranker), `bm25s`, ChromaDB, FastAPI, and the Groq Python SDK.
-- AWS services/tools required to run and evaluate the pipeline: Amazon EC2 (backend compute), Amazon S3 (artifact storage), Amazon S3 Vectors (dense retrieval), Amazon API Gateway (public HTTPS API), AWS Amplify (frontend hosting), AWS Systems Manager Parameter Store and Session Manager (runtime configuration and admin access), AWS Secrets Manager (Groq API key), and AWS IAM (instance role permissions in place of hard-coded credentials).
+- AWS services/tools required to run and evaluate the pipeline: Amazon EC2 (backend compute), Amazon S3 (artifact storage), Amazon S3 Vectors (dense retrieval), Amazon API Gateway (public HTTPS API), AWS Amplify (frontend hosting), AWS Systems Manager Session Manager (admin access), and AWS IAM (instance role permissions in place of hard-coded credentials). Runtime configuration, including the Groq API key, currently lives in a `.env.prod` file on the instance; moving non-secret configuration to AWS Systems Manager Parameter Store and the Groq key to AWS Secrets Manager is designed but not yet deployed.
 
 ### 5. Timeline & Milestones
 **Project Timeline**
@@ -82,24 +80,24 @@ Browser (React / Vite)
 - Week 10: Final report, documentation (`docs/STEP_*.md`, this proposal), and workshop presentation.
 
 ### 6. Budget Estimation
-The demo deployment is designed to stay within AWS Free Tier limits wherever possible, assuming a new/eligible AWS account, a single small EC2 instance running continuously, and low demo-level traffic (on the order of a few hundred `/query` requests per month, well below any Free Tier request ceiling). Figures below are **estimates for planning purposes**, not billed amounts.
+Most of the system is pay-per-use and close to free at this scale — Amazon S3, Amazon S3 Vectors, Amazon API Gateway, and AWS Amplify Hosting bill only for what is actually stored or requested. The exception is the compute tier: **Amazon EC2, its attached Elastic IP, and its EBS root volume all bill continuously by the hour, whether or not anyone sends a query**, and are only reduced (not eliminated) by stopping the instance when it is not being demonstrated. Figures below are **estimates for planning purposes**, not billed amounts.
 
-| AWS Service | Free Tier Allowance (typical) | Assumed Demo Usage | Estimated Monthly Cost |
+| AWS Service | Billing Shape | Assumed Demo Usage | Estimated Monthly Cost |
 | --- | --- | --- | --- |
-| Amazon EC2 (t2/t3.micro) | 750 instance-hours/month for 12 months | 1 instance, ~730 hrs/month | $0.00 |
-| Amazon EC2 Elastic IP | Free while associated with a running instance | 1 address, kept associated | $0.00 |
-| Amazon S3 (Standard) | 5 GB storage, 20,000 GET / 2,000 PUT per month | Offline artifacts ≪ 5 GB, low request volume | $0.00 |
-| Amazon S3 Vectors | No dedicated free tier at time of writing | ~100 documents, low query volume | ~$0.50 |
-| Amazon API Gateway (HTTP API) | 1,000,000 requests/month for 12 months | A few hundred requests/month | $0.00 |
-| AWS Amplify Hosting | 1,000 build minutes + 15 GB served/month | 1 small React build, low viewer traffic | $0.00 |
-| AWS Systems Manager (Parameter Store standard, Session Manager) | Always free (standard tier) | ~18 parameters, occasional admin sessions | $0.00 |
+| Amazon EC2 (t2/t3.micro) | Continuous while running, billed hourly | 1 instance, ~730 hrs/month | $0.00 if still Free-Tier-eligible (first 12 months); billed hourly otherwise |
+| Amazon EC2 Elastic IP | Continuous, billed hourly regardless of instance state (current AWS public IPv4 pricing) | 1 address, kept associated | ~$3.60 |
+| Amazon EBS (root volume) | Continuous, billed even while the instance is stopped | 1 gp3 volume, ~20-30 GB | ~$2.00 |
+| Amazon S3 (Standard) | Per GB stored + requests | Offline artifacts well under 5 GB, low request volume | $0.00 (within Free Tier) |
+| Amazon S3 Vectors | Per vector stored + queries, no idle cost | ~500 documents, low query volume | ~$0.50 |
+| Amazon API Gateway (HTTP API) | Per request | A few hundred requests/month | $0.00 (within Free Tier) |
+| AWS Amplify Hosting | Build minutes + storage + transfer | 1 small React build, low viewer traffic | $0.00 (within Free Tier) |
+| AWS Systems Manager Session Manager | Always free | Occasional admin sessions; no Parameter Store parameters are created (config lives in `.env.prod`) | $0.00 |
 | AWS IAM | Always free | 1 instance role, 2 inline policies | $0.00 |
-| Amazon CloudWatch | 5 GB log ingestion/storage, 10 custom metrics, 1,000,000 API requests/month for 12 months | Application logs + basic metrics from 1 small EC2 instance, low traffic | $0.00 |
-| AWS Secrets Manager | 30-day free trial per secret, then ~$0.40/secret/month | 1 secret (Groq API key), beyond trial | ~$0.40 |
-| Groq API (non-AWS, pass-through) | Free/low-cost tier for low request volume | Demo-level query volume | ~$0.00–$1.00 |
-| **Estimated total** | | | **≈ $1–2 / month** |
+| AWS Secrets Manager | Per secret per month | 1 secret exists but is **not yet wired into the application** (see Section 3) | ~$0.40 |
+| Groq API (non-AWS, pass-through) | Per token | Demo-level query volume | ~$0.00–$1.00 |
+| **Estimated total** | | | **~$6-8 / month while the instance runs continuously; near $0 additional beyond EC2/Elastic IP/EBS if stopped between demos** |
 
-This estimate assumes the Free Tier clock has not already been exhausted by other workloads on the same account, and that traffic stays at demo scale; a production-scale deployment (higher query volume, larger corpus, GPU-backed inference) would require a separate, higher-traffic cost model.
+Amazon CloudWatch is intentionally absent from this table: it is not part of the implemented system, and monitoring instead relies on the EC2 instance's systemd journal and manual `/health`/`/warmup` checks. This estimate assumes the Free Tier clock has not already been exhausted by other workloads on the same account, and that traffic stays at demo scale; a production-scale deployment (higher query volume, larger corpus, GPU-backed inference) would require a separate, higher-traffic cost model.
 
 ### 7. Risk Assessment
 #### Risk Matrix
@@ -108,7 +106,7 @@ This estimate assumes the Free Tier clock has not already been exhausted by othe
 | Bridge-entity retrieval failure (correct documents never enter the candidate pool) | Medium | High — directly caps achievable EM/F1 |
 | Hallucinated or ungrounded final answers | Medium | High — undermines the core RAG value proposition |
 | Request latency approaching/exceeding API Gateway's ~30s timeout on CPU-only EC2 | Medium | Medium — failed requests in the demo |
-| Small evaluation set (100-document validation slice) overstating real-world accuracy | High | Medium — results may not generalize to larger corpora |
+| Small evaluation set (500-document validation slice) overstating real-world accuracy | High | Medium — results may not generalize to larger corpora |
 | Groq API rate limits or transient errors during evaluation or demo | Medium | Low–Medium — handled by retry/fallback, but can still degrade single answers |
 | No authentication on the public demo API | High (by design, for a demo) | Low for a short-lived workshop demo, higher if left running long-term |
 | Free-tier resource constraints limit pipeline capability: (a) the cross-encoder reranker must stay disabled in production because it is too slow on a Free-Tier, CPU-only EC2 instance; (b) Groq's free-tier per-model token/minute cap throttles or blocks decomposition/hop-planning/generation calls under any real concurrent load; (c) the hybrid BM25+vector retrieval step can intermittently error out or time out under the limited CPU/memory of a Free-Tier instance running BM25 search and embedding inference concurrently | High | High — directly reduces answer quality (no rerank) and can cause failed `/query` requests |

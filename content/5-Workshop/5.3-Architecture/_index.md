@@ -156,18 +156,18 @@ The project uses **eight AWS services**. Each row states what it does here and w
 
 ```text
 Browser
-  │  HTTPS
-  ▼
+  |  HTTPS
+  v
 AWS Amplify Hosting  (React/Vite SPA)
-  │  HTTPS  POST /query
-  ▼
-Amazon API Gateway (HTTP API)          ← TLS termination + CORS
-  │  HTTP  :8000
-  ▼
+  |  HTTPS  POST /query
+  v
+Amazon API Gateway (HTTP API)          <- TLS termination + CORS
+  |  HTTP  :8000
+  v
 Amazon EC2 - FastAPI (systemd: aws-rag-api)
-  ├──► Amazon S3            parent/child docs, BM25 index, manifest
-  ├──► Amazon S3 Vectors    QueryVectors (semantic retrieval)
-  └──► Groq API             decompose · hop plan · generate
+  |--> Amazon S3            parent/child docs, BM25 index, manifest
+  |--> Amazon S3 Vectors    QueryVectors (semantic retrieval)
+  `--> Groq API             decompose - hop plan - generate
 ```
 
 The frontend must be configured with the **API Gateway HTTPS URL**, never the raw EC2 address. This is the single most common mistake when reproducing this workshop, and chapter 5.8 covers it in detail.

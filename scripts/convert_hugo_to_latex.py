@@ -698,6 +698,7 @@ def convert_to_latex(md_text, source_path=None):
                     "-f", "markdown+raw_tex+fenced_divs+bracketed_spans",
                     "-t", "latex",
                     "--top-level-division=section",
+                    "--no-highlight",
                     "--lua-filter", LUA_FILTER,
                     "-o", tmp_out,
                 ],

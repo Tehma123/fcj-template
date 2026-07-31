@@ -47,5 +47,5 @@ To objectively reflect on my internship period, I would like to evaluate myself 
 **Short reflection**
 
 * **Difficulty encountered:** The biggest constraint was infrastructure — since only AWS Free Tier was available (no GPU), the cross-encoder reranking step, which needs a transformer model to re-score retrieved candidates, couldn't run efficiently in production, so the reranker had to be disabled in the actual deployment.
-* **How it was solved:** I designed the system for graceful degradation — when the reranker is disabled, the pipeline still works correctly by keeping the ranking order from hybrid retrieval (BM25 ⊕ Vector via Reciprocal Rank Fusion) instead of crashing or hard-requiring a GPU.
+* **How it was solved:** I designed the system for graceful degradation — when the reranker is disabled, the pipeline still works correctly by keeping the ranking order from hybrid retrieval (BM25 + Vector via Reciprocal Rank Fusion) instead of crashing or hard-requiring a GPU.
 * **Future direction:** With access to GPU infrastructure (e.g., a GPU-backed EC2 instance or a managed inference service), I would re-enable cross-encoder reranking to improve the accuracy of the context fed into answer generation, especially for multi-hop questions with many distracting candidates.

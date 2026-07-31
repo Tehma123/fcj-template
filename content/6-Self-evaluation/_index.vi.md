@@ -49,5 +49,5 @@ Về tác phong, tôi luôn cố gắng hoàn thành tốt nhiệm vụ, tuân t
 **Reflection ngắn**
 
 * **Khó khăn gặp phải:** Hạn chế lớn nhất nằm ở hạ tầng — vì chỉ dùng được AWS Free Tier (không có GPU), bước cross-encoder reranking (cần chạy một mô hình transformer để tái xếp hạng các candidate đã truy hồi) không thể chạy hiệu quả trong môi trường production, nên phải tắt reranker khi deploy thực tế.
-* **Cách giải quyết:** Tôi thiết kế hệ thống theo hướng graceful degradation — khi reranker bị tắt, pipeline vẫn hoạt động đúng bằng cách giữ nguyên thứ hạng từ hybrid retrieval (BM25 ⊕ Vector qua Reciprocal Rank Fusion) thay vì làm sập hệ thống hoặc bắt buộc phải có GPU.
+* **Cách giải quyết:** Tôi thiết kế hệ thống theo hướng graceful degradation — khi reranker bị tắt, pipeline vẫn hoạt động đúng bằng cách giữ nguyên thứ hạng từ hybrid retrieval (BM25 + Vector qua Reciprocal Rank Fusion) thay vì làm sập hệ thống hoặc bắt buộc phải có GPU.
 * **Hướng phát triển trong tương lai:** Nếu có hạ tầng GPU (ví dụ EC2 instance có GPU hoặc một dịch vụ inference managed), tôi sẽ bật lại cross-encoder reranking để cải thiện độ chính xác của ngữ cảnh đưa vào bước sinh câu trả lời, đặc biệt với các câu hỏi multi-hop có nhiều candidate gây nhiễu.
