@@ -16,11 +16,11 @@ pre: " <b> 1.3. </b> "
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                       | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Tìm hiểu CloudWatch: <br>&emsp; + Metrics <br>&emsp; + Log group & log stream <br>&emsp; + Alarm & dashboard                                                              | 22/06/2026   | 22/06/2026      |                                            |
-| 3   | - **Thực hành:** tạo CloudWatch alarm theo dõi CPU utilization của EC2; đẩy log từ EC2 lên CloudWatch Logs bằng CloudWatch agent                                            | 23/06/2026   | 23/06/2026      |                                            |
-| 4   | - Tìm hiểu CloudFront: <br>&emsp; + Distribution & origin (S3/EC2) <br>&emsp; + Edge location & caching behavior <br>&emsp; + Origin Access Control (OAC)                   | 24/06/2026   | 24/06/2026      |                                            |
-| 5   | - **Thực hành:** tạo CloudFront distribution đặt trước một S3 bucket, giới hạn truy cập trực tiếp vào S3 bằng OAC, và kiểm tra cache invalidation                           | 25/06/2026   | 25/06/2026      |                                            |
-| 6   | - Dựng CloudWatch dashboard kết hợp metrics của EC2 và CloudFront <br> - Review công việc trong tuần cùng mentor                                                             | 26/06/2026   | 26/06/2026      |                                            |
+| 4   | - Tìm hiểu CloudWatch: <br>&emsp; + Metrics <br>&emsp; + Log group & log stream <br>&emsp; + Alarm & dashboard                                                              | 24/06/2026   | 24/06/2026      |                                            |
+| 5   | - **Thực hành:** tạo CloudWatch alarm theo dõi CPU utilization của EC2; đẩy log từ EC2 lên CloudWatch Logs bằng CloudWatch agent                                            | 25/06/2026   | 25/06/2026      |                                            |
+| 6   | - Tìm hiểu CloudFront: <br>&emsp; + Distribution & origin (S3/EC2) <br>&emsp; + Edge location & caching behavior <br>&emsp; + Origin Access Control (OAC)                   | 26/06/2026   | 26/06/2026      |                                            |
+| 2   | - **Thực hành:** tạo CloudFront distribution đặt trước một S3 bucket, giới hạn truy cập trực tiếp vào S3 bằng OAC, và kiểm tra cache invalidation                           | 29/06/2026   | 29/06/2026      |                                            |
+| 3   | - Dựng CloudWatch dashboard kết hợp metrics của EC2 và CloudFront <br> - Review công việc trong tuần cùng mentor                                                             | 30/06/2026   | 30/06/2026      |                                            |
 
 
 ### Kết quả đạt được tuần 3:

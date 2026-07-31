@@ -16,11 +16,11 @@ pre: " <b> 1.6. </b> "
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                 | Start Date | Completion Date | Reference Material |
 | --- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ------------------- |
-| 2   | - Learn advanced RAG techniques: <br>&emsp; + Query rewriting / decomposition <br>&emsp; + Iterative retrieval <br>&emsp; + Re-ranking <br>&emsp; + Hybrid (keyword + vector) search | 07/13/2026 | 07/13/2026      |                      |
-| 3   | - **Practice:** implement query decomposition to break a multi-hop question into sub-questions                                                     | 07/14/2026 | 07/14/2026      |                      |
-| 4   | - **Practice:** implement an iterative/multi-hop retrieval loop that uses the answer to one sub-question to retrieve evidence for the next          | 07/15/2026 | 07/15/2026      |                      |
-| 5   | - **Practice:** add a re-ranking step on top of retrieved passages to improve context relevance before generation                                   | 07/16/2026 | 07/16/2026      |                      |
-| 6   | - Re-evaluate the advanced RAG pipeline on the same HotpotQA sample used in Week 5 and compare EM/F1 against the naive baseline                    | 07/17/2026 | 07/17/2026      |                      |
+| 4   | - Learn advanced RAG techniques: <br>&emsp; + Query rewriting / decomposition <br>&emsp; + Iterative retrieval <br>&emsp; + Re-ranking <br>&emsp; + Hybrid (keyword + vector) search | 07/15/2026 | 07/15/2026      |                      |
+| 5   | - **Practice:** implement query decomposition to break a multi-hop question into sub-questions                                                     | 07/16/2026 | 07/16/2026      |                      |
+| 6   | - **Practice:** implement an iterative/multi-hop retrieval loop that uses the answer to one sub-question to retrieve evidence for the next          | 07/17/2026 | 07/17/2026      |                      |
+| 2   | - **Practice:** add a re-ranking step on top of retrieved passages to improve context relevance before generation                                   | 07/20/2026 | 07/20/2026      |                      |
+| 3   | - Re-evaluate the advanced RAG pipeline on the same HotpotQA sample used in Week 5 and compare EM/F1 against the naive baseline                    | 07/21/2026 | 07/21/2026      |                      |
 
 
 ### Week 6 Achievements:

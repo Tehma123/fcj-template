@@ -16,11 +16,11 @@ pre: " <b> 1.5. </b> "
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                       | Start Date | Completion Date | Reference Material                                              |
 | --- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------------------------------- |
-| 2   | - Learn RAG fundamentals: retrieval + generation, grounding LLM answers in retrieved context                                                  | 07/06/2026 | 07/06/2026      |                                                                    |
-| 3   | - Learn the naive RAG pipeline: <br>&emsp; + Document chunking strategies <br>&emsp; + Embedding the corpus <br>&emsp; + Storing vectors <br>&emsp; + Top-k similarity search | 07/07/2026 | 07/07/2026      |                                                                     |
-| 4   | - **Practice:** chunk and embed a subset of HotpotQA context paragraphs, store the embeddings in a vector index                               | 07/08/2026 | 07/08/2026      |                                                                     |
-| 5   | - **Practice:** implement single-pass retrieval + prompt construction, generate answers for sample questions                                  | 07/09/2026 | 07/09/2026      |                                                                     |
-| 6   | - Evaluate the naive RAG pipeline on a small HotpotQA sample (Exact Match / F1) and note failure cases on multi-hop questions                 | 07/10/2026 | 07/10/2026      |                                                                     |
+| 4   | - Learn RAG fundamentals: retrieval + generation, grounding LLM answers in retrieved context                                                  | 07/08/2026 | 07/08/2026      |                                                                    |
+| 5   | - Learn the naive RAG pipeline: <br>&emsp; + Document chunking strategies <br>&emsp; + Embedding the corpus <br>&emsp; + Storing vectors <br>&emsp; + Top-k similarity search | 07/09/2026 | 07/09/2026      |                                                                     |
+| 6   | - **Practice:** chunk and embed a subset of HotpotQA context paragraphs, store the embeddings in a vector index                               | 07/10/2026 | 07/10/2026      |                                                                     |
+| 2   | - **Practice:** implement single-pass retrieval + prompt construction, generate answers for sample questions                                  | 07/13/2026 | 07/13/2026      |                                                                     |
+| 3   | - Evaluate the naive RAG pipeline on a small HotpotQA sample (Exact Match / F1) and note failure cases on multi-hop questions                 | 07/14/2026 | 07/14/2026      |                                                                     |
 
 
 ### Week 5 Achievements:

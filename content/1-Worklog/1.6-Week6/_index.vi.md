@@ -16,11 +16,11 @@ pre: " <b> 1.6. </b> "
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                           | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
 | --- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | --------------- |
-| 2   | - Tìm hiểu các kỹ thuật RAG nâng cao: <br>&emsp; + Query rewriting / decomposition <br>&emsp; + Retrieval lặp (iterative) <br>&emsp; + Re-ranking <br>&emsp; + Hybrid search (keyword + vector) | 13/07/2026   | 13/07/2026      |                  |
-| 3   | - **Thực hành:** cài đặt query decomposition để tách một câu hỏi đa bước thành các câu hỏi con                                                  | 14/07/2026   | 14/07/2026      |                  |
-| 4   | - **Thực hành:** cài đặt vòng lặp retrieval đa bước (iterative), dùng câu trả lời của câu hỏi con này để truy xuất bằng chứng cho câu hỏi con tiếp theo | 15/07/2026   | 15/07/2026      |                  |
-| 5   | - **Thực hành:** thêm bước re-ranking cho các đoạn văn bản đã truy xuất để cải thiện độ liên quan của context trước khi sinh câu trả lời         | 16/07/2026   | 16/07/2026      |                  |
-| 6   | - Đánh giá lại pipeline advanced RAG trên cùng mẫu HotpotQA đã dùng ở tuần 5 và so sánh EM/F1 với baseline naive RAG                             | 17/07/2026   | 17/07/2026      |                  |
+| 4   | - Tìm hiểu các kỹ thuật RAG nâng cao: <br>&emsp; + Query rewriting / decomposition <br>&emsp; + Retrieval lặp (iterative) <br>&emsp; + Re-ranking <br>&emsp; + Hybrid search (keyword + vector) | 15/07/2026   | 15/07/2026      |                  |
+| 5   | - **Thực hành:** cài đặt query decomposition để tách một câu hỏi đa bước thành các câu hỏi con                                                  | 16/07/2026   | 16/07/2026      |                  |
+| 6   | - **Thực hành:** cài đặt vòng lặp retrieval đa bước (iterative), dùng câu trả lời của câu hỏi con này để truy xuất bằng chứng cho câu hỏi con tiếp theo | 17/07/2026   | 17/07/2026      |                  |
+| 2   | - **Thực hành:** thêm bước re-ranking cho các đoạn văn bản đã truy xuất để cải thiện độ liên quan của context trước khi sinh câu trả lời         | 20/07/2026   | 20/07/2026      |                  |
+| 3   | - Đánh giá lại pipeline advanced RAG trên cùng mẫu HotpotQA đã dùng ở tuần 5 và so sánh EM/F1 với baseline naive RAG                             | 21/07/2026   | 21/07/2026      |                  |
 
 
 ### Kết quả đạt được tuần 6:

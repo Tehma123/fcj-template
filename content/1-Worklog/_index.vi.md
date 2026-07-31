@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 1. </b> "
 ---
 
-Kỳ thực tập này kéo dài 8 tuần (10/6/2026 – 30/7/2026), với nội dung các tuần như sau:
+Phần triển khai kỹ thuật của kỳ thực tập kéo dài 8 tuần (15/6/2026 – 31/7/2026), với nội dung các tuần như sau:
 
 **Tuần 1:** [Làm quen môi trường thực tập và AWS cơ bản (console, CLI, EC2)](1.1-week1/)
 

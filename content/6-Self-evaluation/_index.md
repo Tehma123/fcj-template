@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 6. </b> "
 ---
 
-During my internship at **FCAJ** from **10/6/2026** to **30/7/2026**, I had the opportunity to learn, practice, and apply the knowledge acquired in school to a real-world working environment.  
+During my internship at **FCAJ** from **15/6/2026** to **14/8/2026**, I had the opportunity to learn, practice, and apply the knowledge acquired in school to a real-world working environment.  
 I participated in **Deploy RAG to solve multi-hop reasoning questions with datasets taken from hotpot_qa**, through which I improved my skills in **AWS cloud services, RAG system design, technical writing, static site deployment with Hugo and GitHub Actions, and problem-solving/debugging**.  
 
 In terms of work ethic, I always strived to complete tasks well, complied with workplace regulations, and actively engaged with colleagues to improve work efficiency.

@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 1. </b> "
 ---
 
-This internship ran for 8 weeks (10/6/2026 – 30/7/2026), with weekly contents as follows:
+The technical project portion of the internship ran for 8 weeks (15/6/2026 – 31/7/2026), with weekly contents as follows:
 
 **Week 1:** [Onboarding and AWS fundamentals (console, CLI, EC2)](1.1-week1/)
 

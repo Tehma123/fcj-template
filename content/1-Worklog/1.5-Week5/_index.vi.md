@@ -16,11 +16,11 @@ pre: " <b> 1.5. </b> "
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                    | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                                                    |
 | --- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ------------------------------------------------------------------ |
-| 2   | - Tìm hiểu nền tảng RAG: retrieval + generation, cách "ground" câu trả lời của LLM vào context đã truy xuất                                | 06/07/2026   | 06/07/2026      |                                                                    |
-| 3   | - Tìm hiểu pipeline naive RAG: <br>&emsp; + Chiến lược chunking tài liệu <br>&emsp; + Embed corpus <br>&emsp; + Lưu vector <br>&emsp; + Top-k similarity search | 07/07/2026   | 07/07/2026      |                                                                      |
-| 4   | - **Thực hành:** chunk và embed một tập nhỏ đoạn context của HotpotQA, lưu embeddings vào vector index                                     | 08/07/2026   | 08/07/2026      |                                                                      |
-| 5   | - **Thực hành:** cài đặt retrieval một lượt + dựng prompt, sinh câu trả lời cho các câu hỏi mẫu                                            | 09/07/2026   | 09/07/2026      |                                                                      |
-| 6   | - Đánh giá pipeline naive RAG trên một mẫu nhỏ HotpotQA (Exact Match / F1) và ghi nhận các trường hợp lỗi với câu hỏi đa bước               | 10/07/2026   | 10/07/2026      |                                                                      |
+| 4   | - Tìm hiểu nền tảng RAG: retrieval + generation, cách "ground" câu trả lời của LLM vào context đã truy xuất                                | 08/07/2026   | 08/07/2026      |                                                                    |
+| 5   | - Tìm hiểu pipeline naive RAG: <br>&emsp; + Chiến lược chunking tài liệu <br>&emsp; + Embed corpus <br>&emsp; + Lưu vector <br>&emsp; + Top-k similarity search | 09/07/2026   | 09/07/2026      |                                                                      |
+| 6   | - **Thực hành:** chunk và embed một tập nhỏ đoạn context của HotpotQA, lưu embeddings vào vector index                                     | 10/07/2026   | 10/07/2026      |                                                                      |
+| 2   | - **Thực hành:** cài đặt retrieval một lượt + dựng prompt, sinh câu trả lời cho các câu hỏi mẫu                                            | 13/07/2026   | 13/07/2026      |                                                                      |
+| 3   | - Đánh giá pipeline naive RAG trên một mẫu nhỏ HotpotQA (Exact Match / F1) và ghi nhận các trường hợp lỗi với câu hỏi đa bước               | 14/07/2026   | 14/07/2026      |                                                                      |
 
 
 ### Kết quả đạt được tuần 5:

@@ -7,7 +7,7 @@ pre: " <b> 6. </b> "
 ---
 
 
-Trong suốt thời gian thực tập tại **FCAJ** từ **10/6/2026** đến **30/7/2026**, tôi đã có cơ hội học hỏi, rèn luyện và áp dụng kiến thức đã được trang bị tại trường vào môi trường làm việc thực tế.  
+Trong suốt thời gian thực tập tại **FCAJ** từ **15/6/2026** đến **14/8/2026**, tôi đã có cơ hội học hỏi, rèn luyện và áp dụng kiến thức đã được trang bị tại trường vào môi trường làm việc thực tế.  
 Tôi đã tham gia **triển khai RAG để giải quyết các câu hỏi suy luận đa bước (multi-hop reasoning) với bộ dữ liệu HotpotQA**, qua đó cải thiện kỹ năng **sử dụng dịch vụ AWS, thiết kế hệ thống RAG, viết tài liệu kỹ thuật, triển khai trang web tĩnh với Hugo và GitHub Actions, cùng khả năng giải quyết vấn đề/debug**.  
 
 Về tác phong, tôi luôn cố gắng hoàn thành tốt nhiệm vụ, tuân thủ nội quy, và tích cực trao đổi với đồng nghiệp để nâng cao hiệu quả công việc.

@@ -70,14 +70,12 @@ Browser (React / Vite)
 
 ### 5. Timeline & Milestones
 **Project Timeline**
-- Internship period: 10/6/2026 – 30/7/2026
+
 - Weeks 1–2: Dataset preparation and baseline single-pass retrieval (BM25 + dense embedding over a local ChromaDB store).
 - Weeks 3–4: Hybrid retrieval via Reciprocal Rank Fusion, cross-encoder reranking, and initial retrieval-quality evaluation.
 - Weeks 5–6: LLM-based query decomposition and adaptive hop planning; replacement of the early regex bridge-entity heuristic.
-- Weeks 7: Migration to Amazon S3 Vectors and packaging of versioned offline artifacts (manifest + checksums).
-- Week 8: Deployment to Amazon EC2 behind Amazon API Gateway, frontend deployment on AWS Amplify, centralized configuration via SSM/Secrets Manager.
-- Week 9: Latency hardening (`/warmup`, `RAG_FAST_MODE`) and full EM/F1 + candidate-coverage evaluation runs.
-- Week 10: Final report, documentation (`docs/STEP_*.md`, this proposal), and workshop presentation.
+- Week 7: Migration to Amazon S3 Vectors, packaging of versioned offline artifacts (manifest + checksums), deployment to Amazon EC2 behind Amazon API Gateway with the front end on AWS Amplify, latency hardening (`/warmup`, `RAG_FAST_MODE`), and full EM/F1 + candidate-coverage evaluation runs.
+- Week 8: Final report, documentation (`docs/STEP_*.md`, this proposal), and workshop presentation.
 
 ### 6. Budget Estimation
 Most of the system is pay-per-use and close to free at this scale — Amazon S3, Amazon S3 Vectors, Amazon API Gateway, and AWS Amplify Hosting bill only for what is actually stored or requested. The exception is the compute tier: **Amazon EC2, its attached Elastic IP, and its EBS root volume all bill continuously by the hour, whether or not anyone sends a query**, and are only reduced (not eliminated) by stopping the instance when it is not being demonstrated. Figures below are **estimates for planning purposes**, not billed amounts.
