@@ -34,4 +34,3 @@ pre: " <b> 1.5. </b> "
 * Đo được độ chính xác baseline (EM/F1) và nhận thấy retrieval một lượt (naive) thường thất bại với các câu hỏi đa bước cần bằng chứng từ nhiều tài liệu.
 
 * Xác định đây chính là động lực để tìm hiểu các kỹ thuật RAG nâng cao trong tuần tới.
-* ...

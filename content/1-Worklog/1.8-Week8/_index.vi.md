@@ -32,4 +32,3 @@ pre: " <b> 1.8. </b> "
 * Ghi lại đầy đủ kiến trúc, từ bước nạp dữ liệu đến khi deploy.
 
 * Hoàn thiện các sản phẩm bàn giao của kỳ thực tập: blog, proposal và self-evaluation.
-* ...

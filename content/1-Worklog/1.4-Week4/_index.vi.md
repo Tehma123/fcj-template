@@ -34,4 +34,3 @@ pre: " <b> 1.4. </b> "
 * Tính được embeddings và điểm tương đồng cho một tập văn bản nhỏ, làm bước khởi động cho retrieval.
 
 * Khảo sát cấu trúc bộ dữ liệu HotpotQA và xác định được "multi-hop" nghĩa là gì trong thực tế.
-* ...

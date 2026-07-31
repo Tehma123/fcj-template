@@ -34,4 +34,3 @@ pre: " <b> 1.4. </b> "
 * Computed embeddings and similarity scores for a small text sample as a warm-up for retrieval.
 
 * Explored the structure of the HotpotQA dataset and identified what "multi-hop" means in practice.
-* ...

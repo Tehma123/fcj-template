@@ -34,4 +34,3 @@ pre: " <b> 1.3. </b> "
 * Built a basic CloudWatch dashboard to track resource health at a glance.
 
 * Understood how monitoring (CloudWatch) and content delivery (CloudFront) fit into a production-ready architecture.
-* ...

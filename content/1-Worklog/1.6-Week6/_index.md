@@ -34,4 +34,3 @@ pre: " <b> 1.6. </b> "
 * Added a re-ranking step that improved the relevance of retrieved context.
 
 * Measured a clear accuracy improvement (EM/F1) over the Week 5 naive RAG baseline on HotpotQA.
-* ...

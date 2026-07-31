@@ -34,4 +34,3 @@ pre: " <b> 1.3. </b> "
 * Dựng được một CloudWatch dashboard cơ bản để theo dõi tình trạng tài nguyên.
 
 * Hiểu cách giám sát (CloudWatch) và phân phối nội dung (CloudFront) phối hợp trong một kiến trúc sẵn sàng cho production.
-* ...

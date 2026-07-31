@@ -34,4 +34,3 @@ pre: " <b> 1.7. </b> "
 * Thêm CloudWatch logging và alarm để giám sát lỗi và độ trễ của pipeline.
 
 * Xác nhận pipeline chạy trên AWS cho kết quả giống với bản prototype chạy local ở tuần 6.
-* ...

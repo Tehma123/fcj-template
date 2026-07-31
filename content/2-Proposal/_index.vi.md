@@ -6,126 +6,193 @@ chapter: false
 pre: " <b> 2. </b> "
 ---
 
-# Retrieval-Augmented Generation Cho Suy Luận Đa Bước Trên HotpotQA
-## Một Pipeline RAG Hybrid-Retrieval Thích Nghi Với Lập Kế Hoạch Truy Vấn Theo Hop, Triển Khai Trên AWS
+## Tổng quan dự án
 
-### 1. Tóm tắt điều hành
-Dự án này thiết kế và triển khai một hệ thống Retrieval-Augmented Generation (RAG) để trả lời các câu hỏi suy luận đa bước (multi-hop) từ bộ dữ liệu HotpotQA — những câu hỏi mà câu trả lời đòi hỏi kết hợp bằng chứng từ nhiều tài liệu thay vì chỉ một đoạn văn bản. Hệ thống được xác định phạm vi như một demo end-to-end đầy đủ: một pipeline lập chỉ mục offline chunk và embed một validation slice của HotpotQA, một dịch vụ truy xuất-và-sinh câu trả lời online bằng FastAPI expose một API công khai, và một front end React để kiểm thử tương tác. Quy mô mục tiêu là một demo nhỏ, tiết kiệm chi phí (subset validation HotpotQA gồm 500 tài liệu, lưu lượng truy vấn thấp) thay vì một dịch vụ quy mô production, phục vụ mục đích đánh giá nội bộ, trình diễn workshop, và làm kiến trúc tham chiếu có thể mở rộng sau này cho corpus lớn hơn. Đối tượng sử dụng dự kiến là người đánh giá workshop, đội kỹ thuật đánh giá chất lượng truy xuất, và các kỹ sư tương lai sẽ mở rộng pipeline này sang các bộ tài liệu khác.
+Trong quá trình thực tập AWS First Cloud AI Journey, tôi và nhóm đã đề xuất **AWS CloudHop RAG**, một hệ thống Retrieval-Augmented Generation (RAG) được thiết kế cho các câu hỏi cần thông tin từ nhiều hơn một tài liệu. Dự án tập trung vào bài toán hỏi-đáp đa bước (multi-hop question answering), trong đó việc tìm được một đoạn văn bản liên quan thường là chưa đủ để đưa ra câu trả lời chính xác.
 
-### 2. Tuyên bố vấn đề
-#### Vấn đề hiện tại
-Các mô hình ngôn ngữ lớn (LLM) độc lập và các hệ thống hỏi-đáp một bước thường gặp khó khăn với câu hỏi đa bước, vì câu trả lời không thể tìm thấy trong một tài liệu duy nhất mà cần truy xuất và suy luận qua nhiều đoạn văn bản liên quan. Nếu không có bước truy xuất dựa trên nguồn dữ liệu gốc, câu trả lời có thể thiếu chính xác, không có căn cứ, hoặc bỏ sót các bước suy luận trung gian. Điều này đặc biệt quan trọng với các câu hỏi kiểu HotpotQA vì hai tài liệu hỗ trợ chỉ được kết nối với nhau qua một thực thể "cầu nối" (bridge entity) chung (ví dụ: một người, bộ phim, hoặc tổ chức được nhắc đến trong cả hai bài viết) — một lượt tìm kiếm dense hoặc keyword-search đơn lẻ thường chỉ truy xuất được một trong hai tài liệu chứ không phải cả hai, và một pipeline RAG "naive" một lượt (retrieve một lần rồi generate) không có cơ chế nào để nhận ra bằng chứng truy xuất được là chưa đầy đủ và tìm kiếm thêm lần nữa.
+Chúng tôi chọn **HotpotQA** làm bộ dữ liệu chính vì các câu hỏi trong đó được thiết kế riêng cho suy luận đa bước và có kèm theo bằng chứng hỗ trợ đã được gán nhãn. Điều này tạo ra một môi trường có kiểm soát để phát triển pipeline truy xuất và đánh giá xem hệ thống có thể tìm đúng các tài liệu cần thiết để trả lời từng câu hỏi hay không.
 
-#### Giải pháp
-Hệ thống truy xuất các đoạn văn bản liên quan từ kho tài liệu HotpotQA và dùng một mô hình ngôn ngữ để sinh câu trả lời cuối cùng dựa trên bằng chứng đã truy xuất, kết hợp nhiều bước truy xuất/suy luận nối tiếp nhau để giải quyết câu hỏi đa bước. Cụ thể, stack công nghệ kết hợp: **BAAI/bge-m3** làm mô hình embedding dense mã nguồn mở; một **retriever lai giữa sparse và dense** (BM25 qua thư viện `bm25s`, hợp nhất với dense vector search qua `EnsembleRetriever` của LangChain bằng Reciprocal Rank Fusion có trọng số); **Amazon S3 Vectors** (hoặc một instance ChromaDB cục bộ cho môi trường phát triển) làm vector store; một **vòng lặp phân rã truy vấn và lập kế hoạch hop thích nghi do LLM điều khiển** (qua Groq API, `llama-3.1-8b-instant`) kiểm tra bằng chứng sau mỗi vòng truy xuất và quyết định dừng lại hay phát hành một truy vấn follow-up cụ thể hơn; một **cross-encoder reranker** (`cross-encoder/ms-marco-MiniLM-L-6-v2`) để chấm điểm các candidate parent document dựa trên câu hỏi; và bước cuối cùng **sinh câu trả lời dạng ngắn** khớp với định dạng câu trả lời của HotpotQA để phục vụ chấm điểm Exact Match / F1 tự động. Toàn bộ pipeline được điều phối bởi một class `AdvancedRAGPipeline` duy nhất và được phục vụ qua một ứng dụng FastAPI.
+Dự án được lên kế hoạch như một ứng dụng end-to-end hoàn chỉnh, chứ không chỉ dừng lại ở một thử nghiệm truy xuất. Bên cạnh việc phát triển và đánh giá pipeline RAG, nhóm sẽ triển khai các thành phần chính của ứng dụng trên AWS và cung cấp một giao diện web đơn giản để gửi câu hỏi và xem câu trả lời được sinh ra cùng các nguồn hỗ trợ đi kèm.
 
-#### Lợi ích và hoàn vốn đầu tư (ROI)
-Lợi ích chính là độ chính xác được cải thiện có thể đo lường được trên câu hỏi đa bước so với một baseline truy xuất một lượt, vì vòng lặp lập kế hoạch hop thích nghi nhắm thẳng vào lỗi bridge-entity đã mô tả ở trên thay vì dựa vào một lượt truy xuất cố định. Một lợi ích thứ hai, mang tính dài hạn hơn, là khả năng tái sử dụng về mặt kiến trúc: vì pipeline lập chỉ mục offline và pipeline truy vấn online được tách biệt nghiêm ngặt (toàn bộ chunking/embedding/xây chỉ mục chỉ chạy một lần, offline; dịch vụ online chỉ load các artifact đã build sẵn), cùng một codebase có thể được trỏ lại sang một corpus khác bằng cách build một artifact bundle mới và đổi một tham số cấu hình duy nhất (`index_id`), không cần sửa code và không cần redeploy dịch vụ. Điều này khiến khoản đầu tư vào logic truy xuất/rerank/lập kế hoạch hop có thể chuyển giao sang các corpus có giá trị cao hơn trong tương lai (ví dụ: tài liệu kỹ thuật nội bộ) thay vì chỉ là một demo HotpotQA dùng một lần. Về chi phí, demo được thiết kế để chạy gần như hoàn toàn trong giới hạn AWS Free Tier ở mức lưu lượng truy vấn thấp (xem Mục 6), giữ chi phí biên của việc chạy và lặp lại trên bản triển khai workshop gần như bằng 0.
+## Vấn đề và động lực
 
-### 3. Kiến trúc giải pháp
-Hệ thống được chia thành hai pipeline độc lập. **Pipeline offline** chạy một lần cho mỗi phiên bản corpus/index: nó đọc `corpus.jsonl`, tách mỗi bài viết thành một chunk *parent* (toàn bộ bài viết, dùng làm ngữ cảnh sinh câu trả lời) và nhiều chunk *child* (250–500 ký tự, dùng cho độ chính xác tìm kiếm), embed các child chunk bằng BAAI/bge-m3, xây một chỉ mục sparse BM25 trên cùng các child chunk đó, và ghi một `index_manifest.json` có phiên bản trước khi upload toàn bộ lên Amazon S3 / Amazon S3 Vectors. **Pipeline online** chạy cho mỗi HTTP request: nó load các artifact đã build sẵn (không bao giờ chunk hay embed lại), tùy chọn phân rã câu hỏi thành các câu hỏi con, truy xuất các candidate parent document qua hybrid BM25+vector search hợp nhất bằng Reciprocal Rank Fusion, mở rộng các child chunk trúng về lại bài viết parent của chúng ("small-to-big"), hỏi một LLM hop-planner xem bằng chứng thu thập được đã đủ hay cần một lượt tìm kiếm nhắm mục tiêu khác (tối đa một số hop có thể cấu hình), rerank các candidate còn lại bằng cross-encoder, xây một context window đã lọc, và cuối cùng hỏi một LLM để sinh câu trả lời dạng ngắn. Response trả về cho caller bao gồm câu trả lời, các tài liệu nguồn hỗ trợ kèm điểm rerank, thời gian độ trễ theo từng giai đoạn, và mức sử dụng token LLM — khiến mỗi request tự mô tả được để phục vụ debug và theo dõi chi phí.
+Retrieval-Augmented Generation cải thiện khả năng hỏi-đáp bằng cách truy xuất thông tin liên quan từ một nguồn tri thức bên ngoài trước khi yêu cầu mô hình ngôn ngữ sinh câu trả lời. Cách này giúp mô hình dựa vào bằng chứng đã truy xuất được thay vì chỉ phụ thuộc hoàn toàn vào những gì nó đã biết sẵn.
 
-```text
-Browser (React / Vite)
-  -> HTTPS: AWS Amplify Hosting
-  -> HTTPS: Amazon API Gateway (HTTP API)     [terminates TLS, avoids browser "Mixed Content" errors]
-  -> HTTP:  Amazon EC2 (FastAPI under systemd)
-       -> Amazon S3                (processed docs + BM25 index + manifest)
-       -> Amazon S3 Vectors        (dense vector retrieval)
-       -> .env.prod trên instance  (Groq API key + cấu hình runtime; việc chuyển sang Parameter Store/Secrets Manager đã thiết kế nhưng chưa triển khai)
-       -> Groq API (third-party)   (query decomposition, hop planning, answer generation)
-```
+Tuy nhiên, nhiều hệ thống RAG chỉ thực hiện truy xuất một lần duy nhất. Cách này hoạt động tốt khi thông tin cần để trả lời câu hỏi nằm gọn trong một tài liệu liên quan, nhưng trở nên kém tin cậy hơn khi cần kết nối nhiều bằng chứng khác nhau.
 
-![Kiến trúc triển khai trên AWS: Amplify -> API Gateway -> EC2 (VPC, public subnet) -> S3 (sparse search) và S3 Vectors (dense search), với EC2 gọi trực tiếp Groq LLM API bên ngoài](/images/2-Proposal/AWS-RAG.drawio.png)
-*Kiến trúc triển khai: trình duyệt tiếp cận backend FastAPI qua Amplify và API Gateway; instance EC2 (gắn IAM role, nằm trong public subnet của VPC) đọc chỉ mục sparse/dense từ S3 và S3 Vectors, và gọi trực tiếp Groq API bên ngoài để inference LLM. Sơ đồ cũng thể hiện phần tích hợp Secrets Manager/Systems Manager/CloudWatch từng được lên kế hoạch ban đầu; ở hệ thống thực tế đã triển khai, Groq API key và toàn bộ cấu hình runtime nằm trong một file `.env.prod` duy nhất trên instance, còn khả năng quan sát vận hành đến từ systemd journal và kiểm tra thủ công `/health`/`/warmup` thay vì CloudWatch — xem ghi chú "Dịch vụ AWS sử dụng" bên dưới.*
+Một câu hỏi đa bước có thể yêu cầu hệ thống trước tiên tìm một tài liệu, xác định một người, địa điểm, tổ chức hoặc mối quan hệ quan trọng từ bằng chứng đó, rồi dùng thông tin này để tìm ra một tài liệu khác. Nếu thiếu một trong hai phần bằng chứng, câu trả lời có thể trở nên không đầy đủ hoặc không chính xác.
 
-#### Dịch vụ AWS sử dụng
-- **Amazon S3** — lưu trữ bền vững cho các artifact offline: file JSONL parent/child document, chỉ mục BM25 đã serialize, và index manifest ghi lại embedding model, kích thước chunk, và checksum cho mỗi lần build.
-- **Amazon S3 Vectors** — dịch vụ vector-search được quản lý dùng cho dense retrieval ở production, được truy vấn theo từng request qua `QueryVectors` và được nạp dữ liệu lúc build qua `PutVectors`; thay thế một instance ChromaDB cục bộ dùng trong giai đoạn phát triển.
-- **Groq API** — host các LLM dùng cho phân rã truy vấn, lập kế hoạch hop thích nghi, và sinh câu trả lời dạng ngắn. API key hiện đang nằm dạng plaintext trong một file `.env.prod` trên instance EC2 thay vì trong AWS Secrets Manager; việc chuyển sang nạp Groq key từ AWS Secrets Manager và các thiết lập không bí mật từ AWS Systems Manager Parameter Store đã được thiết kế và viết code nhưng **chưa triển khai**, và được ghi nhận là một hạn chế còn để ngỏ chứ không phải vấn đề đã giải quyết.
-- **Amazon EC2, Amazon API Gateway, AWS Amplify Hosting, AWS Systems Manager Session Manager, AWS IAM, và một Elastic IP** — các dịch vụ compute, API, hosting, truy cập quản trị, kiểm soát truy cập, và networking cùng nhau host và expose pipeline như một endpoint demo công khai (chi tiết đầy đủ ở Mục 4).
-- **Không dùng Amazon CloudWatch.** Amazon CloudWatch không phải là một phần của hệ thống đã triển khai; khả năng quan sát vận hành thay vào đó đến từ systemd journal của instance EC2 và kiểm tra thủ công `/health` / `/warmup`.
+HotpotQA cung cấp một benchmark hữu ích cho bài toán này vì nó chứa cả **câu hỏi bridge** (bridge questions), trong đó một bằng chứng dẫn tới bằng chứng khác, lẫn **câu hỏi so sánh** (comparison questions), trong đó thông tin từ nhiều thực thể cần được kết hợp lại.
 
-#### Thiết kế thành phần
-- **Tiếp nhận dữ liệu (Data Ingestion)**: `scripts/build_offline_artifacts.py` đọc một validation slice của HotpotQA (`corpus.jsonl`), và `advanced_rag/chunking.py` song song hóa (qua `multiprocessing.Pool`) việc tách thành parent document (toàn văn bài viết) và child document (chunk 250–500 ký tự với 20% overlap, dùng một recursive character splitter ưu tiên ranh giới đoạn văn/câu).
-- **Truy xuất (Retrieval)**: `advanced_rag/retrieval.py` xây một hybrid retriever cho mỗi hop bằng cách kết hợp một BM25 sparse retriever (`bm25s`) và một dense vector retriever (Amazon S3 Vectors hoặc ChromaDB, dựa trên embedding BAAI/bge-m3) qua `EnsembleRetriever` của LangChain, hợp nhất hai danh sách xếp hạng bằng Reciprocal Rank Fusion có trọng số; các child chunk trúng sau đó được mở rộng về lại bài viết parent của chúng ("small-to-big").
-- **Suy luận đa bước (Multi-Hop Reasoning)**: `advanced_rag/query_optimizer.py` trước tiên phân rã câu hỏi gốc thành các câu hỏi con theo thứ tự bằng một LLM; `advanced_rag/hop_planner.py` sau đó điều khiển một vòng lặp thích nghi (tối đa một số hop có thể cấu hình) đọc bằng chứng đã truy xuất được cho tới thời điểm đó và hoặc tuyên bố câu hỏi đã có thể trả lời được, hoặc đề xuất một truy vấn follow-up mới, cụ thể hơn, dựa trên một fact vừa phát hiện được — thay thế một heuristic bridge-entity dựa trên regex trước đó vốn dễ gãy.
-- **Sinh câu trả lời (Answer Generation)**: `advanced_rag/rerank.py` chấm điểm các candidate còn lại bằng cross-encoder so với câu hỏi gốc và mọi câu hỏi con/truy vấn hop, chỉ giữ lại top-N; `advanced_rag/generation.py` sau đó prompt một LLM để sinh ra đoạn trả lời ngắn nhất đúng (bắt buộc một bước "Reasoning:" trung gian tường minh cho các câu hỏi dạng so sánh trước dòng "Answer:" cuối cùng).
-- **Đánh giá (Evaluation)**: `advanced_rag/qa_metrics.py` triển khai Exact Match và F1 theo token-overlap theo đúng quy tắc chuẩn hóa SQuAD/HotpotQA; `evals/eval_hotpotqa.py` còn đo thêm *candidate coverage* ở cả giai đoạn trước và sau rerank, trên cả tier "dễ" và tier "khó" (câu hỏi bridge được mining riêng), để một lỗi truy xuất có thể được quy đúng về giai đoạn pipeline gây ra nó.
+Vì vậy, với dự án này, chúng tôi muốn tìm hiểu liệu việc kết hợp truy xuất từ vựng (lexical retrieval), truy xuất ngữ nghĩa (semantic retrieval), và các bước truy xuất bổ sung có thể cung cấp bằng chứng đầy đủ hơn cho các câu hỏi đa bước hay không, trong khi vẫn khả thi để triển khai như một ứng dụng AWS trong thực tế.
 
-### 4. Triển khai kỹ thuật
-**Các giai đoạn triển khai**
-1. Chuẩn bị dữ liệu — xây một subset validation của HotpotQA (`corpus.jsonl`) và xác nhận định dạng tài liệu/câu trả lời.
-2. Truy xuất baseline — triển khai chunking parent/child, lập chỉ mục BM25, và dense embedding bằng BAAI/bge-m3 trên một ChromaDB store cục bộ; xác thực chất lượng truy xuất một lượt.
-3. Truy xuất hybrid và rerank — hợp nhất BM25 và vector search qua Reciprocal Rank Fusion, tinh chỉnh trọng số theo từng retriever, và thêm cross-encoder reranking.
-4. Pipeline đa bước — thêm phân rã truy vấn bằng LLM và lập kế hoạch hop thích nghi, thay thế heuristic bridge-entity dựa trên regex ban đầu sau khi phát hiện các điểm mù cấu trúc của nó.
-5. Di chuyển lên cloud — chuyển vector store sang Amazon S3 Vectors, đóng gói artifact offline kèm manifest có phiên bản, và deploy dịch vụ online lên Amazon EC2 phía sau Amazon API Gateway, với front end trên AWS Amplify.
-6. Đánh giá và lặp lại — chạy `eval_hotpotqa.py` / `eval_full.py` để đo Exact Match/F1 và chẩn đoán candidate-coverage, và lặp lại trên kích thước chunk, top-k, và giới hạn lập kế hoạch hop dựa trên kết quả đo được (xem `docs/CHANGES_LOG.md`).
-7. Tối ưu độ trễ — thêm một endpoint `/warmup` và một cờ cấu hình `RAG_FAST_MODE` để giữ độ trễ request trong giới hạn timeout của API Gateway trên phần cứng chỉ có CPU.
+## Mục tiêu và phạm vi
 
-**Yêu cầu kỹ thuật**
-- Bộ dữ liệu: HotpotQA (bộ dữ liệu hỏi-đáp suy luận đa bước), một validation slice 500 dòng cho bản triển khai demo.
-- Framework/thư viện: LangChain (`langchain-core`, `langchain-classic`, `langchain-chroma`, `langchain-huggingface`), `sentence-transformers` (embedding BAAI/bge-m3, cross-encoder reranker `ms-marco-MiniLM-L-6-v2`), `bm25s`, ChromaDB, FastAPI, và Groq Python SDK.
-- Dịch vụ/công cụ AWS cần thiết để chạy và đánh giá pipeline: Amazon EC2 (compute backend), Amazon S3 (lưu trữ artifact), Amazon S3 Vectors (dense retrieval), Amazon API Gateway (API HTTPS công khai), AWS Amplify (hosting frontend), AWS Systems Manager Session Manager (truy cập admin), và AWS IAM (quyền instance role thay cho credential hard-code). Cấu hình runtime, bao gồm Groq API key, hiện đang nằm trong một file `.env.prod` trên instance; việc chuyển cấu hình không bí mật sang AWS Systems Manager Parameter Store và Groq key sang AWS Secrets Manager đã được thiết kế nhưng chưa triển khai.
+### Mục tiêu dự án
 
-### 5. Lộ trình & Mốc triển khai
-**Lộ trình dự án**
-- Thời gian thực tập: 10/6/2026 – 30/7/2026
-- Tuần 1–2: Chuẩn bị dữ liệu và truy xuất baseline một lượt (BM25 + dense embedding trên ChromaDB store cục bộ).
-- Tuần 3–4: Truy xuất hybrid qua Reciprocal Rank Fusion, cross-encoder reranking, và đánh giá chất lượng truy xuất ban đầu.
-- Tuần 5–6: Phân rã truy vấn bằng LLM và lập kế hoạch hop thích nghi; thay thế heuristic bridge-entity dựa trên regex ban đầu.
-- Tuần 7: Di chuyển sang Amazon S3 Vectors và đóng gói artifact offline có phiên bản (manifest + checksum).
-- Tuần 8: Deploy lên Amazon EC2 phía sau Amazon API Gateway, deploy frontend trên AWS Amplify, cấu hình tập trung qua SSM/Secrets Manager.
-- Tuần 9: Tối ưu độ trễ (`/warmup`, `RAG_FAST_MODE`) và chạy đầy đủ đánh giá EM/F1 + candidate-coverage.
-- Tuần 10: Báo cáo cuối kỳ, tài liệu hóa (`docs/STEP_*.md`, proposal này), và thuyết trình workshop.
+Các mục tiêu chính của AWS CloudHop RAG bao gồm:
 
-### 6. Ước tính ngân sách
-Phần lớn hệ thống tính phí theo mức dùng và gần như miễn phí ở quy mô này — Amazon S3, Amazon S3 Vectors, Amazon API Gateway và AWS Amplify Hosting chỉ tính phí theo đúng những gì thực sự được lưu trữ hoặc request. Ngoại lệ nằm ở tầng compute: **Amazon EC2, Elastic IP gắn kèm, và EBS root volume đều tính phí liên tục theo giờ, bất kể có ai gửi truy vấn hay không**, và chỉ giảm bớt (chứ không loại bỏ hoàn toàn) khi dừng instance lúc không demo. Các con số dưới đây là **ước tính phục vụ mục đích lập kế hoạch**, không phải số tiền thực tế bị tính phí.
+1. Xây dựng một pipeline RAG có khả năng trả lời các câu hỏi đa bước bằng bằng chứng truy xuất từ nhiều tài liệu.
+2. Tìm hiểu cả phương pháp truy xuất từ vựng lẫn truy xuất ngữ nghĩa, và kết hợp điểm mạnh của chúng thông qua truy xuất hybrid.
+3. Hỗ trợ thêm các bước truy xuất bổ sung khi bằng chứng từ lượt tìm kiếm ban đầu chưa đủ.
+4. Đánh giá chất lượng truy xuất tách biệt với chất lượng câu trả lời cuối cùng, để có thể xác định rõ ràng các lỗi truy xuất.
+5. Triển khai ứng dụng hoàn chỉnh bằng các dịch vụ AWS và cung cấp một giao diện đơn giản để tương tác với hệ thống.
+6. Xây dựng dự án theo hướng có thể tái tạo được, để các artifact truy xuất, kết quả đánh giá và các bước triển khai đều có thể được tạo lại và ghi lại đầy đủ.
 
-| Dịch vụ AWS | Hình thức tính phí | Mức sử dụng demo giả định | Chi phí ước tính hằng tháng |
-| --- | --- | --- | --- |
-| Amazon EC2 (t2/t3.micro) | Liên tục khi đang chạy, tính phí theo giờ | 1 instance, ~730 giờ/tháng | $0.00 nếu còn đủ điều kiện Free Tier (12 tháng đầu); tính phí theo giờ nếu không |
-| Amazon EC2 Elastic IP | Liên tục, tính phí theo giờ bất kể trạng thái instance (giá public IPv4 hiện hành của AWS) | 1 địa chỉ, luôn được gắn | ~$3.60 |
-| Amazon EBS (root volume) | Liên tục, vẫn tính phí kể cả khi instance đã dừng | 1 volume gp3, ~20-30 GB | ~$2.00 |
-| Amazon S3 (Standard) | Theo GB lưu trữ + request | Artifact offline nhỏ hơn nhiều so với 5 GB, lượng request thấp | $0.00 (trong hạn mức Free Tier) |
-| Amazon S3 Vectors | Theo vector lưu trữ + truy vấn, không tính phí lúc idle | ~500 tài liệu, lượng truy vấn thấp | ~$0.50 |
-| Amazon API Gateway (HTTP API) | Theo request | Vài trăm request/tháng | $0.00 (trong hạn mức Free Tier) |
-| AWS Amplify Hosting | Phút build + lưu trữ + băng thông | 1 bản build React nhỏ, lượng người xem thấp | $0.00 (trong hạn mức Free Tier) |
-| AWS Systems Manager Session Manager | Luôn miễn phí | Thi thoảng có phiên admin; không tạo tham số Parameter Store nào (cấu hình nằm trong `.env.prod`) | $0.00 |
-| AWS IAM | Luôn miễn phí | 1 instance role, 2 inline policy | $0.00 |
-| AWS Secrets Manager | Theo secret mỗi tháng | Có 1 secret tồn tại nhưng **chưa được nối vào ứng dụng** (xem Mục 3) | ~$0.40 |
-| Groq API (ngoài AWS, pass-through) | Theo token | Lượng truy vấn ở mức demo | ~$0.00–$1.00 |
-| **Tổng ước tính** | | | **~$6-8 / tháng khi instance chạy liên tục; gần $0 phát sinh thêm ngoài EC2/Elastic IP/EBS nếu dừng giữa các lần demo** |
+### Phạm vi dự án
 
-Amazon CloudWatch không xuất hiện trong bảng này một cách có chủ đích: nó không phải một phần của hệ thống đã triển khai, việc theo dõi vận hành thay vào đó dựa vào systemd journal của instance EC2 và kiểm tra thủ công `/health`/`/warmup`. Ước tính này giả định đồng hồ Free Tier chưa bị các workload khác trên cùng tài khoản dùng hết, và lưu lượng vẫn ở quy mô demo; một bản triển khai quy mô production (lưu lượng truy vấn cao hơn, corpus lớn hơn, inference dùng GPU) sẽ cần một mô hình chi phí riêng, lưu lượng cao hơn.
+Dự án sẽ tập trung vào chế độ **HotpotQA Distractor** như môi trường phát triển và đánh giá chính.
 
-### 7. Đánh giá rủi ro
-#### Ma trận rủi ro
-| Rủi ro | Khả năng xảy ra | Mức độ ảnh hưởng |
+Phạm vi dự kiến bao gồm:
+
+- chuẩn bị dữ liệu HotpotQA;
+- truy xuất từ vựng và truy xuất dense;
+- truy xuất hybrid;
+- truy xuất bằng chứng đa bước;
+- xếp hạng bằng chứng và xây dựng ngữ cảnh;
+- sinh câu trả lời bằng LLM;
+- đánh giá truy xuất và câu trả lời;
+- lưu trữ và tìm kiếm vector trên AWS;
+- triển khai backend trên cloud;
+- tích hợp API và frontend;
+- kiểm thử chức năng và tài liệu kỹ thuật.
+
+Dự án được xác định ở quy mô triển khai và đánh giá cho một kỳ thực tập, chứ không phải một dịch vụ production phục vụ số lượng lớn người dùng. Lưu lượng truy cập quy mô lớn, xác thực cấp doanh nghiệp, và triển khai trên tập tài liệu cực lớn nằm ngoài phạm vi chính của dự án.
+
+## Giải pháp và kiến trúc đề xuất
+
+### Phương pháp RAG đề xuất
+
+Pipeline được đề xuất kết hợp nhiều chiến lược truy xuất khác nhau thay vì chỉ dựa vào một phương pháp tìm kiếm duy nhất.
+
+Luồng xử lý tổng thể như sau:
+
+**Câu hỏi → Phân tích truy vấn → Truy xuất từ vựng và ngữ nghĩa → Truy xuất đa bước → Xếp hạng bằng chứng → Xây dựng ngữ cảnh → Sinh câu trả lời bằng LLM → Câu trả lời và nguồn hỗ trợ**
+
+Đối với truy xuất từ vựng, dự án sẽ sử dụng **BM25**, phương pháp hiệu quả khi các tên riêng, thực thể hoặc cụm từ quan trọng trong câu hỏi cũng xuất hiện trực tiếp trong tài liệu nguồn.
+
+Đối với truy xuất ngữ nghĩa, dự án sẽ sử dụng **BGE-M3 embeddings** để biểu diễn văn bản dưới dạng vector dense. Điều này cho phép hệ thống tìm được bằng chứng liên quan ngay cả khi cách diễn đạt của câu hỏi và tài liệu nguồn khác nhau.
+
+Kết quả từ truy xuất từ vựng và truy xuất ngữ nghĩa sẽ được gộp lại thành một tập candidate chung. Với các câu hỏi cần nhiều thông tin, hệ thống cũng sẽ thực hiện thêm các bước truy xuất bổ sung dựa trên bằng chứng đã tìm được trước đó trong quá trình xử lý.
+
+Sau khi truy xuất, các bằng chứng mạnh nhất sẽ được xếp hạng và thu gọn thành một ngữ cảnh tập trung trước khi đưa vào mô hình ngôn ngữ. Phản hồi cuối cùng sẽ bao gồm cả câu trả lời được sinh ra lẫn các nguồn hỗ trợ đã dùng để xây dựng ngữ cảnh đó.
+
+### Kiến trúc AWS đề xuất
+
+Pipeline RAG sẽ được triển khai như một ứng dụng web, sử dụng nhiều dịch vụ AWS với trách nhiệm tách biệt nhau.
+
+![Kiến trúc AWS CloudHop RAG được đề xuất](/images/2-Proposal/AWS-RAG.drawio.png)
+
+Luồng xử lý ứng dụng dự kiến như sau:
+
+**Người dùng → AWS Amplify → Amazon API Gateway → Amazon EC2 → Amazon S3 / Amazon S3 Vectors → Groq API → Câu trả lời**
+
+| Thành phần | Vai trò dự kiến |
+| --- | --- |
+| **AWS Amplify** | Host frontend web dùng để gửi câu hỏi và hiển thị câu trả lời |
+| **Amazon API Gateway** | Cung cấp API HTTPS giữa trình duyệt và backend |
+| **Amazon EC2** | Chạy backend FastAPI và điều phối pipeline RAG |
+| **Amazon S3** | Lưu trữ corpus đã xử lý, artifact BM25, mapping và manifest |
+| **Amazon S3 Vectors** | Lưu trữ và tìm kiếm vector dense BGE-M3 |
+| **AWS IAM** | Kiểm soát quyền truy cập giữa các tài nguyên AWS |
+| **AWS Systems Manager** | Hỗ trợ quản trị và truy cập backend EC2 |
+| **Groq API** | Cung cấp inference mô hình ngôn ngữ cho pipeline RAG |
+
+Các artifact truy xuất sẽ được chuẩn bị trước khi phục vụ truy vấn người dùng. Điều này giữ cho các bước tiền xử lý tốn kém như chuẩn bị tài liệu, lập chỉ mục và sinh embedding nằm ngoài luồng xử lý request online.
+
+Khi chạy, backend EC2 sẽ tải các artifact truy xuất từ vựng cần thiết từ Amazon S3 và truy vấn Amazon S3 Vectors để truy xuất ngữ nghĩa. Bằng chứng truy xuất được sau đó sẽ được pipeline RAG xử lý và gửi tới mô hình ngôn ngữ để sinh câu trả lời cuối cùng.
+
+## Kế hoạch dự án
+
+Dự án được lên kế hoạch như một nỗ lực của cả nhóm, đi từ nền tảng AWS và nghiên cứu RAG đến phát triển truy xuất, đánh giá, và triển khai ứng dụng hoàn chỉnh. Các thành phần khác nhau có thể được phát triển song song khi phù hợp, nhưng trình tự tổng thể được thiết kế sao cho pipeline truy xuất được xác thực trước khi tích hợp vào ứng dụng AWS cuối cùng.
+
+### Các giai đoạn phát triển
+
+**Giai đoạn 1 – Nền tảng AWS và xác định dự án**
+
+Nhóm trước tiên xây dựng hiểu biết chung về các dịch vụ AWS cần thiết cho dự án, đồng thời xác định bài toán, mục tiêu, kiến trúc và phương pháp đánh giá của CloudHop RAG. Giai đoạn này cũng bao gồm việc tìm hiểu về RAG, text embedding, hỏi-đáp đa bước, và cấu trúc của HotpotQA.
+
+**Giai đoạn 2 – Chuẩn bị dữ liệu và baseline truy xuất**
+
+HotpotQA sẽ được kiểm tra và chuyển đổi sang định dạng nhất quán cho các thử nghiệm truy xuất. Các phương pháp truy xuất từ vựng và dense ban đầu sẽ được phát triển để thiết lập baseline và xác định những khó khăn truy xuất chính của câu hỏi đa bước.
+
+**Giai đoạn 3 – Truy xuất đa bước nâng cao**
+
+Pipeline truy xuất sẽ được mở rộng với BM25, embedding BGE-M3, truy xuất hybrid, biểu diễn tài liệu parent-child, phân rã truy vấn (query decomposition), truy xuất đa bước thích nghi, và rerank bằng chứng. Mục tiêu của giai đoạn này là cải thiện khả năng thu thập bằng chứng bổ sung cho nhau từ nhiều tài liệu của hệ thống.
+
+**Giai đoạn 4 – Đánh giá và chuẩn bị artifact**
+
+Nhóm sẽ đánh giá chất lượng truy xuất bằng bằng chứng hỗ trợ của HotpotQA và đo chất lượng câu trả lời bằng Exact Match và F1. Các artifact truy xuất như corpus đã xử lý, chỉ mục BM25, mapping tài liệu, embedding và manifest cũng sẽ được chuẩn bị ở định dạng có thể tái sử dụng cho việc triển khai.
+
+**Giai đoạn 5 – Backend AWS và triển khai truy xuất**
+
+Các artifact truy xuất đã được xác thực sẽ được chuyển lên AWS. Amazon S3 sẽ lưu trữ corpus và các artifact truy xuất, trong khi Amazon S3 Vectors cung cấp khả năng tìm kiếm vector dense. Backend RAG sẽ được triển khai trên Amazon EC2 và cấu hình với các quyền cần thiết để truy cập dịch vụ lưu trữ và tìm kiếm vector.
+
+**Giai đoạn 6 – Tích hợp API và frontend**
+
+Amazon API Gateway sẽ được dùng để expose backend qua một API HTTPS. Một frontend web sẽ được triển khai qua AWS Amplify và kết nối với API để người dùng có thể gửi câu hỏi và xem câu trả lời được sinh ra cùng các nguồn hỗ trợ.
+
+**Giai đoạn 7 – Xác thực hệ thống và hoàn thiện**
+
+Ứng dụng hoàn chỉnh sẽ được kiểm thử xuyên suốt từ frontend qua API, backend, các dịch vụ truy xuất, cho đến mô hình ngôn ngữ. Nhóm sẽ xác thực chức năng, hành vi truy xuất, chất lượng câu trả lời và thời gian phản hồi trước khi hoàn thiện workshop triển khai và tài liệu dự án.
+
+### Tiến độ dự án theo tuần
+
+| Tuần | Hoạt động dự kiến của nhóm |
+| --- | --- |
+| **Tuần 1**<br>08/06 – 12/06 | **Nền tảng AWS và định hướng dự án.** Ôn lại kiến thức nền tảng AWS, AWS Console và CLI, EC2, cùng các yêu cầu của kỳ thực tập. Thảo luận các hướng dự án AI khả thi và chuẩn bị môi trường phát triển. |
+| **Tuần 2**<br>15/06 – 19/06 | **Lưu trữ, bảo mật và networking trên AWS.** Học và thực hành với Amazon S3, IAM, VPC, security group, và quyền dịch vụ. Xây dựng nền kiến thức AWS cần thiết cho kiến trúc ứng dụng sau này. |
+| **Tuần 3**<br>22/06 – 26/06 | **Xác định dự án và nghiên cứu RAG.** Tìm hiểu embedding, semantic search, RAG, và hỏi-đáp đa bước. Chọn HotpotQA làm benchmark và xác định kiến trúc, mục tiêu, chiến lược đánh giá ban đầu của CloudHop RAG. |
+| **Tuần 4**<br>29/06 – 03/07 | **Chuẩn bị dữ liệu và baseline truy xuất.** Chuẩn bị dữ liệu HotpotQA, gắn kết câu hỏi với bằng chứng hỗ trợ, và phát triển các phương pháp truy xuất từ vựng, dense ban đầu để thiết lập baseline. |
+| **Tuần 5**<br>06/07 – 10/07 | **Phát triển truy xuất nâng cao.** Phát triển truy xuất BM25 và BGE-M3, tìm kiếm hybrid, biểu diễn tài liệu parent-child, phân rã truy vấn, truy xuất đa bước thích nghi, và rerank bằng chứng. |
+| **Tuần 6**<br>13/07 – 17/07 | **Xây dựng pipeline và chuẩn bị đánh giá.** Tổ chức các module và cấu hình dự án có thể tái sử dụng, xác thực sự khớp của dữ liệu, xây dựng artifact truy xuất có phiên bản, và chuẩn bị quy trình benchmark, đánh giá. |
+| **Tuần 7**<br>20/07 – 24/07 | **Đánh giá và chuẩn bị triển khai AWS.** Đánh giá chất lượng truy xuất và câu trả lời, phân tích độ trễ, hoàn thiện kiến trúc production, upload artifact truy xuất lên Amazon S3, chuẩn bị Amazon S3 Vectors, và cấu hình môi trường backend Amazon EC2. |
+| **Tuần 8**<br>27/07 – 31/07 | **Tích hợp AWS hoàn chỉnh và hoàn thiện dự án.** Hoàn tất triển khai backend FastAPI trên EC2, kết nối Amazon S3 và S3 Vectors, cấu hình quyền truy cập IAM và Systems Manager, expose backend qua Amazon API Gateway, triển khai frontend với AWS Amplify, xác thực toàn bộ ứng dụng end-to-end, tổng hợp kết quả đánh giá, và hoàn thiện workshop cùng tài liệu kỹ thuật. |
+
+## Ước tính ngân sách
+
+AWS CloudHop RAG được lên kế hoạch như một workload thực tập và demo có quy mô nhỏ, với dung lượng lưu trữ và số lượng request tương đối thấp. Phần lớn các dịch vụ managed được ứng dụng sử dụng tính phí theo mức dùng, trong khi instance compute cho backend được dự kiến sẽ chiếm phần lớn nhất trong chi phí vận hành.
+
+| Tài nguyên | Mức sử dụng dự kiến | Ghi chú về chi phí |
 | --- | --- | --- |
-| Lỗi truy xuất bridge-entity (tài liệu đúng không bao giờ lọt vào candidate pool) | Trung bình | Cao — giới hạn trực tiếp EM/F1 có thể đạt được |
-| Câu trả lời cuối bị hallucinate hoặc không có căn cứ | Trung bình | Cao — làm suy yếu giá trị cốt lõi của RAG |
-| Độ trễ request tiệm cận/vượt timeout ~30s của API Gateway trên EC2 chỉ có CPU | Trung bình | Trung bình — request thất bại trong demo |
-| Tập đánh giá nhỏ (validation slice 500 tài liệu) đánh giá quá cao độ chính xác thực tế | Cao | Trung bình — kết quả có thể không generalize sang corpus lớn hơn |
-| Giới hạn rate limit hoặc lỗi tạm thời của Groq API trong lúc đánh giá hoặc demo | Trung bình | Thấp–Trung bình — được xử lý bằng retry/fallback, nhưng vẫn có thể làm giảm chất lượng một vài câu trả lời đơn lẻ |
-| Không có authentication trên API demo công khai | Cao (chủ đích, cho một demo) | Thấp với một demo workshop ngắn hạn, cao hơn nếu để chạy lâu dài |
-| Giới hạn tài nguyên free-tier hạn chế khả năng của pipeline: (a) cross-encoder reranker phải giữ ở trạng thái tắt trong production vì quá chậm trên một instance EC2 Free-Tier chỉ có CPU; (b) giới hạn token/phút theo từng model của tier miễn phí Groq làm throttle hoặc chặn các lệnh gọi decomposition/hop-planning/generation dưới bất kỳ tải đồng thời thực tế nào; (c) bước truy xuất hybrid BM25+vector đôi khi có thể lỗi hoặc timeout dưới giới hạn CPU/memory của một instance Free-Tier đang chạy đồng thời BM25 search và embedding inference | Cao | Cao — giảm trực tiếp chất lượng câu trả lời (không có rerank) và có thể gây thất bại request `/query` |
+| **Amazon EC2** | Một instance backend trong suốt quá trình phát triển và demo | Chi phí compute liên tục chính |
+| **Amazon S3** | Lưu trữ corpus và artifact truy xuất | Chi phí lưu trữ thấp ở quy mô dự án |
+| **Amazon S3 Vectors** | Lưu trữ và truy vấn vector dense | Phụ thuộc vào số vector lưu trữ và mức truy vấn |
+| **Amazon API Gateway** | Số lượng request API thấp | Tính phí theo request |
+| **AWS Amplify** | Host một frontend web nhỏ | Tính theo build, lưu trữ và băng thông |
+| **AWS IAM** | Kiểm soát quyền tài nguyên AWS | Không tính phí trực tiếp |
+| **AWS Systems Manager** | Quản trị EC2 | Gần như không tốn chi phí trực tiếp với mức dùng dự kiến |
+| **Groq API** | Inference LLM | Phụ thuộc vào model và mức sử dụng token |
 
-#### Chiến lược giảm thiểu
-- Lỗi bridge-entity được giảm thiểu bằng truy xuất hybrid BM25+vector với trọng số theo từng hop, một cap candidate riêng cho mỗi hop (để một hop nhiễu không lấn át một hop đúng ở sau), và một LLM hop-planner thích nghi phát hành một truy vấn follow-up nhắm mục tiêu thay vì dựa vào một lượt truy xuất duy nhất.
-- Hallucination được giảm thiểu bằng cách ràng buộc chặt việc sinh câu trả lời vào ngữ cảnh đã rerank, đã lọc (ngưỡng `CONTEXT_MIN_RERANK_SCORE`) và bằng cách giới hạn prompt sinh câu trả lời ở dạng ngắn, chỉ dựa vào ngữ cảnh, với một fallback "unknown" tường minh khi bằng chứng không đủ.
-- Rủi ro độ trễ được giảm thiểu bằng một endpoint `/warmup` được gọi khi dịch vụ khởi động lại và một cờ cấu hình `RAG_FAST_MODE` bỏ qua decomposition và thu nhỏ giới hạn top-k/hop cho lưu lượng demo.
-- Rủi ro generalize kém trên corpus nhỏ được giảm thiểu bằng một tập đánh giá hai tier tường minh (một tier "dễ" và một tier câu hỏi bridge khó hơn được mining, trải rộng trên corpus) tránh đánh giá quá cao chất lượng truy xuất chỉ từ một mẫu dễ.
-- Rủi ro rate-limit của Groq được giảm thiểu bằng throttle lệnh gọi theo từng model và retry tự động có backoff, tôn trọng header `Retry-After` của API, với một fallback an toàn (trả về câu hỏi gốc / dừng hop) nếu hết số lần retry.
-- Khoảng trống về authentication được chấp nhận trong suốt thời gian demo workshop và được đánh dấu tường minh là một giới hạn đã biết, với authentication dựa trên API-key hoặc IAM-authorizer được xác định là biện pháp giảm thiểu trước khi có bất kỳ bản triển khai dài hạn hoặc công khai nào.
-- Giới hạn tài nguyên free-tier được giảm thiểu một cách thực dụng thay vì loại bỏ hoàn toàn, vì nâng cấp compute/API tier nằm ngoài phạm vi của một demo chi phí bằng 0: reranker được giữ tắt mặc định trong production (`RAG_USE_RERANKER=false`) và chỉ dựa vào thứ tự truy xuất hybrid, đánh đổi một phần chất lượng câu trả lời để lấy một workload mà CPU Free-Tier có thể chịu được; rate limit theo từng model của Groq được tôn trọng chủ động qua một khoảng thời gian tối thiểu giữa các lệnh gọi tới cùng một model cộng với retry tự động tôn trọng header `Retry-After` (`groq_utils.py`), để một đợt tăng lưu lượng demo suy giảm nhẹ nhàng thay vì thất bại hoàn toàn; và các lỗi/timeout truy xuất hybrid không thường xuyên được xử lý bằng `RAG_FAST_MODE` (top-k nhỏ hơn, ít hop hơn, bỏ qua decomposition) để giữ dấu chân tài nguyên của bước truy xuất trong khả năng phục vụ tin cậy của instance Free-Tier, với rủi ro còn sót lại đã biết là một đợt tăng đột biến request đồng thời vẫn có thể gây thất bại cho lệnh gọi `/query`.
+Dự án sẽ giữ quy mô triển khai nhỏ và tránh để các tài nguyên không cần thiết chạy liên tục. Tài nguyên compute có thể được dừng khi không cần dùng, trong khi các artifact truy xuất bền vững vẫn được lưu trữ riêng trong S3 và S3 Vectors.
 
-#### Kế hoạch dự phòng
-Nếu độ chính xác truy xuất trên tier đánh giá khó không đạt mục tiêu sau khi đã tinh chỉnh trọng số hybrid và giới hạn lập kế hoạch hop, phương án dự phòng là thu hẹp phạm vi về tier dễ và một tập câu hỏi nhỏ hơn, được chọn lọc cho buổi trình diễn workshop, đồng thời ghi lại khoảng cách đó như việc cần làm trong tương lai. Nếu độ trễ EC2/API Gateway không thể đưa về dưới timeout ngay cả với `RAG_FAST_MODE`, phương án dự phòng là demo pipeline qua CLI cục bộ (`tools/query.py`) và một bản ghi hình walkthrough thay vì endpoint công khai trực tiếp. Nếu tier miễn phí/chi phí thấp của Groq bị dùng hết giữa dự án, phương án dự phòng là tạm thời giảm nhu cầu `GROQ_MIN_CALL_INTERVAL` bằng cách chạy các batch đánh giá ít hơn, nhỏ hơn, hoặc thay thế bằng một LLM hosted khác đứng sau cùng interface retry/throttle `groq_utils.py`.
+Vì vậy, ngân sách sẽ được quản lý chủ yếu bằng cách kiểm soát thời gian chạy của EC2, hạn chế các request không cần thiết, và dọn dẹp tài nguyên sau khi workshop và quá trình đánh giá hoàn tất.
 
-### 8. Kết quả kỳ vọng
-#### Cải tiến kỹ thuật
-Kết quả kỳ vọng là một cải thiện có thể đo lường được về Exact Match/F1 đa bước so với một baseline truy xuất một lượt (một vòng truy xuất, không decomposition, không rerank), có thể quy trực tiếp về stack truy xuất hybrid + lập kế hoạch hop thích nghi + rerank. Ngoài chỉ số chính, đánh giá candidate-coverage hai giai đoạn được kỳ vọng sẽ cho thấy độ phủ tài liệu (document-coverage) ở giai đoạn trước rerank cao hơn đáng kể so với một baseline truy vấn đơn giản, xác nhận rằng mức tăng độ chính xác đến từ việc tìm đúng bằng chứng chứ không chỉ từ việc xếp hạng tốt hơn trên một tập candidate vốn đã bị giới hạn.
+## Rủi ro và biện pháp giảm thiểu
 
-#### Giá trị dài hạn
-Vì việc tách offline/online và pipeline retrieval-decomposition-hop-planning-rerank-generation không phụ thuộc vào corpus cụ thể (mọi chi tiết riêng của corpus nằm trong một artifact bundle có phiên bản cộng với một tập nhỏ tham số cấu hình), giá trị dài hạn thực sự của dự án này là như một **sản phẩm RAG có thể tái sử dụng**, không phải một demo HotpotQA dùng một lần. Cùng một pipeline có thể được trỏ lại — bằng cách build một artifact bundle offline mới và đổi `index_id` — sang các bộ tài liệu có giá trị cao hơn, đòi hỏi suy luận cao hơn như tài liệu kỹ thuật/pháp lý/nghiên cứu nội bộ, đặc tả kỹ thuật, hoặc các knowledge base khác nơi câu hỏi thường xuyên đòi hỏi kết hợp fact từ nhiều tài liệu và nơi việc có căn cứ và truy vết được câu trả lời (nguồn trả về, điểm rerank, và mức sử dụng token) mang tính quyết định đối với business. Cơ chế lập kế hoạch hop thích nghi nói riêng được kỳ vọng sẽ generalize tốt sang bất kỳ domain nào có đặc điểm quan hệ "cầu nối" giữa các tài liệu, khiến kiến trúc này trở thành một nền tảng tiềm năng cho công cụ document-QA nội bộ trong tương lai thay vì một artifact workshop dùng rồi bỏ.
+| Rủi ro | Tác động có thể xảy ra | Biện pháp giảm thiểu dự kiến |
+| --- | --- | --- |
+| Không truy xuất được bằng chứng hỗ trợ liên quan | LLM nhận ngữ cảnh không đầy đủ và có thể đưa ra câu trả lời sai | Kết hợp truy xuất từ vựng và ngữ nghĩa, đồng thời đánh giá độ phủ bằng chứng hỗ trợ |
+| Truy xuất đa bước làm tăng thời gian phản hồi | Truy vấn có thể mất quá nhiều thời gian để hoàn tất | Giới hạn độ sâu truy xuất và kích thước candidate khi cần thiết |
+| Giới hạn rate limit hoặc lỗi tạm thời của LLM API | Quá trình đánh giá hoặc sinh câu trả lời có thể bị gián đoạn | Kiểm soát tốc độ gửi request, dùng cơ chế retry, và đánh giá có thể tiếp tục lại |
+| Dataset hoặc artifact truy xuất không nhất quán | Kết quả đánh giá có thể không phản ánh đúng chất lượng truy xuất | Xác thực sự khớp của dataset và tính toàn vẹn của artifact trước khi benchmark |
+| Cấu hình hoặc quyền AWS không chính xác | Các thành phần ứng dụng có thể không giao tiếp được với nhau | Sử dụng IAM role, quyền theo nguyên tắc least-privilege, và kiểm thử chức năng theo từng giai đoạn |
+| Tài nguyên cloud tiêu tốn nhiều hơn dự kiến | Chi phí dự án có thể tăng | Giữ quy mô triển khai nhỏ, dừng compute không dùng đến, và dọn dẹp tài nguyên sau khi sử dụng |
+
+## Kết quả kỳ vọng
+
+Khi kết thúc dự án, nhóm kỳ vọng sẽ có một ứng dụng RAG đa bước hoạt động được, có khả năng truy xuất bằng chứng từ HotpotQA, kết hợp thông tin từ nhiều tài liệu khi cần thiết, và sinh câu trả lời dựa trên ngữ cảnh đã truy xuất.
+
+Các kết quả đầu ra chính dự kiến bao gồm:
+
+- một quy trình chuẩn bị dữ liệu HotpotQA có thể tái sử dụng;
+- các thành phần truy xuất từ vựng và ngữ nghĩa;
+- một pipeline truy xuất hybrid và đa bước;
+- một quy trình đánh giá có thể tái tạo được;
+- các artifact truy xuất có thể lưu trữ và tái sử dụng độc lập với runtime của ứng dụng;
+- một môi trường backend và tìm kiếm vector được host trên AWS;
+- một giao diện web để gửi câu hỏi và xem câu trả lời cùng nguồn hỗ trợ;
+- đánh giá định lượng về chất lượng truy xuất và câu trả lời;
+- một workshop triển khai AWS hoàn chỉnh cùng tài liệu kỹ thuật.
+
+Ngoài bản thân ứng dụng cuối cùng, dự án còn nhằm mang lại cho nhóm kinh nghiệm thực tế trong việc kết nối thử nghiệm truy xuất và mô hình ngôn ngữ với hạ tầng cloud. HotpotQA cung cấp một benchmark có kiểm soát cho kỳ thực tập này, trong khi thiết kế RAG tổng thể sau này có thể được điều chỉnh để áp dụng cho các bộ tài liệu khác cần hỏi-đáp dựa trên bằng chứng.

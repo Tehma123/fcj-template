@@ -34,4 +34,3 @@ pre: " <b> 1.2. </b> "
 * Hiểu cách S3 Gateway endpoint giúp tài nguyên trong VPC truy cập S3 riêng tư mà không cần đi qua internet công cộng.
 
 * Có cái nhìn rõ ràng hơn về cách storage, identity và networking phối hợp với nhau để bảo mật một workload.
-* ...

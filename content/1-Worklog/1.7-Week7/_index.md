@@ -34,4 +34,3 @@ pre: " <b> 1.7. </b> "
 * Added CloudWatch logging and alarms to monitor pipeline errors and latency.
 
 * Confirmed the AWS-hosted pipeline produces the same results as the local prototype from Week 6.
-* ...

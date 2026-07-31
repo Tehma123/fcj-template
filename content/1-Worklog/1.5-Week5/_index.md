@@ -34,4 +34,3 @@ pre: " <b> 1.5. </b> "
 * Measured a baseline accuracy (EM/F1) and observed that naive, single-pass retrieval frequently fails on multi-hop questions that need evidence from more than one document.
 
 * Identified this gap as the motivation for exploring advanced RAG techniques next week.
-* ...

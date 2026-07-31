@@ -32,4 +32,3 @@ pre: " <b> 1.8. </b> "
 * Documented the full architecture, from data ingestion to deployment.
 
 * Wrapped up the internship deliverables: blogs, proposal, and self-evaluation.
-* ...

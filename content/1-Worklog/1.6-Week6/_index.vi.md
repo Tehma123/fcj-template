@@ -34,4 +34,3 @@ pre: " <b> 1.6. </b> "
 * Thêm bước re-ranking giúp cải thiện độ liên quan của context được truy xuất.
 
 * Đo được mức cải thiện độ chính xác rõ rệt (EM/F1) so với baseline naive RAG ở tuần 5 trên HotpotQA.
-* ...

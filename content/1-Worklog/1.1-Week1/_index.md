@@ -45,4 +45,3 @@ pre: " <b> 1.1. </b> "
   * Attaching an EBS volume
 
 * Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...

@@ -104,10 +104,6 @@ At runtime, the EC2 backend will load the required lexical retrieval artifacts f
 
 ## Project Plan
 
-The project will be developed gradually so that the retrieval approach can be evaluated before the complete AWS application is assembled.
-
-## Project Plan
-
 The project is planned as a team effort that progresses from AWS fundamentals and RAG research to retrieval development, evaluation, and full application deployment. Different components can be developed in parallel when appropriate, but the overall sequence is designed so that the retrieval pipeline is validated before it is integrated into the final AWS application.
 
 ### Development Phases

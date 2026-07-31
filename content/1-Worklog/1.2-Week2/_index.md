@@ -34,4 +34,3 @@ pre: " <b> 1.2. </b> "
 * Learned how S3 Gateway endpoints let resources inside a VPC reach S3 privately, without traversing the public internet.
 
 * Gained a clearer picture of how storage, identity, and networking work together to secure a workload.
-* ...

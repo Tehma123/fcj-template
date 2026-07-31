@@ -45,4 +45,3 @@ pre: " <b> 1.1. </b> "
   * Gắn EBS volume
 
 * Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
