@@ -40,3 +40,6 @@ Attended a workshop organized by FCAJ (First Cloud AI Journey). During the event
 - Personal Reflections: Engaging in real-time discussions and exploring technical scenarios made complex concepts far more intuitive and memorable. The event provided a great balance of reinforcing foundational knowledge while introducing fresh angles on leveraging cloud technology for real-world software solutions.
 
 - Overall Takeaway: It was a thoroughly rewarding learning experience that greatly boosted my motivation to dive deeper into cloud architecture and pursue further technical competencies in AWS.
+
+![Team-based Q&A round at the FCAJ Workshop](/images/4-EventsParticipated/event1.png)
+*A team answering a scenario question on Amazon S3 access control during the gamified Q&A round.*

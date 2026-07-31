@@ -24,7 +24,7 @@ Rather than treating retrieval as a single search, the pipeline can use the evid
 
 ## From Question to Answer
 
-![AWS CloudHop RAG architecture overview](/images/5-Workshop/5.1-Workshop-Overview/rag_diagram.png)
+![AWS CloudHop RAG architecture overview](/images/2-Proposal/AWS-RAG.drawio.png)
 
 When a user submits a question, the web interface hosted on **AWS Amplify** sends the request through **Amazon API Gateway** to the FastAPI backend running on **Amazon EC2**. The backend performs BM25 retrieval using artifacts stored in **Amazon S3** and dense retrieval against **Amazon S3 Vectors** using BGE-M3 embeddings.
 

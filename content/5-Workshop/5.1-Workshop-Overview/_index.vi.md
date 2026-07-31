@@ -24,7 +24,7 @@ Thay vì xem retrieval là một lần tìm kiếm duy nhất, pipeline có th�
 
 ## Từ câu hỏi đến câu trả lời
 
-![Sơ đồ tổng quan kiến trúc AWS CloudHop RAG](/images/5-Workshop/5.1-Workshop-Overview/rag_diagram.png)
+![Sơ đồ tổng quan kiến trúc AWS CloudHop RAG](/images/2-Proposal/AWS-RAG.drawio.png)
 
 Khi người dùng gửi câu hỏi, giao diện web được triển khai trên **AWS Amplify** gửi request qua **Amazon API Gateway** đến FastAPI backend chạy trên **Amazon EC2**. Backend thực hiện BM25 retrieval bằng các artifact được lưu trong **Amazon S3**, đồng thời thực hiện dense retrieval trên **Amazon S3 Vectors** bằng embedding BGE-M3.
 

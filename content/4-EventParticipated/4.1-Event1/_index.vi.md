@@ -40,3 +40,6 @@ Tham gia workshop do FCAJ (First Cloud AI Journey) tổ chức. Trong sự kiệ
 - Ấn tượng cá nhân: Việc được trực tiếp tham gia thảo luận và tiếp cận kiến thức dưới dạng các tình huống thực tế đã giúp tôi tiếp thu thông tin một cách tự nhiên và dễ nhớ hơn rất nhiều. Buổi workshop không chỉ củng cố lại các nền tảng lý thuyết đã biết mà còn mở ra những góc nhìn mới mẻ về cách ứng dụng công nghệ vào thực tiễn kinh doanh và phát triển phần mềm.
 
 - Đánh giá chung: Đây là một trải nghiệm học tập đầy giá trị, mang lại động lực lớn để tôi tiếp tục tìm hiểu sâu hơn về kiến trúc Cloud cũng như các chứng chỉ chuyên môn của AWS trong thời gian tới.
+
+![Vòng thi trả lời câu hỏi theo đội tại Workshop FCAJ](/images/4-EventsParticipated/event1.png)
+*Một đội đang trả lời câu hỏi tình huống về quyền truy cập Amazon S3 trong vòng thi trả lời câu hỏi theo đội.*
