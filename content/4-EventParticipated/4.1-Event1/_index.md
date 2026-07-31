@@ -7,11 +7,11 @@ pre: " <b> 4.1. </b> "
 ---
 
 
-# Summary Report: FCAJ Workshop
+# Summary Report: AWS Cloud Competition - Qualifying Round
 
 ### Event Information
 
-&emsp; **Event Name:** FCAJ Workshop
+&emsp; **Event Name:** AWS Cloud Competition - Qualifying Round
 
 &emsp; **Date & Time:** June 20, 2026
 
@@ -41,5 +41,5 @@ Attended a workshop organized by FCAJ (First Cloud AI Journey). During the event
 
 - Overall Takeaway: It was a thoroughly rewarding learning experience that greatly boosted my motivation to dive deeper into cloud architecture and pursue further technical competencies in AWS.
 
-![Team-based Q&A round at the FCAJ Workshop](/images/4-EventsParticipated/event1.png)
+![Team-based Q&A round at the AWS Cloud Competition - Qualifying Round](/images/4-EventsParticipated/event1.png)
 *A team answering a scenario question on Amazon S3 access control during the gamified Q&A round.*

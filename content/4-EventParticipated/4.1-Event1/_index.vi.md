@@ -7,11 +7,11 @@ pre: " <b> 4.1. </b> "
 ---
 
 
-# Bài thu hoạch: Workshop FCAJ
+# Bài thu hoạch: AWS Cloud Competition - Qualifying Round
 
 ### Thông tin sự kiện
 
-&emsp; **Tên sự kiện:** FCAJ Workshop
+&emsp; **Tên sự kiện:** AWS Cloud Competition - Qualifying Round
 
 &emsp; **Thời gian:** 20/06/2026
 
@@ -41,5 +41,5 @@ Tham gia workshop do FCAJ (First Cloud AI Journey) tổ chức. Trong sự kiệ
 
 - Đánh giá chung: Đây là một trải nghiệm học tập đầy giá trị, mang lại động lực lớn để tôi tiếp tục tìm hiểu sâu hơn về kiến trúc Cloud cũng như các chứng chỉ chuyên môn của AWS trong thời gian tới.
 
-![Vòng thi trả lời câu hỏi theo đội tại Workshop FCAJ](/images/4-EventsParticipated/event1.png)
+![Vòng thi trả lời câu hỏi theo đội tại AWS Cloud Competition - Qualifying Round](/images/4-EventsParticipated/event1.png)
 *Một đội đang trả lời câu hỏi tình huống về quyền truy cập Amazon S3 trong vòng thi trả lời câu hỏi theo đội.*
