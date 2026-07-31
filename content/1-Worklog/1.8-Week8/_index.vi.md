@@ -16,8 +16,8 @@ pre: " <b> 1.8. </b> "
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                        | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | --------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Tích hợp ingestion, retrieval, suy luận đa bước và generation thành một pipeline duy nhất, triển khai end-to-end          | 27/07/2026   | 27/07/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 3   | - **Thực hành:** đặt CloudFront trước API endpoint/static assets và hoàn thiện CloudWatch dashboard cho hệ thống đã deploy  | 28/07/2026   | 28/07/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Tích hợp ingestion, retrieval, suy luận đa bước và generation thành một pipeline duy nhất, triển khai end-to-end          | 27/07/2026   | 27/07/2026      |                                            |
+| 3   | - **Thực hành:** đặt CloudFront trước API endpoint/static assets và hoàn thiện CloudWatch dashboard cho hệ thống đã deploy  | 28/07/2026   | 28/07/2026      |                                            |
 | 4   | - Chạy đánh giá cuối cùng trên tập test của HotpotQA và ghi nhận độ chính xác cùng độ trễ end-to-end                        | 29/07/2026   | 29/07/2026      |                                            |
 | 5   | - Ghi lại kiến trúc cuối cùng, tổng hợp kết quả, chuẩn bị blog, proposal và self-evaluation để nộp báo cáo thực tập          | 30/07/2026   | 30/07/2026      |                                            |
 

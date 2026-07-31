@@ -16,8 +16,8 @@ pre: " <b> 1.8. </b> "
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                  | Start Date | Completion Date | Reference Material                        |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Integrate ingestion, retrieval, multi-hop reasoning, and generation into a single end-to-end deployed pipeline                     | 07/27/2026 | 07/27/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 3   | - **Practice:** put CloudFront in front of the API endpoint/static assets and finalize the CloudWatch dashboard for the deployed system | 07/28/2026 | 07/28/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Integrate ingestion, retrieval, multi-hop reasoning, and generation into a single end-to-end deployed pipeline                     | 07/27/2026 | 07/27/2026      |                                            |
+| 3   | - **Practice:** put CloudFront in front of the API endpoint/static assets and finalize the CloudWatch dashboard for the deployed system | 07/28/2026 | 07/28/2026      |                                            |
 | 4   | - Run the final evaluation on the HotpotQA test sample and record end-to-end accuracy and latency                                    | 07/29/2026 | 07/29/2026      |                                            |
 | 5   | - Document the final architecture, write up results, and prepare the internship's blogs, proposal, and self-evaluation for submission | 07/30/2026 | 07/30/2026      |                                            |
 

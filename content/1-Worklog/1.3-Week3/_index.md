@@ -16,11 +16,11 @@ pre: " <b> 1.3. </b> "
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                                                  | Start Date | Completion Date | Reference Material                        |
 | --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Learn CloudWatch: <br>&emsp; + Metrics <br>&emsp; + Log groups & log streams <br>&emsp; + Alarms & dashboards                                                                     | 06/22/2026 | 06/22/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 3   | - **Practice:** create a CloudWatch alarm on EC2 CPU utilization; ship EC2 logs to CloudWatch Logs using the CloudWatch agent                                                       | 06/23/2026 | 06/23/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Learn CloudFront: <br>&emsp; + Distributions & origins (S3/EC2) <br>&emsp; + Edge locations & caching behavior <br>&emsp; + Origin Access Control (OAC)                          | 06/24/2026 | 06/24/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - **Practice:** create a CloudFront distribution in front of an S3 bucket, restrict direct S3 access with OAC, and test cache invalidation                                          | 06/25/2026 | 06/25/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - Build a CloudWatch dashboard combining EC2 and CloudFront metrics <br> - Review the week's work with mentor                                                                       | 06/26/2026 | 06/26/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Learn CloudWatch: <br>&emsp; + Metrics <br>&emsp; + Log groups & log streams <br>&emsp; + Alarms & dashboards                                                                     | 06/22/2026 | 06/22/2026      |                                            |
+| 3   | - **Practice:** create a CloudWatch alarm on EC2 CPU utilization; ship EC2 logs to CloudWatch Logs using the CloudWatch agent                                                       | 06/23/2026 | 06/23/2026      |                                            |
+| 4   | - Learn CloudFront: <br>&emsp; + Distributions & origins (S3/EC2) <br>&emsp; + Edge locations & caching behavior <br>&emsp; + Origin Access Control (OAC)                          | 06/24/2026 | 06/24/2026      |                                            |
+| 5   | - **Practice:** create a CloudFront distribution in front of an S3 bucket, restrict direct S3 access with OAC, and test cache invalidation                                          | 06/25/2026 | 06/25/2026      |                                            |
+| 6   | - Build a CloudWatch dashboard combining EC2 and CloudFront metrics <br> - Review the week's work with mentor                                                                       | 06/26/2026 | 06/26/2026      |                                            |
 
 
 ### Week 3 Achievements:

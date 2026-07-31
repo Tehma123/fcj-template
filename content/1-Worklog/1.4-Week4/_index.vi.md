@@ -16,8 +16,8 @@ pre: " <b> 1.4. </b> "
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Tìm hiểu tổng quan SageMaker: <br>&emsp; + Studio / notebook instance <br>&emsp; + Training job & model registry <br>&emsp; + Endpoint | 29/06/2026   | 29/06/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 3   | - **Thực hành:** khởi tạo một SageMaker notebook instance, load một model pretrained nhỏ và chạy inference                              | 30/06/2026   | 30/06/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Tìm hiểu tổng quan SageMaker: <br>&emsp; + Studio / notebook instance <br>&emsp; + Training job & model registry <br>&emsp; + Endpoint | 29/06/2026   | 29/06/2026      |                                            |
+| 3   | - **Thực hành:** khởi tạo một SageMaker notebook instance, load một model pretrained nhỏ và chạy inference                              | 30/06/2026   | 30/06/2026      |                                            |
 | 4   | - Tìm hiểu text embeddings: <br>&emsp; + Embedding là gì <br>&emsp; + Cosine similarity <br>&emsp; + Vì sao embeddings hỗ trợ semantic search | 01/07/2026   | 01/07/2026      |                                            |
 | 5   | - **Thực hành:** sinh embeddings cho một tập nhỏ đoạn văn bản trong SageMaker notebook và tính độ tương đồng giữa chúng                  | 02/07/2026   | 02/07/2026      |                                            |
 | 6   | - Khảo sát cấu trúc bộ dữ liệu HotpotQA (câu hỏi, supporting facts, đoạn văn bản ngữ cảnh) để chuẩn bị cho dự án RAG                     | 03/07/2026   | 03/07/2026      | <https://hotpotqa.github.io/>             |

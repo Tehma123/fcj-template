@@ -6,23 +6,6 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-# Secure Hybrid Access to S3 using VPC Endpoints
+![Offline ingestion pipeline: corpus.jsonl is split into parent/child chunks, the child chunks are embedded with BAAI/bge-m3 and indexed with BM25, an index_manifest.json records the embedding model/chunk sizes/paths, then embeddings are uploaded to S3 Vectors and docs/BM25 index/manifest are uploaded to S3](/images/5-Workshop/offline_ingestion_pipeline.png)
 
-#### Overview
-
-**AWS PrivateLink** provides private connectivity to AWS services from VPCs and your on-premises networks, without exposing your traffic to the Public Internet.
-
-In this lab, you will learn how to create, configure, and test VPC endpoints that enable your workloads to reach AWS services without traversing the Public Internet.
-
-You will create two types of endpoints to access Amazon S3: a Gateway VPC endpoint, and an Interface VPC endpoint. These two types of VPC endpoints offer different benefits depending on if you are accessing Amazon S3 from the cloud or your on-premises location
-+ **Gateway** - Create a gateway endpoint to send traffic to Amazon S3 or DynamoDB using private IP addresses.You route traffic from your VPC to the gateway endpoint using route tables.
-+ **Interface** - Create an interface endpoint to send traffic to endpoint services that use a Network Load Balancer to distribute traffic. Traffic destined for the endpoint service is resolved using DNS.
-
-#### Content
-
-1. [Workshop overview](5.1-Workshop-overview)
-2. [Prerequiste](5.2-Prerequiste/)
-3. [Access S3 from VPC](5.3-S3-vpc/)
-4. [Access S3 from On-premises](5.4-S3-onprem/)
-5. [VPC Endpoint Policies (Bonus)](5.5-Policy/)
-6. [Clean up](5.6-Cleanup/)
+![Online query pipeline: POST /query is decomposed by an LLM, retrieved via hybrid BM25 + vector search fused with RRF, expanded from child chunk to parent document, checked by an adaptive hop planner that can loop back for another query, optionally reranked, then answered by an LLM](/images/5-Workshop/online_query_pipeline.png)

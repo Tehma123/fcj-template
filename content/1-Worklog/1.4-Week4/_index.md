@@ -16,8 +16,8 @@ pre: " <b> 1.4. </b> "
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                             | Start Date | Completion Date | Reference Material                        |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Learn SageMaker overview: <br>&emsp; + Studio / notebook instances <br>&emsp; + Training jobs & model registry <br>&emsp; + Endpoints            | 06/29/2026 | 06/29/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 3   | - **Practice:** launch a SageMaker notebook instance, load a small pretrained model, and run inference                                            | 06/30/2026 | 06/30/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Learn SageMaker overview: <br>&emsp; + Studio / notebook instances <br>&emsp; + Training jobs & model registry <br>&emsp; + Endpoints            | 06/29/2026 | 06/29/2026      |                                            |
+| 3   | - **Practice:** launch a SageMaker notebook instance, load a small pretrained model, and run inference                                            | 06/30/2026 | 06/30/2026      |                                            |
 | 4   | - Learn text embeddings: <br>&emsp; + What an embedding is <br>&emsp; + Cosine similarity <br>&emsp; + Why embeddings enable semantic search       | 07/01/2026 | 07/01/2026      |                                            |
 | 5   | - **Practice:** generate embeddings for a small set of text passages inside a SageMaker notebook and compute similarity scores between them        | 07/02/2026 | 07/02/2026      |                                            |
 | 6   | - Explore the HotpotQA dataset structure (questions, supporting facts, context paragraphs) to prepare for the RAG project                          | 07/03/2026 | 07/03/2026      | <https://hotpotqa.github.io/>             |
