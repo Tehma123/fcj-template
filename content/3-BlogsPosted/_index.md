@@ -15,5 +15,5 @@ This blog introduces Amazon S3 Annotations, a new way to attach named, independe
 ###  [Blog 2 - AWS Cost Optimization: Don't Just Look at the Bill](3.2-Blog2/)
 This blog walks through the AWS Well-Architected approach to cost optimization: knowing where cost comes from, measuring it against business output, matching resources to demand, assigning clear ownership, and building it into a continuous habit instead of a one-time cut.
 
-###  [Blog 3 - Extending Amazon CloudWatch with Cribl Stream for Any Data Source](3.3-Blog3/)
-This blog explains how Cribl Stream, an AWS partner solution, extends Amazon CloudWatch's native log ingestion to sources outside the AWS ecosystem (syslog, Apache Kafka, APM tools) through a lean 3-tier architecture, and how the resulting normalized logs can even be queried directly by AI agents via the Amazon CloudWatch MCP server.
+###  [Blog 3 - Amazon SQS Fair Queues: Ending the "Noisy Neighbor" Problem in Multi-Tenant Systems](3.3-Blog3/)
+This blog explains Amazon SQS Fair Queues, a new feature that automatically reorders message delivery to protect quiet tenants from a noisy one on a shared queue, using the existing `MessageGroupId` field and new CloudWatch fairness metrics, with no consumer-side code changes required.

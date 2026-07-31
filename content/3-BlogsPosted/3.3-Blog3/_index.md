@@ -6,59 +6,64 @@ chapter: false
 pre: " <b> 3.3. </b> "
 ---
 
-# Detailed Guide: Extending Amazon CloudWatch with Cribl Stream for Any Data Source
+# Amazon SQS Fair Queues: Ending the "Noisy Neighbor" Problem in Multi-Tenant Systems
 
-In hybrid or multi-cloud management environments, organizations frequently need to collect telemetry data from complex sources such as proprietary network devices, on-premises APM tools, or Apache Kafka data streams.
+![Blog post published on the AWS Study Group VN Facebook group](/images/BlogsPosted/blog3.png)
+*Posted to the AWS Study Group VN Facebook group.*
 
-While Amazon CloudWatch already provides native log ingestion for more than 60 AWS services and 20 third-party tools, data sources outside this ecosystem still require complex normalization work. This is where Cribl Stream — an AWS partner solution — shines, letting you bring hundreds of diverse data sources into CloudWatch seamlessly.
+Message queues have long been the backbone of distributed architectures — a buffer that keeps a system from collapsing under a sudden traffic spike. Amazon SQS has always been a go-to choice thanks to its near-unlimited scalability.
 
-## 1. How Cribl Stream Works
+But there's a problem that almost every team building a multi-tenant system on a shared queue has run into: one "noisy" tenant can slow down every other tenant sharing that queue.
 
-Cribl Stream acts as an intermediary pipeline sitting between source systems and CloudWatch Logs. Here are the core technical benefits:
+## 1. What Is the "Noisy Neighbor" Problem?
 
-- **Broad source support:** Cribl Stream can ingest logs from syslog, Apache Kafka, APM tools, security agents, as well as sources based on HTTP, TCP, and UDP protocols.
-- **No intermediary resources needed:** Data is written directly into a CloudWatch log group via the `PutLogEvents` API. This architecture completely removes the need for intermediate storage, SQS queues, or processing Lambda functions.
-- **Data integrity guarantee:** A persistent queue inside Cribl Stream protects data from being lost during network errors or temporary CloudWatch Logs outages.
-- **Replay capability:** Administrators can replay raw data for auditing, security investigation, or incident handling purposes.
+In a multi-tenant system sharing a single SQS queue, if one tenant suddenly sends a huge volume of messages or processes its own messages very slowly, a regular queue still delivers older messages first based on overall arrival order. This buries other tenants' messages further back in line, increasing message dwell time for every other tenant — even ones that never caused any problem. In other words, a single noisy neighbor can drag down the quality of service for an entire shared system.
 
-## 2. The Standard 3-Tier Architecture
+## 2. How Amazon SQS Fair Queues Solves This
 
-This connection model is designed around three lean architectural tiers:
+Amazon SQS Fair Queues is a new feature that automatically mitigates the impact of a noisy neighbor by intelligently reordering message delivery, prioritizing "quiet" tenants whenever one tenant is found to be dominating consumer resources.
 
-| Architecture Tier | Technical Characteristics |
-|---|---|
-| **Source (Upstream)** | Each logical source system should write to its own separate log group (e.g., `/apps/any-company-firewall`) to make access control and retention policies easier to manage. |
-| **Cribl Stream** | Can run on an Amazon EC2 instance from AWS Marketplace or as a container inside a VPC. Here, logs are automatically normalized into OCSF or OTel format. |
-| **CloudWatch Logs** | Normalized data is stored here, letting engineers run powerful queries with Logs Insights QL, OpenSearch PPL, or SQL. |
+### Identifying Tenants via MessageGroupId
 
-## 3. Optimal Configuration Steps
+The system uses the existing `MessageGroupId` field on a message to identify tenant boundaries. When sending a message, an application simply attaches a tenant identifier:
 
-Integration doesn't require writing any custom code. Instead, you just need to complete the following configuration:
+```java
+SendMessageRequest request = new SendMessageRequest()
+    .withQueueUrl(queueUrl)
+    .withMessageBody(messageBody)
+    .withMessageGroupId("tenant-123");  // Tenant identifier
+sqs.sendMessage(request);
+```
 
-### Deployment
-- You can use the managed SaaS version, Cribl.Cloud Suite, or self-host it via AWS Marketplace.
-- For closed environments, place Cribl Stream inside a private subnet and communicate through the CloudWatch Logs VPC endpoint (`com.amazonaws.logs`).
+### The Fairness Algorithm
 
-### Log Group & IAM Configuration
-- **Cost savings:** For infrequently accessed data (archival, compliance), choose the "Infrequent Access" log class when creating the CloudWatch log group.
-- **Tagging:** Use the `cw:datasource:name` and `cw:datasource:type` tags so CloudWatch can easily identify the log source.
-- **IAM security:** Attach an IAM role to the Cribl Stream instance with the `logs:CreateLogStream`, `logs:PutLogEvents`, and `logs:DescribeLogStreams` permissions. Restrict the Resource ARN so Cribl cannot write outside the designated log groups.
+SQS continuously monitors the distribution of in-flight messages across tenants. When it detects an imbalance, the system: (1) identifies the noisy tenant, (2) automatically reprioritizes messages from quiet tenants, and (3) still preserves the queue's overall throughput.
 
-### Destination
-- In Cribl, configure the destination to point to CloudWatch Logs using JSON format, IAM authentication, and enable the persistent queue.
-- If log volume is very high, enable compression and tune the batch size to avoid exceeding the `PutLogEvents` API limits.
+### No Consumer-Side Code Changes Required
 
-## 4. Cross-Source Analysis & Agentic AI Support
+Fair Queues works completely transparently to consumers — no changes to message-processing logic, no added API latency, and no throughput limitations.
 
-By bringing data from outside the AWS ecosystem to sit alongside AWS's own native logs, security investigation becomes far more flexible than before:
+## 3. Monitoring via CloudWatch
 
-- **Cross-system queries:** Use the built-in `@log` field to identify the origin of each data row. You can easily trace a suspicious IP address by joining data from the company firewall with the Amazon VPC Flow Logs stream.
-- **Cross-platform error analysis:** Combine data from an identity provider (IdP) and AWS CloudTrail to centrally detect failed login patterns. The `coalesce` function in a query helps read across differing log structures.
+The feature ships with new CloudWatch metrics dedicated to tracking queue fairness:
 
-### The Power of Agentic AI
+- `ApproximateNumberOfNoisyGroups`
+- `ApproximateNumberOfMessagesVisibleInQuietGroups`
+- `ApproximateNumberOfMessagesNotVisibleInQuietGroups`
+- `ApproximateNumberOfMessagesDelayedInQuietGroups`
+- `ApproximateAgeOfOldestMessageInQuietGroups`
 
-Notably, because the data is normalized into an open format, it can be connected to an Amazon CloudWatch MCP server. MCP (Model Context Protocol) is an open standard from the Linux Foundation that links large language models (LLMs) to real-world data.
+Combined with **CloudWatch Contributor Insights**, an operations team can pinpoint exactly which tenant is consuming a disproportionate share of resources, even across a system with thousands of distinct message groups.
 
-As a result, compatible AI assistants such as Claude Code, Kiro, or GitHub Copilot can analyze log data directly. Instead of writing SQL queries, on-call engineers simply need to ask the AI: *"Summarize the failed logins from the identity provider and AWS CloudTrail over the past hour"*, and the AI will return results based on real data.
+## 4. Benefits
 
-**Reference link:** <https://aws.amazon.com/blogs/mt/extend-amazon-cloudwatch-beyond-native-connectors-with-cribl-stream/>
+- Keeps message dwell time low for non-noisy tenants, even during a traffic spike from another tenant.
+- Removes the need for over-provisioning or building a custom tenant-isolation solution.
+- Preserves quality of service transparently, with no changes to existing architecture.
+- Still supports unlimited throughput, with no hard per-tenant quota imposed.
+
+## Conclusion
+
+Amazon SQS Fair Queues addresses exactly the problem so many multi-tenant systems run into: one noisy tenant shouldn't be the reason every other tenant gets delayed. By leveraging the existing `MessageGroupId` field and a fairness algorithm running behind the scenes, this feature delivers tenant isolation at the queue layer itself, with no changes required on the consumer side.
+
+**Reference link:** <https://aws.amazon.com/blogs/compute/building-resilient-multi-tenant-systems-with-amazon-sqs-fair-queues/>

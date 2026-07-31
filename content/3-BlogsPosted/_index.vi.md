@@ -15,5 +15,5 @@ Blog này giới thiệu Amazon S3 Annotations, một cách mới để gắn c�
 ###  [Blog 2 - Tối Ưu Chi Phí AWS: Đừng Chỉ Nhìn Vào Hóa Đơn](3.2-Blog2/)
 Blog này trình bày cách tiếp cận tối ưu chi phí theo AWS Well-Architected Framework: biết chi phí đến từ đâu, đo chi phí cùng với kết quả kinh doanh, điều chỉnh tài nguyên theo nhu cầu, xác định người phụ trách minh bạch và biến việc này thành một thói quen thay vì một đợt cắt giảm nhất thời.
 
-###  [Blog 3 - Mở Rộng Amazon CloudWatch Bằng Cribl Stream Cho Mọi Nguồn Dữ Liệu](3.3-Blog3/)
-Blog này trình bày cách Cribl Stream — một đối tác của AWS — mở rộng khả năng thu thập log tự nhiên của Amazon CloudWatch tới các nguồn nằm ngoài hệ sinh thái AWS (syslog, Apache Kafka, công cụ APM) thông qua kiến trúc 3 lớp tinh gọn, và cách dữ liệu log đã chuẩn hóa có thể được các AI agent truy vấn trực tiếp qua máy chủ Amazon CloudWatch MCP.
+###  [Blog 3 - Amazon SQS Fair Queues: Chấm Dứt Vấn Đề "Noisy Neighbor" Trong Hệ Thống Multi-Tenant](3.3-Blog3/)
+Blog này giới thiệu Amazon SQS Fair Queues, một tính năng mới tự động sắp xếp lại thứ tự giao tin nhắn để bảo vệ các tenant "yên tĩnh" khỏi một tenant "ồn ào" trên cùng một hàng đợi dùng chung, tận dụng trường `MessageGroupId` sẵn có cùng các metric CloudWatch mới về tính công bằng, không cần sửa đổi gì ở phía consumer.
