@@ -15,7 +15,7 @@ When an AWS bill goes up, many teams' first reaction is to look for resources to
 
 A cheaper system isn't necessarily a better one. If costs go down but the application gets slower, customers hit more errors, or the engineering team has to spend more time on operations, the business may be saving money the wrong way.
 
-According to the AWS Well-Architected Framework, cost optimization is a process that runs throughout a workload's entire lifecycle. The goal isn't always to pick the cheapest option — it's to use just enough resources to achieve the desired outcome while still meeting the system's requirements.
+According to the AWS Well-Architected Framework, cost optimization is a process that runs throughout a workload's entire lifecycle. The goal isn't always to pick the cheapest option – it's to use just enough resources to achieve the desired outcome while still meeting the system's requirements.
 
 Before asking "how much can we cut?", a business should answer four questions:
 
@@ -45,7 +45,7 @@ More importantly, cost allocation isn't just for reporting. When a team knows ho
 
 A rising total cost isn't necessarily a bad sign.
 
-Suppose a workload costs $100 to process 10,000 transactions — $0.01 per transaction. The next month, the bill rises to $120, but the system processes 15,000 transactions. Total cost went up 20%, while cost per transaction dropped to $0.008.
+Suppose a workload costs $100 to process 10,000 transactions – $0.01 per transaction. The next month, the bill rises to $120, but the system processes 15,000 transactions. Total cost went up 20%, while cost per transaction dropped to $0.008.
 
 In this case, the workload may actually be running more efficiently than before. That's why AWS recommends measuring cost alongside business output. Depending on the type of workload, a business can track:
 
@@ -91,7 +91,7 @@ What matters is that they have:
 * a regular review mechanism;
 * support from leadership.
 
-Without a clearly accountable owner, cost optimization easily becomes "everyone's job" — which, in the end, means it's really no one's primary responsibility.
+Without a clearly accountable owner, cost optimization easily becomes "everyone's job" – which, in the end, means it's really no one's primary responsibility.
 
 ## 5. Cost optimization has to become a habit
 

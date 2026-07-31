@@ -70,11 +70,14 @@ Browser (React / Vite)
 
 ### 5. Lộ trình & Mốc triển khai
 **Lộ trình dự án**
+- Thời gian thực tập: 10/6/2026 – 30/7/2026
 - Tuần 1–2: Chuẩn bị dữ liệu và truy xuất baseline một lượt (BM25 + dense embedding trên ChromaDB store cục bộ).
 - Tuần 3–4: Truy xuất hybrid qua Reciprocal Rank Fusion, cross-encoder reranking, và đánh giá chất lượng truy xuất ban đầu.
 - Tuần 5–6: Phân rã truy vấn bằng LLM và lập kế hoạch hop thích nghi; thay thế heuristic bridge-entity dựa trên regex ban đầu.
-- Tuần 7: Di chuyển sang Amazon S3 Vectors, đóng gói artifact offline có phiên bản (manifest + checksum), deploy lên Amazon EC2 phía sau Amazon API Gateway với frontend trên AWS Amplify, tối ưu độ trễ (`/warmup`, `RAG_FAST_MODE`), và chạy đầy đủ đánh giá EM/F1 + candidate-coverage.
-- Tuần 8: Hoàn thiện báo cáo cuối kỳ, tài liệu hóa (`docs/STEP_*.md`, proposal này), và thuyết trình workshop.
+- Tuần 7: Di chuyển sang Amazon S3 Vectors và đóng gói artifact offline có phiên bản (manifest + checksum).
+- Tuần 8: Deploy lên Amazon EC2 phía sau Amazon API Gateway, deploy frontend trên AWS Amplify, cấu hình tập trung qua SSM/Secrets Manager.
+- Tuần 9: Tối ưu độ trễ (`/warmup`, `RAG_FAST_MODE`) và chạy đầy đủ đánh giá EM/F1 + candidate-coverage.
+- Tuần 10: Báo cáo cuối kỳ, tài liệu hóa (`docs/STEP_*.md`, proposal này), và thuyết trình workshop.
 
 ### 6. Ước tính ngân sách
 Phần lớn hệ thống tính phí theo mức dùng và gần như miễn phí ở quy mô này — Amazon S3, Amazon S3 Vectors, Amazon API Gateway và AWS Amplify Hosting chỉ tính phí theo đúng những gì thực sự được lưu trữ hoặc request. Ngoại lệ nằm ở tầng compute: **Amazon EC2, Elastic IP gắn kèm, và EBS root volume đều tính phí liên tục theo giờ, bất kể có ai gửi truy vấn hay không**, và chỉ giảm bớt (chứ không loại bỏ hoàn toàn) khi dừng instance lúc không demo. Các con số dưới đây là **ước tính phục vụ mục đích lập kế hoạch**, không phải số tiền thực tế bị tính phí.

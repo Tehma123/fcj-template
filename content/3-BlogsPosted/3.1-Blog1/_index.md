@@ -38,7 +38,7 @@ Here, `mediainfo` stores the codec and resolution, `transcript` stores the dialo
 
 Each annotation is managed independently. The pipeline that generates the transcript can update `transcript` without touching the video itself or affecting metadata created by other pipelines.
 
-Each object version can have up to 1,000 annotations, with a maximum size of 1 MiB per annotation — up to 1 GiB of annotation metadata in total. This lets annotations hold far more detailed, structured processing output than object tags or user-defined metadata ever could.
+Each object version can have up to 1,000 annotations, with a maximum size of 1 MiB per annotation – up to 1 GiB of annotation metadata in total. This lets annotations hold far more detailed, structured processing output than object tags or user-defined metadata ever could.
 
 The object holds the raw data. The annotation tells you what that data is, how it has been processed, and what state it's in.
 
@@ -76,7 +76,7 @@ When the annotation table is enabled in S3 Metadata, S3 automatically writes ann
 S3 object → annotations → S3 Metadata → Athena / Iceberg tools → application or AI agent
 ```
 
-With this, a media company can find videos that have been moderated, have Vietnamese subtitles, and still hold distribution rights — without opening every file. Similarly, a document-processing system can find contracts that contain PII but haven't yet been approved.
+With this, a media company can find videos that have been moderated, have Vietnamese subtitles, and still hold distribution rights – without opening every file. Similarly, a document-processing system can find contracts that contain PII but haven't yet been approved.
 
 An AI agent can also use this metadata layer to narrow its search before reading the underlying data. Instead of seeing only an opaque object name like `archive/file_00873142.pdf`, the agent can rely on annotations about document type, language, processing status, or sensitivity level.
 
@@ -112,9 +112,9 @@ Before adopting this, there are four important points to consider:
 * Annotations are tied to each object version. Different versions of the same object have independent annotations.
 * The annotation table doesn't update instantly. S3 Metadata is better suited to data discovery and analytics than to real-time transactional tasks.
 * Annotation storage is billed at S3 Standard rates. This applies even when the underlying object sits in S3 Glacier or another storage class.
-* Maximum capacity isn't a usage target. Not all related data should be pushed into annotations — some content is still better stored as a separate object or in a dedicated database.
+* Maximum capacity isn't a usage target. Not all related data should be pushed into annotations – some content is still better stored as a separate object or in a dedicated database.
 
-It's also worth carefully testing how annotations behave during object copies, with S3 Replication, or with versioning enabled — especially if your system requires the object and its metadata to always stay in sync.
+It's also worth carefully testing how annotations behave during object copies, with S3 Replication, or with versioning enabled – especially if your system requires the object and its metadata to always stay in sync.
 
 ## Conclusion
 

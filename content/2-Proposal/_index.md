@@ -1,129 +1,202 @@
 ---
 title: "Proposal"
-date: 2024-01-01
+date: 2026-06-08
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
 
-# Retrieval-Augmented Generation for Multi-Hop Reasoning on HotpotQA
-## An Adaptive Hybrid-Retrieval RAG Pipeline with Hop-Aware Query Planning, Deployed on AWS
+## Project Overview
 
-### 1. Executive Summary
-This project designs and deploys a Retrieval-Augmented Generation (RAG) system to answer multi-hop reasoning questions from the HotpotQA dataset — questions whose answers require combining evidence from multiple documents rather than a single passage. The system is scoped as a full end-to-end demo: an offline indexing pipeline that chunks and embeds a HotpotQA validation slice, an online FastAPI retrieval-and-generation service exposing a public API, and a React front end for interactive testing. The target scale is a small, cost-conscious demo deployment (a 500-document HotpotQA validation subset, low query volume) rather than a production-scale service, intended for internal evaluation, workshop demonstration, and as a reference architecture that can later be scaled to larger corpora. Intended users are workshop reviewers, the engineering team evaluating retrieval quality, and future engineers who will extend the pipeline to other document collections.
+During the AWS First Cloud AI Journey internship, my team and I proposed **AWS CloudHop RAG**, a Retrieval-Augmented Generation system designed for questions that require information from more than one document. The project focuses on multi-hop question answering, where finding one relevant passage is often not enough to produce the correct answer.
 
-### 2. Problem Statement
-#### What's the Problem?
-Standalone large language models (LLMs) and single-pass QA systems often struggle with multi-hop questions, since the answer cannot be found in one document and requires retrieving and reasoning across several related passages. Without a retrieval step grounded in the source corpus, answers can be inaccurate, ungrounded, or miss intermediate reasoning steps. This matters specifically for HotpotQA-style questions because the two supporting documents are connected only through a shared "bridge" entity (e.g., a person, film, or organization mentioned in both articles) — a single dense- or keyword-search pass frequently retrieves one of the two documents but not both, and a naive one-shot RAG pipeline (retrieve once, then generate) has no mechanism to notice that the retrieved evidence is incomplete and search again.
+We chose **HotpotQA** as the main dataset because its questions are specifically designed around multi-hop reasoning and include annotated supporting evidence. This gives us a controlled environment to develop the retrieval pipeline and evaluate whether the system can find the documents needed to answer each question.
 
-#### The Solution
-The system retrieves relevant passages from the HotpotQA document corpus and uses a language model to generate the final answer conditioned on that retrieved evidence, chaining multiple retrieval/reasoning steps together to resolve multi-hop questions. Concretely, the stack combines: **BAAI/bge-m3** as the open-source dense embedding model; a **hybrid sparse + dense retriever** (BM25 via the `bm25s` library, fused with dense vector search through LangChain's `EnsembleRetriever` using weighted Reciprocal Rank Fusion); **Amazon S3 Vectors** (or a local ChromaDB instance for development) as the vector store; an **LLM-driven query decomposition and adaptive hop-planning loop** (via the Groq API, `llama-3.1-8b-instant`) that inspects evidence after each retrieval round and decides whether to stop or issue a more specific follow-up query; a **cross-encoder reranker** (`cross-encoder/ms-marco-MiniLM-L-6-v2`) to score candidate parent documents against the question; and a final **short-form answer generation** step matching HotpotQA's answer format for automated Exact Match / F1 scoring. The entire pipeline is orchestrated by a single `AdvancedRAGPipeline` class and served through a FastAPI application.
+The project is planned as an end-to-end application rather than only a retrieval experiment. Along with developing and evaluating the RAG pipeline, my team will deploy the main application components on AWS and provide a simple web interface for submitting questions and viewing generated answers with their supporting sources.
 
-#### Benefits and Return on Investment
-The primary benefit is measurably higher accuracy on multi-hop questions compared to a single-pass retrieval baseline, because the adaptive hop-planning loop specifically targets the bridge-entity failure mode described above instead of relying on one fixed retrieval pass. A secondary, longer-lived benefit is architectural reusability: because the offline indexing pipeline and the online query pipeline are strictly decoupled (all chunking/embedding/index-building happens once, offline; the online service only ever loads pre-built artifacts), the same codebase can be repointed at a different corpus by building a new artifact bundle and swapping one configuration parameter (`index_id`), with no code changes and no service redeployment. This makes the investment in the retrieval/reranking/hop-planning logic transferable to future, higher-value corpora (e.g., internal technical documentation) rather than a one-off HotpotQA demo. On cost, the demo is designed to run almost entirely within AWS Free Tier limits at low query volume (see Section 6), keeping the marginal cost of running and iterating on the workshop deployment close to zero.
+## Problem and Motivation
 
-### 3. Solution Architecture
-The system is split into two independent pipelines. The **offline pipeline** runs once per corpus/index version: it reads `corpus.jsonl`, splits each article into a *parent* chunk (the full article, used for generation context) and several *child* chunks (250–500 characters, used for search precision), embeds the child chunks with BAAI/bge-m3, builds a BM25 sparse index over the same child chunks, and writes a versioned `index_manifest.json` before uploading everything to Amazon S3 / Amazon S3 Vectors. The **online pipeline** runs per HTTP request: it loads the pre-built artifacts (never re-chunking or re-embedding), optionally decomposes the question into sub-questions, retrieves candidate parent documents through hybrid BM25+vector search fused by Reciprocal Rank Fusion, expands winning child chunks back to their parent article ("small-to-big"), asks an LLM hop-planner whether the gathered evidence is sufficient or another targeted search is needed (up to a configurable maximum number of hops), reranks the surviving candidates with a cross-encoder, builds a filtered context window, and finally asks an LLM to produce a short-form answer. The response returned to the caller includes the answer, the supporting source documents with their rerank scores, per-stage latency timings, and LLM token usage — making every request self-describing for debugging and cost monitoring.
+Retrieval-Augmented Generation improves question answering by retrieving relevant information from an external knowledge source before asking a language model to generate an answer. This helps the model rely on retrieved evidence instead of depending entirely on what it already knows.
 
-```text
-Browser (React / Vite)
-  -> HTTPS: AWS Amplify Hosting
-  -> HTTPS: Amazon API Gateway (HTTP API)     [terminates TLS, avoids browser "Mixed Content" errors]
-  -> HTTP:  Amazon EC2 (FastAPI under systemd)
-       -> Amazon S3                (processed docs + BM25 index + manifest)
-       -> Amazon S3 Vectors        (dense vector retrieval)
-       -> .env.prod on the instance (Groq API key + runtime config; Parameter Store/Secrets Manager migration designed, not yet deployed)
-       -> Groq API (third-party)   (query decomposition, hop planning, answer generation)
-```
+However, many RAG systems perform retrieval only once. This works well when the information needed to answer a question is contained in one relevant document, but it becomes less reliable when several pieces of evidence have to be connected.
 
-![AWS deployment architecture: Amplify -> API Gateway -> EC2 (VPC, public subnet) -> S3 (sparse search) and S3 Vectors (dense search), with EC2 calling the external Groq LLM API](/images/2-Proposal/AWS-RAG.drawio.png)
-*Deployment architecture: the browser reaches the FastAPI backend through Amplify and API Gateway; the EC2 instance (behind an IAM role, inside a VPC public subnet) reads sparse/dense indexes from S3 and S3 Vectors and calls the external Groq API directly for LLM inference. The diagram also shows the originally planned Secrets Manager / Systems Manager / CloudWatch integration; in the deployed system the Groq API key and all runtime configuration instead live in a single `.env.prod` file on the instance, and operational visibility comes from the systemd journal and manual `/health`/`/warmup` checks rather than CloudWatch — see the "AWS Services Used" note below.*
+A multi-hop question may require the system to first find one document, identify an important person, place, organization, or relationship from that evidence, and then use that information to locate another document. Missing either part of this evidence can lead to an incomplete or incorrect answer.
 
-#### AWS Services Used
-- **Amazon S3** — durable storage for offline artifacts: parent/child document JSONL files, the serialized BM25 index, and the index manifest that records embedding model, chunk sizes, and checksums for each build.
-- **Amazon S3 Vectors** — the managed vector-search service used for dense retrieval in production, queried per-request via `QueryVectors` and populated at build time via `PutVectors`; replaces a local ChromaDB instance used during development.
-- **Groq API** — hosts the LLMs used for query decomposition, adaptive hop planning, and short-form answer generation. The API key currently lives in plain text in a `.env.prod` file on the EC2 instance rather than in AWS Secrets Manager; a migration that loads the Groq key from AWS Secrets Manager and non-secret settings from AWS Systems Manager Parameter Store is designed and coded but **not yet deployed**, and is tracked as an open limitation rather than a solved problem.
-- **Amazon EC2, Amazon API Gateway, AWS Amplify Hosting, AWS Systems Manager Session Manager, AWS IAM, and an Elastic IP** — the compute, API, hosting, admin-access, access-control, and networking services that together host and expose the pipeline as a public demo endpoint (full breakdown in Section 4).
-- **No Amazon CloudWatch.** Amazon CloudWatch is not part of the implemented system; operational visibility instead comes from the EC2 instance's systemd journal and manual `/health` / `/warmup` checks.
+HotpotQA provides a useful benchmark for this problem because it contains both **bridge questions**, where one piece of evidence leads to another, and **comparison questions**, where information from multiple entities must be combined.
 
-#### Component Design
-- **Data Ingestion**: `scripts/build_offline_artifacts.py` reads a HotpotQA validation slice (`corpus.jsonl`), and `advanced_rag/chunking.py` parallelizes (via `multiprocessing.Pool`) the split into parent documents (full article text) and child documents (250–500 character chunks with a 20% overlap, using a recursive character splitter that prefers paragraph/sentence boundaries).
-- **Retrieval**: `advanced_rag/retrieval.py` builds a hybrid retriever per hop by combining a BM25 sparse retriever (`bm25s`) and a dense vector retriever (Amazon S3 Vectors or ChromaDB, backed by BAAI/bge-m3 embeddings) through LangChain's `EnsembleRetriever`, which merges the two ranked lists with weighted Reciprocal Rank Fusion; winning child chunks are then expanded back to their parent article ("small-to-big").
-- **Multi-Hop Reasoning**: `advanced_rag/query_optimizer.py` first decomposes the original question into ordered sub-questions with an LLM; `advanced_rag/hop_planner.py` then drives an adaptive loop (up to a configurable maximum number of hops) that reads the evidence retrieved so far and either declares the question answerable or proposes a new, more specific follow-up query grounded in a fact just discovered — replacing an earlier, brittle regex-based bridge-entity heuristic.
-- **Answer Generation**: `advanced_rag/rerank.py` scores surviving candidates with a cross-encoder against the original question and every sub-question/hop query, keeping only the top-N; `advanced_rag/generation.py` then prompts an LLM to produce the shortest correct answer span (forcing an explicit intermediate "Reasoning:" step for comparison-type questions before the final "Answer:" line).
-- **Evaluation**: `advanced_rag/qa_metrics.py` implements Exact Match and token-overlap F1 following the standard SQuAD/HotpotQA normalization rules; `evals/eval_hotpotqa.py` additionally measures *candidate coverage* at both the pre-rerank and post-rerank stages across an "easy" and a "hard" (mined bridge-question) tier, so that a retrieval failure can be attributed to the correct pipeline stage.
+For this project, we therefore want to explore whether combining lexical retrieval, semantic retrieval, and additional retrieval steps can provide more complete evidence for multi-hop questions while still being practical to deploy as an AWS application.
 
-### 4. Technical Implementation
-**Implementation Phases**
-1. Dataset preparation — build a HotpotQA validation subset (`corpus.jsonl`) and confirm document/answer format.
-2. Baseline retrieval — implement parent/child chunking, BM25 indexing, and dense embedding with BAAI/bge-m3 over a local ChromaDB store; validate single-pass retrieval quality.
-3. Hybrid retrieval and reranking — fuse BM25 and vector search via Reciprocal Rank Fusion, tune per-retriever weights, and add cross-encoder reranking.
-4. Multi-hop pipeline — add LLM-based query decomposition and adaptive hop planning, replacing the initial regex-based bridge-entity heuristic once its structural blind spots were identified.
-5. Cloud migration — move the vector store to Amazon S3 Vectors, package offline artifacts with a versioned manifest, and deploy the online service to Amazon EC2 behind Amazon API Gateway, with the front end on AWS Amplify.
-6. Evaluation and iteration — run `eval_hotpotqa.py` / `eval_full.py` for Exact Match/F1 and candidate-coverage diagnostics, and iterate on chunk size, top-k, and hop-planning limits based on measured results (see `docs/CHANGES_LOG.md`).
-7. Latency hardening — introduce a `/warmup` endpoint and a `RAG_FAST_MODE` configuration flag to keep request latency within API Gateway's timeout on CPU-only hardware.
+## Objectives and Scope
 
-**Technical Requirements**
-- Dataset: HotpotQA (multi-hop reasoning question-answering dataset), a 500-row validation slice for the demo deployment.
-- Frameworks/libraries: LangChain (`langchain-core`, `langchain-classic`, `langchain-chroma`, `langchain-huggingface`), `sentence-transformers` (BAAI/bge-m3 embeddings, `ms-marco-MiniLM-L-6-v2` cross-encoder reranker), `bm25s`, ChromaDB, FastAPI, and the Groq Python SDK.
-- AWS services/tools required to run and evaluate the pipeline: Amazon EC2 (backend compute), Amazon S3 (artifact storage), Amazon S3 Vectors (dense retrieval), Amazon API Gateway (public HTTPS API), AWS Amplify (frontend hosting), AWS Systems Manager Session Manager (admin access), and AWS IAM (instance role permissions in place of hard-coded credentials). Runtime configuration, including the Groq API key, currently lives in a `.env.prod` file on the instance; moving non-secret configuration to AWS Systems Manager Parameter Store and the Groq key to AWS Secrets Manager is designed but not yet deployed.
+### Project Objectives
 
-### 5. Timeline & Milestones
-**Project Timeline**
+The main objectives of AWS CloudHop RAG are to:
 
-- Weeks 1–2: Dataset preparation and baseline single-pass retrieval (BM25 + dense embedding over a local ChromaDB store).
-- Weeks 3–4: Hybrid retrieval via Reciprocal Rank Fusion, cross-encoder reranking, and initial retrieval-quality evaluation.
-- Weeks 5–6: LLM-based query decomposition and adaptive hop planning; replacement of the early regex bridge-entity heuristic.
-- Week 7: Migration to Amazon S3 Vectors, packaging of versioned offline artifacts (manifest + checksums), deployment to Amazon EC2 behind Amazon API Gateway with the front end on AWS Amplify, latency hardening (`/warmup`, `RAG_FAST_MODE`), and full EM/F1 + candidate-coverage evaluation runs.
-- Week 8: Final report, documentation (`docs/STEP_*.md`, this proposal), and workshop presentation.
+1. Develop a RAG pipeline that can answer multi-hop questions using evidence retrieved from multiple documents.
+2. Explore both lexical and semantic retrieval methods and combine their strengths through hybrid retrieval.
+3. Support additional retrieval steps when the evidence from the initial search is not sufficient.
+4. Evaluate retrieval quality separately from final answer quality so that retrieval failures can be identified clearly.
+5. Deploy the completed application using AWS services and provide a simple interface for interacting with the system.
+6. Build the project in a reproducible way so that retrieval artifacts, evaluation results, and deployment steps can be recreated and documented.
 
-### 6. Budget Estimation
-Most of the system is pay-per-use and close to free at this scale — Amazon S3, Amazon S3 Vectors, Amazon API Gateway, and AWS Amplify Hosting bill only for what is actually stored or requested. The exception is the compute tier: **Amazon EC2, its attached Elastic IP, and its EBS root volume all bill continuously by the hour, whether or not anyone sends a query**, and are only reduced (not eliminated) by stopping the instance when it is not being demonstrated. Figures below are **estimates for planning purposes**, not billed amounts.
+### Project Scope
 
-| AWS Service | Billing Shape | Assumed Demo Usage | Estimated Monthly Cost |
-| --- | --- | --- | --- |
-| Amazon EC2 (t2/t3.micro) | Continuous while running, billed hourly | 1 instance, ~730 hrs/month | $0.00 if still Free-Tier-eligible (first 12 months); billed hourly otherwise |
-| Amazon EC2 Elastic IP | Continuous, billed hourly regardless of instance state (current AWS public IPv4 pricing) | 1 address, kept associated | ~$3.60 |
-| Amazon EBS (root volume) | Continuous, billed even while the instance is stopped | 1 gp3 volume, ~20-30 GB | ~$2.00 |
-| Amazon S3 (Standard) | Per GB stored + requests | Offline artifacts well under 5 GB, low request volume | $0.00 (within Free Tier) |
-| Amazon S3 Vectors | Per vector stored + queries, no idle cost | ~500 documents, low query volume | ~$0.50 |
-| Amazon API Gateway (HTTP API) | Per request | A few hundred requests/month | $0.00 (within Free Tier) |
-| AWS Amplify Hosting | Build minutes + storage + transfer | 1 small React build, low viewer traffic | $0.00 (within Free Tier) |
-| AWS Systems Manager Session Manager | Always free | Occasional admin sessions; no Parameter Store parameters are created (config lives in `.env.prod`) | $0.00 |
-| AWS IAM | Always free | 1 instance role, 2 inline policies | $0.00 |
-| AWS Secrets Manager | Per secret per month | 1 secret exists but is **not yet wired into the application** (see Section 3) | ~$0.40 |
-| Groq API (non-AWS, pass-through) | Per token | Demo-level query volume | ~$0.00–$1.00 |
-| **Estimated total** | | | **~$6-8 / month while the instance runs continuously; near $0 additional beyond EC2/Elastic IP/EBS if stopped between demos** |
+The project will focus on the **HotpotQA Distractor** setting as the main development and evaluation environment.
 
-Amazon CloudWatch is intentionally absent from this table: it is not part of the implemented system, and monitoring instead relies on the EC2 instance's systemd journal and manual `/health`/`/warmup` checks. This estimate assumes the Free Tier clock has not already been exhausted by other workloads on the same account, and that traffic stays at demo scale; a production-scale deployment (higher query volume, larger corpus, GPU-backed inference) would require a separate, higher-traffic cost model.
+The planned scope includes:
 
-### 7. Risk Assessment
-#### Risk Matrix
-| Risk | Likelihood | Impact |
+- HotpotQA data preparation;
+- lexical and dense retrieval;
+- hybrid retrieval;
+- multi-hop evidence retrieval;
+- evidence ranking and context construction;
+- LLM-based answer generation;
+- retrieval and answer evaluation;
+- AWS storage and vector search;
+- cloud backend deployment;
+- API and frontend integration;
+- functional testing and technical documentation.
+
+The project is intended as an internship-scale implementation and evaluation rather than a production service for large numbers of users. Large-scale traffic, enterprise authentication, and deployment over very large document collections are outside the main scope.
+
+## Proposed Solution and Architecture
+
+### Proposed RAG Approach
+
+The proposed pipeline combines several retrieval strategies instead of relying on a single search method.
+
+The overall flow is:
+
+**Question → Query Analysis → Lexical and Semantic Retrieval → Multi-Hop Retrieval → Evidence Ranking → Context Construction → LLM Generation → Answer and Supporting Sources**
+
+For lexical retrieval, the project will use **BM25**, which is effective when important names, entities, or phrases in the question also appear directly in the source documents.
+
+For semantic retrieval, the project will use **BGE-M3 embeddings** to represent text as dense vectors. This allows the system to find relevant evidence even when the wording of the question and the source document is different.
+
+The results from lexical and semantic retrieval will be combined into a shared candidate set. For questions that require several pieces of information, the system will also explore additional retrieval steps based on evidence found earlier in the process.
+
+After retrieval, the strongest evidence will be ranked and reduced to a focused context before it is passed to the language model. The final response will contain both the generated answer and the supporting sources used to construct the context.
+
+### Proposed AWS Architecture
+
+The RAG pipeline will be deployed as a web application using several AWS services with separate responsibilities.
+
+![AWS CloudHop RAG proposed architecture](/images/2-Proposal/AWS-RAG.drawio.png)
+
+The planned application flow is:
+
+**User → AWS Amplify → Amazon API Gateway → Amazon EC2 → Amazon S3 / Amazon S3 Vectors → Groq API → Answer**
+
+| Component | Planned Role |
+| --- | --- |
+| **AWS Amplify** | Host the web frontend used to submit questions and display answers |
+| **Amazon API Gateway** | Provide an HTTPS API between the browser and backend |
+| **Amazon EC2** | Run the FastAPI backend and coordinate the RAG pipeline |
+| **Amazon S3** | Store the processed corpus, BM25 artifacts, mappings, and manifests |
+| **Amazon S3 Vectors** | Store and search dense BGE-M3 vectors |
+| **AWS IAM** | Control access between AWS resources |
+| **AWS Systems Manager** | Support administration and access to the EC2 backend |
+| **Groq API** | Provide language-model inference for the RAG pipeline |
+
+The retrieval artifacts will be prepared before serving user queries. This keeps expensive preprocessing such as document preparation, indexing, and embedding generation outside the online request path.
+
+At runtime, the EC2 backend will load the required lexical retrieval artifacts from Amazon S3 and query Amazon S3 Vectors for semantic retrieval. The retrieved evidence will then be processed by the RAG pipeline and sent to the language model to generate the final answer.
+
+## Project Plan
+
+The project will be developed gradually so that the retrieval approach can be evaluated before the complete AWS application is assembled.
+
+## Project Plan
+
+The project is planned as a team effort that progresses from AWS fundamentals and RAG research to retrieval development, evaluation, and full application deployment. Different components can be developed in parallel when appropriate, but the overall sequence is designed so that the retrieval pipeline is validated before it is integrated into the final AWS application.
+
+### Development Phases
+
+**Phase 1 – AWS Foundation and Project Definition**
+
+The team will first build a shared understanding of the AWS services required for the project and define the CloudHop RAG problem, objectives, architecture, and evaluation approach. This phase also includes studying RAG, text embeddings, multi-hop question answering, and the structure of HotpotQA.
+
+**Phase 2 – Dataset Preparation and Retrieval Baselines**
+
+HotpotQA will be inspected and transformed into a consistent format for retrieval experiments. Initial lexical and dense retrieval methods will be developed to establish a baseline and identify the main retrieval difficulties of multi-hop questions.
+
+**Phase 3 – Advanced Multi-Hop Retrieval**
+
+The retrieval pipeline will be extended with BM25, BGE-M3 embeddings, hybrid retrieval, parent-child document representation, query decomposition, adaptive multi-hop retrieval, and evidence reranking. The goal of this phase is to improve the system's ability to recover complementary evidence from multiple documents.
+
+**Phase 4 – Evaluation and Artifact Preparation**
+
+The team will evaluate retrieval quality using HotpotQA supporting evidence and measure answer quality using Exact Match and F1. Retrieval artifacts such as the processed corpus, BM25 index, document mappings, embeddings, and manifests will also be prepared in a reusable format for deployment.
+
+**Phase 5 – AWS Backend and Retrieval Deployment**
+
+The validated retrieval artifacts will be moved to AWS. Amazon S3 will store the corpus and retrieval artifacts, while Amazon S3 Vectors will provide dense vector search. The RAG backend will be deployed on Amazon EC2 and configured with the permissions required to access the storage and vector-search services.
+
+**Phase 6 – API and Frontend Integration**
+
+Amazon API Gateway will be used to expose the backend through an HTTPS API. A web frontend will be deployed through AWS Amplify and connected to the API so that users can submit questions and view generated answers together with supporting sources.
+
+**Phase 7 – System Validation and Finalization**
+
+The complete application will be tested from the frontend through the API, backend, retrieval services, and language model. The team will validate functionality, retrieval behavior, answer quality, and response time before finalizing the deployment workshop and project documentation.
+
+### Project Timeline
+
+| Week | Planned Team Activities |
+| --- | --- |
+| **Week 1**<br>08/06 – 12/06 | **AWS foundation and project orientation.** Review AWS fundamentals, AWS Console and CLI, EC2, and the internship requirements. Discuss possible AI project directions and prepare the development environment. |
+| **Week 2**<br>15/06 – 19/06 | **AWS storage, security, and networking.** Study and practice with Amazon S3, IAM, VPC, security groups, and service permissions. Establish the AWS knowledge required for the later application architecture. |
+| **Week 3**<br>22/06 – 26/06 | **Project definition and RAG research.** Study embeddings, semantic search, RAG, and multi-hop question answering. Select HotpotQA as the benchmark and define the initial CloudHop RAG architecture, objectives, and evaluation strategy. |
+| **Week 4**<br>29/06 – 03/07 | **Dataset preparation and retrieval baselines.** Prepare HotpotQA data, align questions with supporting evidence, and develop initial lexical and dense retrieval methods to establish a baseline. |
+| **Week 5**<br>06/07 – 10/07 | **Advanced retrieval development.** Develop BM25 and BGE-M3 retrieval, hybrid search, parent-child document representation, query decomposition, adaptive multi-hop retrieval, and evidence reranking. |
+| **Week 6**<br>13/07 – 17/07 | **Pipeline engineering and evaluation preparation.** Organize reusable project modules and configurations, validate dataset alignment, build versioned retrieval artifacts, and prepare the benchmark and evaluation workflow. |
+| **Week 7**<br>20/07 – 24/07 | **Evaluation and AWS deployment preparation.** Evaluate retrieval and answer quality, analyze latency, finalize the production architecture, upload retrieval artifacts to Amazon S3, prepare Amazon S3 Vectors, and configure the Amazon EC2 backend environment. |
+| **Week 8**<br>27/07 – 31/07 | **Full AWS integration and project finalization.** Complete the EC2 FastAPI backend deployment, connect Amazon S3 and S3 Vectors, configure IAM and Systems Manager access, expose the backend through Amazon API Gateway, deploy the frontend with AWS Amplify, validate the complete end-to-end application, consolidate evaluation results, and finalize the workshop and technical documentation. |
+
+## Budget Estimation
+
+AWS CloudHop RAG is planned as a small internship and demonstration workload with relatively low storage and request volume. Most managed services used by the application are usage-based, while the backend compute instance is expected to account for the largest part of the running cost.
+
+| Resource | Expected Usage | Cost Consideration |
 | --- | --- | --- |
-| Bridge-entity retrieval failure (correct documents never enter the candidate pool) | Medium | High — directly caps achievable EM/F1 |
-| Hallucinated or ungrounded final answers | Medium | High — undermines the core RAG value proposition |
-| Request latency approaching/exceeding API Gateway's ~30s timeout on CPU-only EC2 | Medium | Medium — failed requests in the demo |
-| Small evaluation set (500-document validation slice) overstating real-world accuracy | High | Medium — results may not generalize to larger corpora |
-| Groq API rate limits or transient errors during evaluation or demo | Medium | Low–Medium — handled by retry/fallback, but can still degrade single answers |
-| No authentication on the public demo API | High (by design, for a demo) | Low for a short-lived workshop demo, higher if left running long-term |
-| Free-tier resource constraints limit pipeline capability: (a) the cross-encoder reranker must stay disabled in production because it is too slow on a Free-Tier, CPU-only EC2 instance; (b) Groq's free-tier per-model token/minute cap throttles or blocks decomposition/hop-planning/generation calls under any real concurrent load; (c) the hybrid BM25+vector retrieval step can intermittently error out or time out under the limited CPU/memory of a Free-Tier instance running BM25 search and embedding inference concurrently | High | High — directly reduces answer quality (no rerank) and can cause failed `/query` requests |
+| **Amazon EC2** | One backend instance during development and demonstration | Main continuous compute cost |
+| **Amazon S3** | Store corpus and retrieval artifacts | Low storage cost at project scale |
+| **Amazon S3 Vectors** | Store and query dense vectors | Depends on stored vectors and query usage |
+| **Amazon API Gateway** | Low-volume API requests | Request-based |
+| **AWS Amplify** | Host a small web frontend | Build, storage, and transfer usage |
+| **AWS IAM** | Control AWS resource permissions | No direct service charge |
+| **AWS Systems Manager** | EC2 administration | Minimal or no direct cost for the planned usage |
+| **Groq API** | LLM inference | Depends on model and token usage |
 
-#### Mitigation Strategies
-- Bridge-entity failures are mitigated by hybrid BM25+vector retrieval with per-hop weighting, a per-hop candidate cap (so one noisy hop cannot crowd out a later correct one), and an adaptive LLM hop-planner that issues a targeted follow-up query instead of relying on a single retrieval pass.
-- Hallucination is mitigated by strictly conditioning generation on the reranked, filtered context (`CONTEXT_MIN_RERANK_SCORE` threshold) and by constraining the generation prompt to short-form, context-only answers with an explicit "unknown" fallback when evidence is insufficient.
-- Latency risk is mitigated by a `/warmup` endpoint invoked on service restart and a `RAG_FAST_MODE` configuration flag that skips decomposition and shrinks top-k/hop limits for demo traffic.
-- The small-corpus generalization risk is mitigated by an explicit two-tier evaluation set (an "easy" tier and a harder, mined bridge-question tier spread across the corpus) that avoids overstating retrieval quality from an easy sample alone.
-- Groq rate-limit risk is mitigated by per-model call throttling and automatic retry with backoff honoring the API's `Retry-After` header, with a safe fallback (return the original question / stop hopping) if retries are exhausted.
-- The authentication gap is accepted for the duration of the workshop demo and flagged explicitly as a known limitation, with API-key or IAM-authorizer-based authentication identified as the mitigation before any longer-lived or public deployment.
-- Free-tier resource constraints are mitigated pragmatically rather than eliminated, since upgrading compute/API tiers is out of scope for a zero-cost demo: the reranker is kept disabled by default in production (`RAG_USE_RERANKER=false`) and relies solely on hybrid retrieval order, trading some answer quality for a workload the Free-Tier CPU can sustain; Groq's per-model rate limit is respected proactively via a minimum call interval between requests to the same model plus automatic retry honoring the `Retry-After` header (`groq_utils.py`), so a burst of demo traffic degrades gracefully instead of failing outright; and intermittent hybrid-retrieval errors/timeouts are handled by `RAG_FAST_MODE` (smaller top-k, fewer hops, decomposition skipped) to keep the retrieval step's resource footprint within what the Free-Tier instance can reliably serve, with the known residual risk that a spike in concurrent requests can still cause failed `/query` calls.
+The project will keep the deployment small and avoid keeping unnecessary resources active. Compute resources can be stopped when they are not needed, while persistent retrieval artifacts remain stored separately in S3 and S3 Vectors.
 
-#### Contingency Plans
-If retrieval accuracy on the hard evaluation tier does not meet the target after tuning hybrid weights and hop-planning limits, the fallback plan is to reduce scope to the easy tier and a smaller, curated question set for the workshop demonstration while documenting the gap as future work. If EC2/API Gateway latency cannot be brought under the timeout even with `RAG_FAST_MODE`, the contingency is to demo the pipeline via the local CLI (`tools/query.py`) and a recorded walkthrough rather than the live public endpoint. If the Groq free/low-cost tier is exhausted mid-project, the contingency is to temporarily lower `GROQ_MIN_CALL_INTERVAL` demand by running fewer, smaller evaluation batches, or to swap in an alternative hosted LLM behind the same `groq_utils.py` retry/throttle interface.
+The budget will therefore be managed primarily by controlling EC2 runtime, limiting unnecessary requests, and cleaning up resources after the workshop and evaluation are complete.
 
-### 8. Expected Outcomes
-#### Technical Improvements
-The expected outcome is a measurable improvement in multi-hop Exact Match/F1 compared to a single-pass retrieval baseline (one retrieval round, no decomposition, no reranking), attributable specifically to the hybrid retrieval + adaptive hop-planning + reranking stack. Beyond the headline metric, the two-stage candidate-coverage evaluation is expected to show materially higher document-coverage at the pre-rerank stage than a naive single-query baseline, confirming that the accuracy gain comes from finding the right evidence rather than only from better ranking of an already-limited candidate set.
+## Risks and Mitigation
 
-#### Long-term Value
-Because the offline/online split and the retrieval-decomposition-hop-planning-rerank-generation pipeline are corpus-agnostic (every corpus-specific detail lives in one versioned artifact bundle plus a small set of configuration parameters), this project's real long-term value is as a **reusable RAG product**, not a one-off HotpotQA demo. The same pipeline can be repointed — by building a new offline artifact bundle and swapping `index_id` — at higher-value, higher-reasoning-demand document collections such as internal engineering/legal/research documentation, technical specifications, or other knowledge bases where questions routinely require combining facts across multiple documents and where answer grounding and traceability (returned sources, rerank scores, and token usage) are business-critical. The adaptive hop-planning mechanism in particular is expected to generalize well to any domain characterized by cross-document "bridge" relationships, making this architecture a candidate foundation for future internal document-QA tooling rather than a disposable workshop artifact.
+| Risk | Possible Impact | Planned Mitigation |
+| --- | --- | --- |
+| Relevant supporting evidence is not retrieved | The LLM receives incomplete context and may produce an incorrect answer | Combine lexical and semantic retrieval and evaluate supporting-evidence coverage |
+| Multi-hop retrieval increases response time | Queries may take too long to complete | Limit retrieval depth and candidate size where necessary |
+| LLM API rate limits or temporary failures | Evaluation or generation may be interrupted | Use controlled request rates, retries, and resumable evaluation |
+| Dataset or retrieval artifacts are inconsistent | Evaluation results may not accurately reflect retrieval quality | Validate dataset alignment and artifact integrity before benchmarking |
+| AWS permissions or configuration are incorrect | Application components may fail to communicate | Use IAM roles, least-privilege permissions, and staged functional testing |
+| Cloud resources consume more than expected | Project cost may increase | Keep the deployment small, stop unused compute, and clean up resources after use |
+
+## Expected Outcomes
+
+By the end of the project, my team expects to have a working multi-hop RAG application that can retrieve evidence from HotpotQA, combine information from multiple documents when necessary, and generate answers grounded in the retrieved context.
+
+The main expected outputs are:
+
+- a reusable HotpotQA data preparation workflow;
+- lexical and semantic retrieval components;
+- a hybrid and multi-hop retrieval pipeline;
+- a reproducible evaluation workflow;
+- retrieval artifacts that can be stored and reused independently of the application runtime;
+- an AWS-hosted backend and vector-search environment;
+- a web interface for submitting questions and viewing answers with supporting sources;
+- quantitative evaluation of retrieval and answer quality;
+- a complete AWS deployment workshop and technical documentation.
+
+Beyond the final application itself, the project is also intended to give my team practical experience connecting retrieval and language-model experimentation with cloud infrastructure. HotpotQA provides a controlled benchmark for this internship, while the overall RAG design can later be adapted to other document collections that require evidence-based question answering.
