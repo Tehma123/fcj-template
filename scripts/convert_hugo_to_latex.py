@@ -598,6 +598,128 @@ def preprocess_markdown(content, meta=None):
 # ---------------------------------------------------------------------------
 # Pandoc LaTeX conversion
 # ---------------------------------------------------------------------------
+def find_matching_brace(text, open_idx):
+    """text[open_idx] must be '{'. Return the index of its matching '}',
+    correctly skipping over nested groups and escaped \\{ \\} \\\\.
+    Returns -1 if unbalanced.
+    """
+    depth = 0
+    i = open_idx
+    n = len(text)
+
+    while i < n:
+        ch = text[i]
+
+        if ch == "\\" and i + 1 < n:
+            i += 2
+            continue
+
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                return i
+
+        i += 1
+
+    return -1
+
+
+def strip_wrapper_command(latex, command):
+    """Remove `\\command{arg1}{arg2}` wrappers, keeping arg2's content in place.
+
+    Handles Pandoc's `\\hypertarget{id}{%\n...}` shape, where arg1 has no
+    braces (an id) but arg2 may contain arbitrarily nested braces (headings
+    with inline code/bold/\\texorpdfstring inside).
+    """
+    marker = "\\" + command + "{"
+    out = []
+    i = 0
+    n = len(latex)
+
+    while i < n:
+        if latex.startswith(marker, i):
+            arg1_open = i + len(marker) - 1
+            arg1_close = find_matching_brace(latex, arg1_open)
+
+            if arg1_close != -1:
+                j = arg1_close + 1
+                while j < n and latex[j] in " \t":
+                    j += 1
+
+                if j < n and latex[j] == "{":
+                    arg2_close = find_matching_brace(latex, j)
+
+                    if arg2_close != -1:
+                        inner = latex[j + 1:arg2_close]
+                        inner = re.sub(r"^\s*%\s*\n", "", inner)
+                        out.append(inner)
+                        i = arg2_close + 1
+                        continue
+
+        out.append(latex[i])
+        i += 1
+
+    return "".join(out)
+
+
+def strip_command_with_arg(latex, command):
+    """Remove `\\command{...}` entirely (e.g. \\label{...}), brace-aware."""
+    marker = "\\" + command + "{"
+    out = []
+    i = 0
+    n = len(latex)
+
+    while i < n:
+        if latex.startswith(marker, i):
+            open_idx = i + len(marker) - 1
+            close_idx = find_matching_brace(latex, open_idx)
+
+            if close_idx != -1:
+                i = close_idx + 1
+                continue
+
+        out.append(latex[i])
+        i += 1
+
+    return "".join(out)
+
+
+def boldify_headings(latex, heading_cmds):
+    """Convert `\\section{...}` (etc.) into visual bold text, brace-aware
+    so nested commands (inline code, \\texorpdfstring) inside the heading
+    text are preserved instead of breaking the match.
+    """
+    markers = ["\\" + cmd + "{" for cmd in heading_cmds]
+    out = []
+    i = 0
+    n = len(latex)
+
+    while i < n:
+        matched = False
+
+        for marker in markers:
+            if latex.startswith(marker, i):
+                open_idx = i + len(marker) - 1
+                close_idx = find_matching_brace(latex, open_idx)
+
+                if close_idx != -1:
+                    inner = latex[open_idx + 1:close_idx]
+                    out.append(
+                        r"\vspace{0.5em}\noindent\textbf{" + inner + r"}\par"
+                    )
+                    i = close_idx + 1
+                    matched = True
+                    break
+
+        if not matched:
+            out.append(latex[i])
+            i += 1
+
+    return "".join(out)
+
+
 def neutralize_body_headings(latex):
     """Convert Pandoc headings to visual bold headings."""
 
@@ -607,47 +729,13 @@ def neutralize_body_headings(latex):
     # Pandoc thường sinh:
     # \hypertarget{id}{%
     # \section{Title}\label{id}}
-    latex = re.sub(
-        r"\\hypertarget\{[^{}]*\}\{\s*%?\s*",
-        "",
-        latex,
-        flags=re.DOTALL,
-    )
-
-    # Sau khi bỏ phần mở \hypertarget, thường sẽ dư "}" sau \label hoặc sau heading.
-    latex = re.sub(
-        r"(\\label\{[^{}]*\})\s*\}",
-        r"\1",
-        latex,
-        flags=re.DOTALL,
-    )
+    latex = strip_wrapper_command(latex, "hypertarget")
 
     # 2. Remove labels.
-    latex = re.sub(r"\\label\{[^{}]*\}", "", latex)
+    latex = strip_command_with_arg(latex, "label")
 
     # 3. Convert standalone headings thành text đậm.
-    for cmd in heading_cmds:
-        latex = re.sub(
-            rf"\\{cmd}\{{([^{{}}]*)\}}",
-            r"\\vspace{0.5em}\\noindent\\textbf{\1}\\par",
-            latex,
-            flags=re.DOTALL,
-        )
-
-    # 4. Safety net: nếu vẫn còn dạng hỏng:
-    # \hypertarget{id}{\vspace{0.5em}\noindent\textbf{Title}\par}
-    latex = re.sub(
-        r"\\hypertarget\{[^{}]*\}\{\s*(\\vspace\{0\.5em\}\\noindent\\textbf\{[^{}]*\}\\par)\s*\}",
-        r"\1",
-        latex,
-        flags=re.DOTALL,
-    )
-    latex = re.sub(
-        r"(\\vspace\{0\.5em\}\\noindent\\textbf\{[^{}]*\}\\par)\}",
-        r"\1",
-        latex,
-        flags=re.DOTALL,
-    )
+    latex = boldify_headings(latex, heading_cmds)
 
     return latex
 
@@ -676,7 +764,8 @@ def compact_longtables(latex):
 
 def postprocess_latex(latex):
     # Do NOT replace Pandoc table column specs by regex.
-    latex = re.sub(r"\\label\{[^}]+\}", "", latex)
+    # neutralize_body_headings() strips every \label{...} itself (brace-aware),
+    # so no separate blanket \label removal is needed here.
     latex = neutralize_body_headings(latex)
     latex = compact_longtables(latex)
     return latex
