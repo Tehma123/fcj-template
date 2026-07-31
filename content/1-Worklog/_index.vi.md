@@ -6,10 +6,6 @@ chapter: false
 pre: " <b> 1. </b> "
 ---
 
-
-**Trong trang này** bạn sẽ cần giới thiệu worklog của bạn **như thế nào**? Bạn hoàn thành chương trình trong vòng **bao nhiêu tuần**? Bạn **đã làm gì** trong các tuần đó?
-
-
 Kỳ thực tập này kéo dài 8 tuần (10/6/2026 – 30/7/2026), với nội dung các tuần như sau:
 
 **Tuần 1:** [Làm quen môi trường thực tập và AWS cơ bản (console, CLI, EC2)](1.1-week1/)

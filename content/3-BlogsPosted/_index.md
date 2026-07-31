@@ -15,5 +15,5 @@ This blog introduces Amazon S3 Annotations, a new way to attach named, independe
 ###  [Blog 2 - AWS Cost Optimization: Don't Just Look at the Bill](3.2-Blog2/)
 This blog walks through the AWS Well-Architected approach to cost optimization: knowing where cost comes from, measuring it against business output, matching resources to demand, assigning clear ownership, and building it into a continuous habit instead of a one-time cut.
 
-###  [Blog 3 - Amazon SQS Fair Queues: Ending the "Noisy Neighbor" Problem in Multi-Tenant Systems](3.3-Blog3/)
-This blog explains Amazon SQS Fair Queues, a new feature that automatically reorders message delivery to protect quiet tenants from a noisy one on a shared queue, using the existing `MessageGroupId` field and new CloudWatch fairness metrics, with no consumer-side code changes required.
+###  [Blog 3 - Amazon Aurora DSQL: When a Distributed Database No Longer Has to Trade Off Speed for Consistency](3.3-Blog3/)
+This blog explains Amazon Aurora DSQL, a distributed SQL database that uses a disaggregated architecture (Query Processor, Adjudicator, Journal, MVCC Storage Replicas) and Optimistic Concurrency Control to deliver low-latency reads and strongly consistent writes across multiple AWS Regions, without the traditional trade-off between latency and consistency.

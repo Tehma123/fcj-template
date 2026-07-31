@@ -6,9 +6,6 @@ chapter: false
 pre: " <b> 1. </b> "
 ---
 
-
-**On this page**, you will need to introduce your worklog. **How** did you complete it? How many weeks did you take to complete the program? **What** did you do in those weeks?
-
 This internship ran for 8 weeks (10/6/2026 – 30/7/2026), with weekly contents as follows:
 
 **Week 1:** [Onboarding and AWS fundamentals (console, CLI, EC2)](1.1-week1/)

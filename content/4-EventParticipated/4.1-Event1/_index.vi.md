@@ -11,11 +11,11 @@ pre: " <b> 4.1. </b> "
 
 ### Thông tin sự kiện
 
-&emsp; **Tên sự kiện:** *(bổ sung sau)*
+&emsp; **Tên sự kiện:** FCAJ Workshop
 
 &emsp; **Thời gian:** 20/06/2026
 
-&emsp; **Địa điểm:** *(bổ sung sau)*
+&emsp; **Địa điểm:** Tầng 26, Tòa nhà Bitexco, 02 Hải Triều, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh
 
 &emsp; **Vai trò:** Người tham dự
 

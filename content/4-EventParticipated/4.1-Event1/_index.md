@@ -11,11 +11,11 @@ pre: " <b> 4.1. </b> "
 
 ### Event Information
 
-&emsp; **Event Name:** *(to be added)*
+&emsp; **Event Name:** FCAJ Workshop
 
 &emsp; **Date & Time:** June 20, 2026
 
-&emsp; **Location:** *(to be added)*
+&emsp; **Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City
 
 &emsp; **Role:** Attendee
 
