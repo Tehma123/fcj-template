@@ -37,21 +37,6 @@ Why this matters: rebuilding a vector index costs minutes of CPU. If that work s
 
 ## 2. Overall architecture
 
-<!-- IMAGE 1 - ARCHITECTURE DIAGRAM (draw.io / Excalidraw, NOT a screenshot).
-     Must show, left to right:
-       [Browser] --HTTPS-> [AWS Amplify Hosting: React/Vite]
-                 --HTTPS-> [Amazon API Gateway (HTTP API)]
-                 --HTTP :8000-> [Amazon EC2 (Ubuntu) - FastAPI under systemd]
-     From the EC2 box, draw arrows to:
-       [Amazon S3]  (processed docs, BM25 index, manifest)
-       [Amazon S3 Vectors]  (dense embeddings, QueryVectors)
-       [Groq API]  (external - draw it OUTSIDE the AWS boundary box)
-     Also draw a separate dashed box labelled "OFFLINE (run once)":
-       [corpus.jsonl] -> [chunk + embed + BM25] -> [Amazon S3] + [Amazon S3 Vectors]
-     Mark the AWS region ap-southeast-1 around the AWS resources.
-     Put an IAM role icon on the EC2 box labelled rag-ec2-runtime-role.
-     Configuration is a file on the instance, not a service - do not draw
-     Parameter Store or Secrets Manager. -->
 
 ![Architecture diagram](/images/5-Workshop/5.3-Architecture/architecture-overview.png)
 

@@ -400,23 +400,6 @@ curl.exe -s -X POST "http://<elastic-ip>:8000/query" `
 
 The response carries the answer plus everything needed to justify it - `sources`, `timings`, `num_candidates` and `token_usage_total`.
 
-<!-- IMAGE 5 - SCREENSHOT.
-     Terminal showing, in one shot if possible:
-       1. `sudo systemctl status aws-rag-api` with "active (running)"
-       2. the /health response
-     Take it after warm-up so pipeline_loaded shows true - that is the state that
-     proves the artifacts and the model actually loaded. -->
-
-![Service running and configuration loaded](/images/5-Workshop/5.7-EC2-Backend/service-health.png)
-
-<!-- IMAGE 6 - SCREENSHOT.
-     The JSON response from POST /query, showing the answer and at least the beginning
-     of the sources array and the timings object.
-     This proves the backend works end to end BEFORE API Gateway exists - which is
-     exactly what makes debugging chapter 5.8 tractable. -->
-
-![A successful query against the backend](/images/5-Workshop/5.7-EC2-Backend/query-response.png)
-
 ---
 
 ## 11. Serving a different index

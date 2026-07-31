@@ -79,14 +79,6 @@ Three routes, matching the endpoints from chapter 5.7:
 
 `POST /warmup` is optional at this layer - `systemd` already calls it locally on the instance after every restart (chapter 5.7 section 8). Exposing it through API Gateway is only useful if you want to warm the service from your laptop or an admin page. It costs nothing to add and it is genuinely handy when the instance has been stopped overnight.
 
-<!-- IMAGE 1 - SCREENSHOT.
-     API Gateway Console -> your API -> Routes.
-     Must show all three routes (GET /health, POST /warmup, POST /query) in the list.
-     If the integration target is visible next to each route, even better - that is the
-     evidence for section 2. Blur the Elastic IP if you prefer not to publish it. -->
-
-![The three routes and their integrations](/images/5-Workshop/5.8-API-Gateway/routes.png)
-
 ---
 
 ## 4. CORS is two layers, not one
@@ -143,13 +135,6 @@ access-control-allow-headers: content-type
 
 If those three headers are absent, the browser will refuse the real request no matter how well the backend works.
 
-<!-- IMAGE 2 - SCREENSHOT.
-     API Gateway Console -> your API -> CORS configuration page, showing
-     Access-Control-Allow-Origin (the Amplify URL), Allow-Methods and Allow-Headers.
-     Take this AFTER saving, so the values shown are the ones actually in effect. -->
-
-![CORS configuration in API Gateway](/images/5-Workshop/5.8-API-Gateway/cors-config.png)
-
 ---
 
 ## 5. Deploy the API
@@ -195,14 +180,6 @@ curl.exe -s -X POST "https://<api-id>.execute-api.ap-southeast-1.amazonaws.com/q
 {{% notice tip %}}
 Always test the EC2 backend **directly** first (chapter 5.7 section 10), then through API Gateway. If the direct call works and the gateway call does not, the fault is in this chapter - routing, integration path or CORS. If neither works, the fault is in chapter 5.7. Testing both halves separately turns a vague "the app is broken" into a two-minute diagnosis.
 {{% /notice %}}
-
-<!-- IMAGE 3 - SCREENSHOT.
-     Terminal showing, in one shot if possible:
-       1. the HTTPS GET /health response
-       2. the OPTIONS preflight returning 204 with the three access-control headers
-     The https:// in the URL is the point of the whole chapter - make it legible. -->
-
-![Testing the API over HTTPS](/images/5-Workshop/5.8-API-Gateway/https-test.png)
 
 ---
 

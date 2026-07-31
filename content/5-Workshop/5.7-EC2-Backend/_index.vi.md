@@ -399,23 +399,6 @@ curl.exe -s -X POST "http://<elastic-ip>:8000/query" `
 
 Phản hồi mang theo câu trả lời cùng mọi thứ cần thiết để biện minh cho nó - `sources`, `timings`, `num_candidates` và `token_usage_total`.
 
-<!-- ẢNH 5 - SCREENSHOT.
-     Terminal hiển thị, nếu được thì trong cùng một tấm:
-       1. `sudo systemctl status aws-rag-api` với trạng thái "active (running)"
-       2. phản hồi /health
-     Chụp sau khi đã warm-up để pipeline_loaded hiện true - đó mới là trạng thái chứng
-     minh artifact và mô hình đã thực sự nạp được. -->
-
-![Dịch vụ đang chạy và cấu hình đã nạp](/images/5-Workshop/5.7-EC2-Backend/service-health.png)
-
-<!-- ẢNH 6 - SCREENSHOT.
-     Phản hồi JSON của POST /query, hiển thị câu trả lời và ít nhất phần đầu của mảng
-     sources cùng đối tượng timings.
-     Tấm này chứng minh backend chạy thông đầu-cuối TRƯỚC KHI có API Gateway - và đó
-     đúng là thứ khiến việc gỡ lỗi ở chương 5.8 trở nên dễ thở. -->
-
-![Một truy vấn thành công tới backend](/images/5-Workshop/5.7-EC2-Backend/query-response.png)
-
 ---
 
 ## 11. Phục vụ một index khác

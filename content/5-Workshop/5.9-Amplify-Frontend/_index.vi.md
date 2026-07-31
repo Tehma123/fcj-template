@@ -45,14 +45,6 @@ Amplify Hosting được chọn thay vì S3 + CloudFront vì nó cung cấp sẵ
 
 Thiết lập monorepo rất quan trọng. Repository này chứa cả `backend/` lẫn `frontend/`, nên phải nói cho Amplify biết ứng dụng nằm trong thư mục con `frontend/`. Không có nó, quá trình build chạy ở thư mục gốc, không tìm thấy `package.json` và thất bại ngay lập tức.
 
-<!-- ẢNH 1 - SCREENSHOT.
-     Amplify Console -> app của bạn -> trang thiết lập repository/branch, hiển thị
-     repository GitHub đã kết nối, tên nhánh, và monorepo root directory đặt là
-     "frontend".
-     Trường monorepo chính là điểm mấu chốt của tấm ảnh này - nhớ để nó lộ ra. -->
-
-![Repository và nhánh đã kết nối với Amplify](/images/5-Workshop/5.9-Amplify-Frontend/amplify-repo.png)
-
 ---
 
 ## 3. Cấu hình build
@@ -117,14 +109,6 @@ Hệ quả thực tế: **đổi biến này trong Amplify Console sẽ không c
 
 Có một thiết lập đối ứng ở phía bên kia: origin của Amplify phải xuất hiện trong tham số SSM `cors-allow-origins` của backend (chương 5.7) và trong cấu hình CORS của API Gateway (chương 5.8). URL frontend chỉ biết được sau khi app được tạo lần đầu, nên trình tự thông thường là: deploy một lần, sao chép URL Amplify, rồi cập nhật CORS ở cả hai tầng.
 
-<!-- ẢNH 2 - SCREENSHOT.
-     Amplify Console -> App settings -> Environment variables, hiển thị
-     VITE_API_BASE_URL và giá trị của nó.
-     Giá trị phải thấy rõ bắt đầu bằng https:// và có chữ execute-api - đó là bằng chứng
-     cho thấy vấn đề Mixed Content đã được giải quyết. Làm mờ api-id nếu bạn muốn. -->
-
-![Biến môi trường chứa URL của API](/images/5-Workshop/5.9-Amplify-Frontend/amplify-env-var.png)
-
 ---
 
 ## 5. Triển khai
@@ -138,13 +122,6 @@ Khi thành công, ứng dụng được phục vụ tại:
 ```text
 https://<branch>.<app-id>.amplifyapp.com
 ```
-
-<!-- ẢNH 3 - SCREENSHOT.
-     Amplify Console -> lịch sử triển khai / trang build, hiển thị đủ bốn giai đoạn
-     (Provision, Build, Deploy, Verify) với dấu tích xanh, kèm tên nhánh.
-     Nếu URL đã triển khai cũng lộ ra trong cùng khung hình thì càng tốt. -->
-
-![Một lần triển khai Amplify thành công](/images/5-Workshop/5.9-Amplify-Frontend/amplify-build.png)
 
 ---
 

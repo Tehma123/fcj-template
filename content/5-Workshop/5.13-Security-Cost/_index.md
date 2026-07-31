@@ -134,24 +134,6 @@ Several decisions made for other reasons happen to be the cheap ones, and that i
 The most common source of unexpected charges in a project like this is not the service anyone worries about. It is an **Elastic IP left allocated after the instance was terminated**, or an EBS volume belonging to a forgotten instance. Both keep billing quietly, and neither appears where you would look for "the RAG system". Chapter 5.14 checks for exactly these.
 {{% /notice %}}
 
-<!-- IMAGE 1 - SCREENSHOT.
-     AWS Billing -> Budgets, showing a monthly budget with an alert threshold configured.
-     This is direct evidence for the cost-control criterion in the grading rubric.
-     If you have not created one yet, create it now - it takes two minutes and it is
-     genuinely useful for the rest of the internship.
-     Blur the amount if you prefer not to publish it. -->
-
-![A monthly budget with an alert](/images/5-Workshop/5.13-Security-Cost/aws-budget.png)
-
-<!-- IMAGE 2 - SCREENSHOT (optional but strong).
-     Cost Explorer, grouped by Service, filtered to this project's Region, over the
-     project period.
-     The point is the SHAPE of the breakdown - EC2 dominating, everything else small -
-     which is exactly what section 7 claims. Blur the dollar amounts if you prefer;
-     the relative proportions are what matter. -->
-
-![Cost breakdown by service](/images/5-Workshop/5.13-Security-Cost/cost-explorer.png)
-
 ---
 
 ## Summary

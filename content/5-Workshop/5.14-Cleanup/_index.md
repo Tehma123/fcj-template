@@ -113,21 +113,6 @@ Two of these rows exist because they are the usual culprits. **Elastic IP addres
 
 Finally, look at **Billing → Cost Explorer** a day or two later. Charges are reported with a lag, so a clean Console does not immediately show a clean bill; a near-zero daily figure after 48 hours is the real confirmation.
 
-<!-- IMAGE 1 - SCREENSHOT.
-     EC2 Console -> Elastic IP addresses, showing an empty list after release.
-     This is the single most valuable cleanup screenshot, because it evidences the
-     step most often missed. If the Volumes page is also empty, capture that too. -->
-
-![Elastic IP addresses released](/images/5-Workshop/5.14-Cleanup/elastic-ip-released.png)
-
-<!-- IMAGE 2 - SCREENSHOT.
-     Either the S3 bucket list with the project buckets gone, or Cost Explorer showing
-     daily cost dropping to near zero after cleanup.
-     The Cost Explorer version is the stronger evidence for the grading rubric - it
-     shows the cleanup actually worked, not just that a page looks empty. -->
-
-![Daily cost after cleanup](/images/5-Workshop/5.14-Cleanup/post-cleanup-cost.png)
-
 ---
 
 ## 5. What to keep

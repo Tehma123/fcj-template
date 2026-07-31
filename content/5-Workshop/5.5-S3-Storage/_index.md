@@ -231,10 +231,18 @@ rag/indexes/<index id>/manifests/index_manifest.json
 <!-- IMAGE 4 - SCREENSHOT.
      S3 Console object browser, inside your bucket, with the rag/ prefix opened and the
      corpora/ processed/ indexes/ folders visible.
-     Ideally drill one level into indexes/<index id>/ so bm25/, manifests/ and
-     s3vectors-import/ are all visible in the same shot. -->
+     Keep the breadcrumb in shot - it evidences the bucket name. -->
 
 ![The rag/ prefix in the S3 console](/images/5-Workshop/5.5-S3-Storage/s3-console-tree.png)
+
+One level deeper, `indexes/<index id>/` holds the three prefixes the backend reads at startup:
+
+<!-- IMAGE 5 - SCREENSHOT.
+     Same object browser, drilled into rag/indexes/<index id>/, showing bm25/,
+     manifests/ and s3vectors-import/.
+     Keep the breadcrumb in shot - it evidences the index id. -->
+
+![Inside the index prefix](/images/5-Workshop/5.5-S3-Storage/s3-console-index.png)
 
 ---
 

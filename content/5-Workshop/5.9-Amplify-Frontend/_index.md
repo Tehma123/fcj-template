@@ -45,14 +45,6 @@ Amplify Hosting was chosen over S3 + CloudFront because it provides git-push dep
 
 The monorepo setting matters. This repository holds both `backend/` and `frontend/`, so Amplify must be told that the application lives in the `frontend/` subdirectory. Without it, the build runs at the repository root, finds no `package.json`, and fails immediately.
 
-<!-- IMAGE 1 - SCREENSHOT.
-     Amplify Console -> your app -> the repository/branch settings page, showing the
-     connected GitHub repository, the branch, and the monorepo root directory set to
-     "frontend".
-     The monorepo field is the point of this screenshot - make sure it is visible. -->
-
-![Repository and branch connected to Amplify](/images/5-Workshop/5.9-Amplify-Frontend/amplify-repo.png)
-
 ---
 
 ## 3. Build settings
@@ -117,14 +109,6 @@ The practical consequence: **changing this variable in the Amplify Console does 
 
 There is a matching setting on the other side: the Amplify origin must appear in the backend's `cors-allow-origins` SSM parameter (chapter 5.7) and in the API Gateway CORS configuration (chapter 5.8). The frontend URL is not known until the app is first created, so the usual order is: deploy once, copy the Amplify URL, then update CORS on both layers.
 
-<!-- IMAGE 2 - SCREENSHOT.
-     Amplify Console -> App settings -> Environment variables, showing
-     VITE_API_BASE_URL and its value.
-     The value must visibly start with https:// and contain execute-api - that is the
-     evidence that the Mixed Content problem is solved. Blur the api-id if you prefer. -->
-
-![The API base URL environment variable](/images/5-Workshop/5.9-Amplify-Frontend/amplify-env-var.png)
-
 ---
 
 ## 5. Deploy
@@ -138,13 +122,6 @@ On success the app is served at:
 ```text
 https://<branch>.<app-id>.amplifyapp.com
 ```
-
-<!-- IMAGE 3 - SCREENSHOT.
-     Amplify Console -> the deployment history / build page, showing all four stages
-     (Provision, Build, Deploy, Verify) with green ticks, and the branch name.
-     If the deployed URL is visible in the same view, better still. -->
-
-![A successful Amplify deployment](/images/5-Workshop/5.9-Amplify-Frontend/amplify-build.png)
 
 ---
 

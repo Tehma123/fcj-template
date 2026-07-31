@@ -231,10 +231,18 @@ rag/indexes/<index id>/manifests/index_manifest.json
 <!-- ẢNH 4 - SCREENSHOT.
      Trình duyệt object của S3 Console, bên trong bucket của bạn, đã mở prefix rag/
      và thấy được các thư mục corpora/ processed/ indexes/.
-     Tốt nhất là vào sâu thêm một cấp indexes/<index id>/ để thấy đủ bm25/, manifests/
-     và s3vectors-import/ trong cùng một tấm. -->
+     Giữ breadcrumb trong khung - nó chứng minh tên bucket. -->
 
 ![Prefix rag/ trên S3 Console](/images/5-Workshop/5.5-S3-Storage/s3-console-tree.png)
+
+Vào sâu thêm một cấp, `indexes/<index id>/` chứa đúng ba prefix mà backend đọc lúc khởi động:
+
+<!-- ẢNH 5 - SCREENSHOT.
+     Vẫn trình duyệt object đó, vào sâu tới rag/indexes/<index id>/, thấy được bm25/,
+     manifests/ và s3vectors-import/.
+     Giữ breadcrumb trong khung - nó chứng minh index id. -->
+
+![Bên trong prefix index](/images/5-Workshop/5.5-S3-Storage/s3-console-index.png)
 
 ---
 

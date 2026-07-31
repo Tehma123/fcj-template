@@ -134,24 +134,6 @@ Nhiều quyết định được đưa ra vì lý do khác nhưng hóa ra lại 
 Nguồn phát sinh chi phí bất ngờ phổ biến nhất trong một dự án kiểu này lại không phải dịch vụ mà ai cũng lo. Đó là một **Elastic IP còn được cấp phát sau khi instance đã bị terminate**, hoặc một ổ đĩa EBS thuộc về một instance đã quên mất. Cả hai đều âm thầm tính tiền, và cả hai đều không xuất hiện ở nơi bạn sẽ đi tìm "hệ thống RAG". Chương 5.14 kiểm tra đúng hai thứ này.
 {{% /notice %}}
 
-<!-- ẢNH 1 - SCREENSHOT.
-     AWS Billing -> Budgets, hiển thị một budget theo tháng có đặt ngưỡng cảnh báo.
-     Đây là bằng chứng trực tiếp cho tiêu chí tối ưu chi phí trong thang điểm.
-     Nếu bạn chưa tạo thì hãy tạo ngay bây giờ - chỉ mất hai phút và thực sự hữu ích
-     cho phần còn lại của kỳ thực tập.
-     Làm mờ số tiền nếu bạn không muốn công khai. -->
-
-![Budget theo tháng kèm cảnh báo](/images/5-Workshop/5.13-Security-Cost/aws-budget.png)
-
-<!-- ẢNH 2 - SCREENSHOT (tùy chọn nhưng rất có sức thuyết phục).
-     Cost Explorer, nhóm theo Service, lọc theo Region của dự án, trong khoảng thời gian
-     thực hiện dự án.
-     Điểm mấu chốt là HÌNH DẠNG của biểu đồ phân bổ - EC2 chiếm phần lớn, mọi thứ khác
-     đều nhỏ - đúng như mục 7 khẳng định. Làm mờ số tiền nếu bạn muốn; tỉ lệ tương đối
-     mới là thứ quan trọng. -->
-
-![Phân bổ chi phí theo dịch vụ](/images/5-Workshop/5.13-Security-Cost/cost-explorer.png)
-
 ---
 
 ## Tổng kết

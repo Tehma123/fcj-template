@@ -113,21 +113,6 @@ Hai dòng trong bảng trên tồn tại vì chúng chính là hai thủ phạm 
 
 Cuối cùng, hãy xem **Billing → Cost Explorer** sau đó một hai ngày. Chi phí được báo cáo có độ trễ, nên một Console sạch không đồng nghĩa với hóa đơn sạch ngay lập tức; con số chi phí hằng ngày gần bằng không sau 48 giờ mới là xác nhận thật sự.
 
-<!-- ẢNH 1 - SCREENSHOT.
-     EC2 Console -> Elastic IP addresses, hiển thị danh sách trống sau khi đã release.
-     Đây là tấm ảnh dọn dẹp giá trị nhất, vì nó chứng minh đúng bước hay bị bỏ sót nhất.
-     Nếu trang Volumes cũng trống thì chụp luôn. -->
-
-![Elastic IP đã được giải phóng](/images/5-Workshop/5.14-Cleanup/elastic-ip-released.png)
-
-<!-- ẢNH 2 - SCREENSHOT.
-     Hoặc danh sách bucket S3 đã không còn bucket của dự án, hoặc Cost Explorer cho thấy
-     chi phí hằng ngày tụt về gần không sau khi dọn dẹp.
-     Bản Cost Explorer có sức thuyết phục hơn với thang điểm - nó cho thấy việc dọn dẹp
-     thực sự có tác dụng, chứ không chỉ là một trang trông có vẻ trống. -->
-
-![Chi phí hằng ngày sau khi dọn dẹp](/images/5-Workshop/5.14-Cleanup/post-cleanup-cost.png)
-
 ---
 
 ## 5. Những gì nên giữ lại

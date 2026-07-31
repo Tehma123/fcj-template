@@ -79,14 +79,6 @@ Ba route, khớp với các endpoint từ chương 5.7:
 
 `POST /warmup` ở tầng này là tùy chọn - `systemd` vốn đã gọi nó cục bộ ngay trên instance sau mỗi lần khởi động lại (chương 5.7 mục 8). Phơi nó qua API Gateway chỉ hữu ích khi bạn muốn làm nóng dịch vụ từ máy cá nhân hoặc từ một trang quản trị. Thêm vào không tốn gì, và thực sự tiện khi instance vừa được bật lại sau một đêm tắt máy.
 
-<!-- ẢNH 1 - SCREENSHOT.
-     API Gateway Console -> API của bạn -> Routes.
-     Phải thấy đủ ba route (GET /health, POST /warmup, POST /query) trong danh sách.
-     Nếu thấy được cả đích integration bên cạnh mỗi route thì càng tốt - đó là bằng chứng
-     cho mục 2. Làm mờ Elastic IP nếu bạn không muốn công khai nó. -->
-
-![Ba route và các integration của chúng](/images/5-Workshop/5.8-API-Gateway/routes.png)
-
 ---
 
 ## 4. CORS có hai tầng, không phải một
@@ -143,13 +135,6 @@ access-control-allow-headers: content-type
 
 Nếu thiếu ba header đó, trình duyệt sẽ từ chối request thật dù backend có chạy tốt đến đâu.
 
-<!-- ẢNH 2 - SCREENSHOT.
-     API Gateway Console -> API của bạn -> trang cấu hình CORS, hiển thị
-     Access-Control-Allow-Origin (URL Amplify), Allow-Methods và Allow-Headers.
-     Chụp SAU KHI đã bấm lưu, để giá trị hiển thị đúng là giá trị đang có hiệu lực. -->
-
-![Cấu hình CORS trong API Gateway](/images/5-Workshop/5.8-API-Gateway/cors-config.png)
-
 ---
 
 ## 5. Triển khai API
@@ -195,14 +180,6 @@ curl.exe -s -X POST "https://<api-id>.execute-api.ap-southeast-1.amazonaws.com/q
 {{% notice tip %}}
 Luôn kiểm tra backend EC2 **trực tiếp** trước (chương 5.7 mục 10), rồi mới qua API Gateway. Nếu gọi trực tiếp chạy được mà qua gateway thì không, lỗi nằm ở chương này - route, đường dẫn integration hoặc CORS. Nếu cả hai đều hỏng, lỗi nằm ở chương 5.7. Kiểm tra tách bạch hai nửa sẽ biến một câu "ứng dụng hỏng rồi" mơ hồ thành một chẩn đoán trong hai phút.
 {{% /notice %}}
-
-<!-- ẢNH 3 - SCREENSHOT.
-     Terminal hiển thị, nếu được thì trong cùng một tấm:
-       1. phản hồi GET /health qua HTTPS
-       2. request OPTIONS preflight trả về 204 kèm ba header access-control
-     Chữ https:// trong URL chính là điểm mấu chốt của cả chương - chụp cho rõ. -->
-
-![Kiểm tra API qua HTTPS](/images/5-Workshop/5.8-API-Gateway/https-test.png)
 
 ---
 
