@@ -62,14 +62,6 @@ jobs:
       - name: Convert Hugo content to LaTeX
         run: python3 scripts/convert_hugo_to_latex.py
 
-      - name: Compile Vietnamese PDF
-        working-directory: report
-        run: |
-          latexmk -pdf -interaction=nonstopmode main.tex
-          latexmk -pdf -interaction=nonstopmode main.tex
-          latexmk -pdf -interaction=nonstopmode main.tex
-          cp main.pdf ../report_vn.pdf
-
       - name: Compile English PDF
         working-directory: report
         run: |
@@ -95,14 +87,13 @@ jobs:
           tag: latest
           name: "Latest Internship Reports"
           body: |
-            ## Internship Report PDFs
+            ## Internship Report PDF
 
             Automated PDF generation from Hugo content on push to `main`.
 
-            - **Vietnamese**: `report_vn.pdf`
             - **English**: `report_en.pdf`
             - **LaTeX source**: `latex_source.zip`
-          artifacts: "report_vn.pdf,report_en.pdf,latex_source.zip"
+          artifacts: "report_en.pdf,latex_source.zip"
           allowUpdates: true
           removeArtifacts: true
           makeLatest: true
