@@ -13,20 +13,20 @@ In terms of work ethic, I always strived to complete tasks well, complied with w
 
 To objectively reflect on my internship period, I would like to evaluate myself based on the following criteria:
 
-| No. | Criteria                                                | Description                                                                                                                                                                  | Good | Fair | Average |
-| --- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---- | ---- | ------- |
-| 1   | **Professional knowledge & skills (AWS & RAG)**           | Solid grasp of core AWS services (EC2, S3, IAM, VPC endpoints) applied in the hybrid-connectivity workshop, plus hands-on deployment of a RAG pipeline for multi-hop reasoning on the HotpotQA dataset | ✅    | ☐    | ☐       |
-| 2   | **Ability to learn (new AWS services & tools)**           | Picked up new AWS services (S3 Metadata/Annotations, Cost Categories, Glue, Amplify, Cognito) and the Hugo static-site framework within a few weeks, and could explain them clearly enough to publish two technical blogs | ✅    | ☐    | ☐       |
-| 3   | **Proactiveness**                                         | Took initiative to explore retrieval strategies for the RAG/HotpotQA pipeline beyond the minimum ask, and self-diagnosed/fixed GitHub Pages deployment issues (baseURL, canonifyURLs, image assets) without being asked | ✅    | ☐    | ☐       |
-| 4   | **Sense of responsibility**                                | Delivered weekly worklogs, workshop labs, and blog posts on schedule, and kept the RAG project's task list up to date | ✅    | ☐    | ☐       |
-| 5   | **Discipline**                                             | Generally followed the weekly reporting cadence, but a few worklog and blog deliverables were finished close to the deadline instead of being spaced out evenly | ☐    | ✅    | ☐       |
-| 6   | **Progressive mindset**                                    | Incorporated mentor feedback quickly, such as adjusting the RAG pipeline based on evaluation results and correcting Hugo build/theme errors after review | ✅    | ☐    | ☐       |
-| 7   | **Communication**                                          | Explains technical work well in writing (blogs, proposal, worklogs), but still needs to be more concise and structured when reporting progress verbally to mentors | ☐    | ✅    | ☐       |
-| 8   | **Teamwork**                                               | Coordinated with FCAJ mentors and fellow interns during the S3 hybrid-connectivity workshop and study-group blog reviews | ✅    | ☐    | ☐       |
-| 9   | **Professional conduct**                                   | Respected internship rules and regulations, and engaged courteously with mentors and the AWS Study Group community when sharing blogs | ✅    | ☐    | ☐       |
-| 10  | **Problem-solving skills**                                 | Debugged and resolved concrete technical issues independently, such as a mislabeled avatar image file, a broken GitHub Actions build, and reasoning failures in the RAG pipeline | ✅    | ☐    | ☐       |
-| 11  | **Contribution to project/team (RAG project & blog content)** | Contributed a working RAG pipeline for multi-hop QA on HotpotQA, working blog content, and a workshop write-up that the team can reuse as reference material | ✅    | ☐    | ☐       |
-| 12  | **Overall**                                                | Completed the internship objectives, produced tangible technical output (RAG deployment, blogs, proposal, workshop), and grew steadily across most competencies | ✅    | ☐    | ☐       |
+| No. | Criteria | Description | Good | Fair |
+| --- | --- | --- | --- | --- |
+| 1 | **Professional knowledge & skills (AWS & RAG)** | Solid grasp of core AWS services (EC2, S3, IAM, VPC endpoints) applied in the hybrid-connectivity workshop, plus hands-on deployment of a RAG pipeline for multi-hop reasoning on the HotpotQA dataset | ✅ | ☐ |
+| 2 | **Ability to learn (new AWS services & tools)** | Picked up new AWS services (S3 Metadata/Annotations, Cost Categories, Glue, Amplify, Cognito) and the Hugo static-site framework within a few weeks, and could explain them clearly enough to publish two technical blogs | ✅ | ☐ |
+| 3 | **Proactiveness** | Took initiative to explore retrieval strategies for the RAG/HotpotQA pipeline beyond the minimum ask, and self-diagnosed/fixed GitHub Pages deployment issues (baseURL, canonifyURLs, image assets) without being asked | ✅ | ☐ |
+| 4 | **Sense of responsibility** | Delivered weekly worklogs, workshop labs, and blog posts on schedule, and kept the RAG project's task list up to date | ✅ | ☐ |
+| 5 | **Discipline** | Generally followed the weekly reporting cadence, but a few worklog and blog deliverables were finished close to the deadline instead of being spaced out evenly | ☐ | ✅ |
+| 6 | **Progressive mindset** | Incorporated mentor feedback quickly, such as adjusting the RAG pipeline based on evaluation results and correcting Hugo build/theme errors after review | ✅ | ☐ |
+| 7 | **Communication** | Explains technical work well in writing (blogs, proposal, worklogs), but still needs to be more concise and structured when reporting progress verbally to mentors | ☐ | ✅ |
+| 8 | **Teamwork** | Coordinated with FCAJ mentors and fellow interns during the S3 hybrid-connectivity workshop and study-group blog reviews | ✅ | ☐ |
+| 9 | **Professional conduct** | Respected internship rules and regulations, and engaged courteously with mentors and the AWS Study Group community when sharing blogs | ✅ | ☐ |
+| 10 | **Problem-solving skills** | Debugged and resolved concrete technical issues independently, such as a mislabeled avatar image file, a broken GitHub Actions build, and reasoning failures in the RAG pipeline | ✅ | ☐ |
+| 11 | **Contribution to project/team (RAG project & blog content)** | Contributed a working RAG pipeline for multi-hop QA on HotpotQA, working blog content, and a workshop write-up that the team can reuse as reference material | ✅ | ☐ |
+| 12 | **Overall** | Completed the internship objectives, produced tangible technical output (RAG deployment, blogs, proposal, workshop), and grew steadily across most competencies | ✅ | ☐ |
 
 ### Needs Improvement
 

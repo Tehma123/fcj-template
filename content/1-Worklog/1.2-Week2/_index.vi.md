@@ -14,13 +14,13 @@ pre: " <b> 1.2. </b> "
 * Thực hành tạo và bảo mật tài nguyên cloud theo nguyên tắc least privilege.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                              | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 4   | - Tìm hiểu Amazon S3: <br>&emsp; + Bucket & object <br>&emsp; + Storage classes <br>&emsp; + Versioning <br> - **Thực hành:** tạo bucket, upload/download object, cấu hình bucket policy            | 17/06/2026   | 17/06/2026      |                                            |
-| 5   | - Tìm hiểu IAM: <br>&emsp; + User, group, role <br>&emsp; + Policy & least privilege <br> - **Thực hành:** tạo IAM role với policy giới hạn quyền và kiểm tra quyền truy cập                        | 18/06/2026   | 18/06/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - Tìm hiểu VPC cơ bản: <br>&emsp; + VPC & subnet (public/private) <br>&emsp; + Route table & internet gateway <br>&emsp; + Security group so với NACL                                               | 19/06/2026   | 19/06/2026      |                                            |
-| 2   | - **Thực hành:** dựng một VPC với subnet public/private; khởi tạo EC2 instance bên trong và kiểm soát truy cập bằng security group                                                                  | 22/06/2026   | 22/06/2026      |                                            |
-| 3   | - Tìm hiểu S3 Gateway endpoint và các mô hình kết nối riêng tư <br> - Review công việc trong tuần cùng mentor                                                                                        | 23/06/2026   | 23/06/2026      |                                            |
+| Thứ | Công việc | Ngày |
+| --- | --- | --- |
+| 4 | - Tìm hiểu Amazon S3: <br>&emsp; + Bucket & object <br>&emsp; + Storage classes <br>&emsp; + Versioning <br> - **Thực hành:** tạo bucket, upload/download object, cấu hình bucket policy | 17/06/2026 |
+| 5 | - Tìm hiểu IAM: <br>&emsp; + User, group, role <br>&emsp; + Policy & least privilege <br> - **Thực hành:** tạo IAM role với policy giới hạn quyền và kiểm tra quyền truy cập | 18/06/2026 |
+| 6 | - Tìm hiểu VPC cơ bản: <br>&emsp; + VPC & subnet (public/private) <br>&emsp; + Route table & internet gateway <br>&emsp; + Security group so với NACL | 19/06/2026 |
+| 2 | - **Thực hành:** dựng một VPC với subnet public/private; khởi tạo EC2 instance bên trong và kiểm soát truy cập bằng security group | 22/06/2026 |
+| 3 | - Tìm hiểu S3 Gateway endpoint và các mô hình kết nối riêng tư <br> - Review công việc trong tuần cùng mentor | 23/06/2026 |
 
 
 ### Kết quả đạt được tuần 2:

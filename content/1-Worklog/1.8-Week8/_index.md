@@ -14,11 +14,11 @@ pre: " <b> 1.8. </b> "
 * Wrap up documentation, evaluation results, and the internship report.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                  | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 4   | - Integrate ingestion, retrieval, multi-hop reasoning, and generation into a single end-to-end deployed pipeline <br> - **Practice:** put CloudFront in front of the API endpoint/static assets and finalize the CloudWatch dashboard for the deployed system | 07/29/2026 | 07/29/2026      |                                            |
-| 5   | - Run the final evaluation on the HotpotQA test sample and record end-to-end accuracy and latency                                    | 07/30/2026 | 07/30/2026      |                                            |
-| 6   | - Document the final architecture, write up results, and prepare the internship's blogs, proposal, and self-evaluation for submission | 07/31/2026 | 07/31/2026      |                                            |
+| Day | Task | Date |
+| --- | --- | --- |
+| 4 | - Integrate ingestion, retrieval, multi-hop reasoning, and generation into a single end-to-end deployed pipeline <br> - **Practice:** put CloudFront in front of the API endpoint/static assets and finalize the CloudWatch dashboard for the deployed system | 07/29/2026 |
+| 5 | - Run the final evaluation on the HotpotQA test sample and record end-to-end accuracy and latency | 07/30/2026 |
+| 6 | - Document the final architecture, write up results, and prepare the internship's blogs, proposal, and self-evaluation for submission | 07/31/2026 |
 
 
 ### Week 8 Achievements:

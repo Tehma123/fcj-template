@@ -14,11 +14,11 @@ pre: " <b> 1.8. </b> "
 * Hoàn thiện tài liệu, kết quả đánh giá và báo cáo thực tập.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                        | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | --------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 4   | - Tích hợp ingestion, retrieval, suy luận đa bước và generation thành một pipeline duy nhất, triển khai end-to-end <br> - **Thực hành:** đặt CloudFront trước API endpoint/static assets và hoàn thiện CloudWatch dashboard cho hệ thống đã deploy | 29/07/2026   | 29/07/2026      |                                            |
-| 5   | - Chạy đánh giá cuối cùng trên tập test của HotpotQA và ghi nhận độ chính xác cùng độ trễ end-to-end                        | 30/07/2026   | 30/07/2026      |                                            |
-| 6   | - Ghi lại kiến trúc cuối cùng, tổng hợp kết quả, chuẩn bị blog, proposal và self-evaluation để nộp báo cáo thực tập          | 31/07/2026   | 31/07/2026      |                                            |
+| Thứ | Công việc | Ngày |
+| --- | --- | --- |
+| 4 | - Tích hợp ingestion, retrieval, suy luận đa bước và generation thành một pipeline duy nhất, triển khai end-to-end <br> - **Thực hành:** đặt CloudFront trước API endpoint/static assets và hoàn thiện CloudWatch dashboard cho hệ thống đã deploy | 29/07/2026 |
+| 5 | - Chạy đánh giá cuối cùng trên tập test của HotpotQA và ghi nhận độ chính xác cùng độ trễ end-to-end | 30/07/2026 |
+| 6 | - Ghi lại kiến trúc cuối cùng, tổng hợp kết quả, chuẩn bị blog, proposal và self-evaluation để nộp báo cáo thực tập | 31/07/2026 |
 
 
 ### Kết quả đạt được tuần 8:

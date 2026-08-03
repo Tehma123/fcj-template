@@ -15,20 +15,20 @@ Về tác phong, tôi luôn cố gắng hoàn thành tốt nhiệm vụ, tuân t
 Để phản ánh một cách khách quan quá trình thực tập, tôi xin tự đánh giá bản thân dựa trên các tiêu chí dưới đây:
 
 
-| STT | Tiêu chí                                              | Mô tả                                                                                                                                                                              | Tốt | Khá | Trung bình |
-| --- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- | --- | ---------- |
-| 1   | **Kiến thức và kỹ năng chuyên môn (AWS & RAG)**         | Nắm vững các dịch vụ AWS cốt lõi (EC2, S3, IAM, VPC endpoints) được áp dụng trong workshop kết nối hybrid, đồng thời triển khai thực tế một pipeline RAG để giải quyết câu hỏi suy luận đa bước trên bộ dữ liệu HotpotQA | ✅   | ☐   | ☐          |
-| 2   | **Khả năng học hỏi (dịch vụ & công cụ AWS mới)**        | Tiếp thu nhanh các dịch vụ AWS mới (S3 Metadata/Annotations, Cost Categories, Glue, Amplify, Cognito) và framework Hugo chỉ trong vài tuần, đủ hiểu rõ để viết thành hai bài blog kỹ thuật | ✅   | ☐   | ☐          |
-| 3   | **Chủ động**                                            | Chủ động thử nghiệm các chiến lược truy xuất (retrieval) khác nhau cho pipeline RAG/HotpotQA thay vì chỉ làm theo yêu cầu tối thiểu, tự phát hiện và khắc phục các lỗi triển khai GitHub Pages (baseURL, canonifyURLs, đường dẫn ảnh) mà không cần ai nhắc | ✅   | ☐   | ☐          |
-| 4   | **Tinh thần trách nhiệm**                               | Hoàn thành worklog hằng tuần, các bài lab workshop và bài blog đúng hạn, đồng thời luôn cập nhật danh sách công việc của dự án RAG | ✅   | ☐   | ☐          |
-| 5   | **Kỷ luật**                                             | Nhìn chung tuân thủ nhịp độ báo cáo hằng tuần, nhưng một vài worklog và bài blog vẫn hoàn thành sát hạn thay vì được dàn đều | ☐   | ✅   | ☐          |
-| 6   | **Tính cầu tiến**                                       | Tiếp thu phản hồi từ mentor khá nhanh, chẳng hạn điều chỉnh pipeline RAG dựa trên kết quả đánh giá và sửa các lỗi build/theme của Hugo sau khi được góp ý | ✅   | ☐   | ☐          |
-| 7   | **Giao tiếp**                                           | Trình bày công việc kỹ thuật khá tốt bằng văn bản (blog, proposal, worklog), nhưng vẫn cần súc tích và có cấu trúc hơn khi báo cáo tiến độ trực tiếp với mentor | ☐   | ✅   | ☐          |
-| 8   | **Hợp tác nhóm**                                        | Phối hợp tốt với mentor và các bạn thực tập sinh FCAJ trong workshop kết nối hybrid S3 và các buổi review blog của study group | ✅   | ☐   | ☐          |
-| 9   | **Ứng xử chuyên nghiệp**                                | Tuân thủ nội quy thực tập, cư xử lịch sự với mentor và cộng đồng AWS Study Group khi chia sẻ blog | ✅   | ☐   | ☐          |
-| 10  | **Tư duy giải quyết vấn đề**                            | Tự mình debug và xử lý các vấn đề kỹ thuật cụ thể, như file ảnh avatar bị gắn sai định dạng, lỗi build GitHub Actions, và các lỗi suy luận trong pipeline RAG | ✅   | ☐   | ☐          |
-| 11  | **Đóng góp vào dự án/tổ chức (dự án RAG & nội dung blog)** | Đóng góp một pipeline RAG hoạt động được cho bài toán hỏi-đáp đa bước trên HotpotQA, nội dung blog chất lượng, và bài viết workshop mà team có thể dùng làm tài liệu tham khảo | ✅   | ☐   | ☐          |
-| 12  | **Tổng thể**                                            | Hoàn thành các mục tiêu thực tập, tạo ra sản phẩm kỹ thuật cụ thể (triển khai RAG, blog, proposal, workshop), và tiến bộ đều ở hầu hết các tiêu chí | ✅   | ☐   | ☐          |
+| STT | Tiêu chí | Mô tả | Tốt | Khá |
+| --- | --- | --- | --- | --- |
+| 1 | **Kiến thức và kỹ năng chuyên môn (AWS & RAG)** | Nắm vững các dịch vụ AWS cốt lõi (EC2, S3, IAM, VPC endpoints) được áp dụng trong workshop kết nối hybrid, đồng thời triển khai thực tế một pipeline RAG để giải quyết câu hỏi suy luận đa bước trên bộ dữ liệu HotpotQA | ✅ | ☐ |
+| 2 | **Khả năng học hỏi (dịch vụ & công cụ AWS mới)** | Tiếp thu nhanh các dịch vụ AWS mới (S3 Metadata/Annotations, Cost Categories, Glue, Amplify, Cognito) và framework Hugo chỉ trong vài tuần, đủ hiểu rõ để viết thành hai bài blog kỹ thuật | ✅ | ☐ |
+| 3 | **Chủ động** | Chủ động thử nghiệm các chiến lược truy xuất (retrieval) khác nhau cho pipeline RAG/HotpotQA thay vì chỉ làm theo yêu cầu tối thiểu, tự phát hiện và khắc phục các lỗi triển khai GitHub Pages (baseURL, canonifyURLs, đường dẫn ảnh) mà không cần ai nhắc | ✅ | ☐ |
+| 4 | **Tinh thần trách nhiệm** | Hoàn thành worklog hằng tuần, các bài lab workshop và bài blog đúng hạn, đồng thời luôn cập nhật danh sách công việc của dự án RAG | ✅ | ☐ |
+| 5 | **Kỷ luật** | Nhìn chung tuân thủ nhịp độ báo cáo hằng tuần, nhưng một vài worklog và bài blog vẫn hoàn thành sát hạn thay vì được dàn đều | ☐ | ✅ |
+| 6 | **Tính cầu tiến** | Tiếp thu phản hồi từ mentor khá nhanh, chẳng hạn điều chỉnh pipeline RAG dựa trên kết quả đánh giá và sửa các lỗi build/theme của Hugo sau khi được góp ý | ✅ | ☐ |
+| 7 | **Giao tiếp** | Trình bày công việc kỹ thuật khá tốt bằng văn bản (blog, proposal, worklog), nhưng vẫn cần súc tích và có cấu trúc hơn khi báo cáo tiến độ trực tiếp với mentor | ☐ | ✅ |
+| 8 | **Hợp tác nhóm** | Phối hợp tốt với mentor và các bạn thực tập sinh FCAJ trong workshop kết nối hybrid S3 và các buổi review blog của study group | ✅ | ☐ |
+| 9 | **Ứng xử chuyên nghiệp** | Tuân thủ nội quy thực tập, cư xử lịch sự với mentor và cộng đồng AWS Study Group khi chia sẻ blog | ✅ | ☐ |
+| 10 | **Tư duy giải quyết vấn đề** | Tự mình debug và xử lý các vấn đề kỹ thuật cụ thể, như file ảnh avatar bị gắn sai định dạng, lỗi build GitHub Actions, và các lỗi suy luận trong pipeline RAG | ✅ | ☐ |
+| 11 | **Đóng góp vào dự án/tổ chức (dự án RAG & nội dung blog)** | Đóng góp một pipeline RAG hoạt động được cho bài toán hỏi-đáp đa bước trên HotpotQA, nội dung blog chất lượng, và bài viết workshop mà team có thể dùng làm tài liệu tham khảo | ✅ | ☐ |
+| 12 | **Tổng thể** | Hoàn thành các mục tiêu thực tập, tạo ra sản phẩm kỹ thuật cụ thể (triển khai RAG, blog, proposal, workshop), và tiến bộ đều ở hầu hết các tiêu chí | ✅ | ☐ |
 
 ### Cần cải thiện
 

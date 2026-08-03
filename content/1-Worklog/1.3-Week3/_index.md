@@ -14,13 +14,13 @@ pre: " <b> 1.3. </b> "
 * Practice setting up monitoring and content delivery for a simple workload.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                  | Start Date | Completion Date | Reference Material                        |
-| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
-| 4   | - Learn CloudWatch: <br>&emsp; + Metrics <br>&emsp; + Log groups & log streams <br>&emsp; + Alarms & dashboards                                                                     | 06/24/2026 | 06/24/2026      |                                            |
-| 5   | - **Practice:** create a CloudWatch alarm on EC2 CPU utilization; ship EC2 logs to CloudWatch Logs using the CloudWatch agent                                                       | 06/25/2026 | 06/25/2026      |                                            |
-| 6   | - Learn CloudFront: <br>&emsp; + Distributions & origins (S3/EC2) <br>&emsp; + Edge locations & caching behavior <br>&emsp; + Origin Access Control (OAC)                          | 06/26/2026 | 06/26/2026      |                                            |
-| 2   | - **Practice:** create a CloudFront distribution in front of an S3 bucket, restrict direct S3 access with OAC, and test cache invalidation                                          | 06/29/2026 | 06/29/2026      |                                            |
-| 3   | - Build a CloudWatch dashboard combining EC2 and CloudFront metrics <br> - Review the week's work with mentor                                                                       | 06/30/2026 | 06/30/2026      |                                            |
+| Day | Task | Date |
+| --- | --- | --- |
+| 4 | - Learn CloudWatch: <br>&emsp; + Metrics <br>&emsp; + Log groups & log streams <br>&emsp; + Alarms & dashboards | 06/24/2026 |
+| 5 | - **Practice:** create a CloudWatch alarm on EC2 CPU utilization; ship EC2 logs to CloudWatch Logs using the CloudWatch agent | 06/25/2026 |
+| 6 | - Learn CloudFront: <br>&emsp; + Distributions & origins (S3/EC2) <br>&emsp; + Edge locations & caching behavior <br>&emsp; + Origin Access Control (OAC) | 06/26/2026 |
+| 2 | - **Practice:** create a CloudFront distribution in front of an S3 bucket, restrict direct S3 access with OAC, and test cache invalidation | 06/29/2026 |
+| 3 | - Build a CloudWatch dashboard combining EC2 and CloudFront metrics <br> - Review the week's work with mentor | 06/30/2026 |
 
 
 ### Week 3 Achievements:

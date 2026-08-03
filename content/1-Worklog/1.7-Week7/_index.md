@@ -14,13 +14,13 @@ pre: " <b> 1.7. </b> "
 * Add monitoring for the pipeline using CloudWatch.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                             | Start Date | Completion Date | Reference Material                        |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
-| 4   | - Plan which AWS services will host each pipeline component (corpus storage, vector index, orchestration, LLM access)               | 07/22/2026 | 07/22/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - **Practice:** upload the HotpotQA corpus and precomputed embeddings to S3                                                          | 07/23/2026 | 07/23/2026      |                                            |
-| 6   | - **Practice:** wrap the retrieval + multi-hop reasoning logic in a Lambda function / SageMaker-hosted service                       | 07/24/2026 | 07/24/2026      |                                            |
-| 2   | - **Practice:** expose the pipeline through an API endpoint and test it with sample HotpotQA questions                              | 07/27/2026 | 07/27/2026      |                                            |
-| 3   | - Add CloudWatch logging and alarms around the pipeline (errors, latency) <br> - Review progress with mentor                        | 07/28/2026 | 07/28/2026      |                                            |
+| Day | Task | Date |
+| --- | --- | --- |
+| 4 | - Plan which AWS services will host each pipeline component (corpus storage, vector index, orchestration, LLM access) | 07/22/2026 |
+| 5 | - **Practice:** upload the HotpotQA corpus and precomputed embeddings to S3 | 07/23/2026 |
+| 6 | - **Practice:** wrap the retrieval + multi-hop reasoning logic in a Lambda function / SageMaker-hosted service | 07/24/2026 |
+| 2 | - **Practice:** expose the pipeline through an API endpoint and test it with sample HotpotQA questions | 07/27/2026 |
+| 3 | - Add CloudWatch logging and alarms around the pipeline (errors, latency) <br> - Review progress with mentor | 07/28/2026 |
 
 
 ### Week 7 Achievements:

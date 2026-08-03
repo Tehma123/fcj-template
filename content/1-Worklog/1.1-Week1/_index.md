@@ -14,10 +14,10 @@ pre: " <b> 1.1. </b> "
 * Get hands-on with EC2 fundamentals.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                                                                | Start Date | Completion Date | Reference Material                        |
-| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations <br> - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br> - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI <br> - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... | 06/15/2026 | 06/15/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 3   | - SSH connection methods to EC2 <br> - Learn about Elastic IP <br> - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                | 06/16/2026 | 06/16/2026      |                                            |
+| Day | Task | Date |
+| --- | --- | --- |
+| 2 | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations <br> - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br> - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI <br> - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... | 06/15/2026 |
+| 3 | - SSH connection methods to EC2 <br> - Learn about Elastic IP <br> - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume | 06/16/2026 |
 
 
 ### Week 1 Achievements:
