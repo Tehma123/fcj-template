@@ -140,14 +140,14 @@ The complete application will be tested from the frontend through the API, backe
 
 | Week | Planned Team Activities |
 | --- | --- |
-| **Week 1**<br>08/06 – 12/06 | **AWS foundation and project orientation.** Review AWS fundamentals, AWS Console and CLI, EC2, and the internship requirements. Discuss possible AI project directions and prepare the development environment. |
-| **Week 2**<br>15/06 – 19/06 | **AWS storage, security, and networking.** Study and practice with Amazon S3, IAM, VPC, security groups, and service permissions. Establish the AWS knowledge required for the later application architecture. |
-| **Week 3**<br>22/06 – 26/06 | **Project definition and RAG research.** Study embeddings, semantic search, RAG, and multi-hop question answering. Select HotpotQA as the benchmark and define the initial CloudHop RAG architecture, objectives, and evaluation strategy. |
-| **Week 4**<br>29/06 – 03/07 | **Dataset preparation and retrieval baselines.** Prepare HotpotQA data, align questions with supporting evidence, and develop initial lexical and dense retrieval methods to establish a baseline. |
-| **Week 5**<br>06/07 – 10/07 | **Advanced retrieval development.** Develop BM25 and BGE-M3 retrieval, hybrid search, parent-child document representation, query decomposition, adaptive multi-hop retrieval, and evidence reranking. |
-| **Week 6**<br>13/07 – 17/07 | **Pipeline engineering and evaluation preparation.** Organize reusable project modules and configurations, validate dataset alignment, build versioned retrieval artifacts, and prepare the benchmark and evaluation workflow. |
-| **Week 7**<br>20/07 – 24/07 | **Evaluation and AWS deployment preparation.** Evaluate retrieval and answer quality, analyze latency, finalize the production architecture, upload retrieval artifacts to Amazon S3, prepare Amazon S3 Vectors, and configure the Amazon EC2 backend environment. |
-| **Week 8**<br>27/07 – 31/07 | **Full AWS integration and project finalization.** Complete the EC2 FastAPI backend deployment, connect Amazon S3 and S3 Vectors, configure IAM and Systems Manager access, expose the backend through Amazon API Gateway, deploy the frontend with AWS Amplify, validate the complete end-to-end application, consolidate evaluation results, and finalize the workshop and technical documentation. |
+| **Week 1** | **AWS foundation and project orientation.** Review AWS fundamentals, AWS Console and CLI, EC2, and the internship requirements. Discuss possible AI project directions and prepare the development environment. |
+| **Week 2** | **AWS storage, security, and networking.** Study and practice with Amazon S3, IAM, VPC, security groups, and service permissions. Establish the AWS knowledge required for the later application architecture. |
+| **Week 3** | **Project definition and RAG research.** Study embeddings, semantic search, RAG, and multi-hop question answering. Select HotpotQA as the benchmark and define the initial CloudHop RAG architecture, objectives, and evaluation strategy. |
+| **Week 4** | **Dataset preparation and retrieval baselines.** Prepare HotpotQA data, align questions with supporting evidence, and develop initial lexical and dense retrieval methods to establish a baseline. |
+| **Week 5** | **Advanced retrieval development.** Develop BM25 and BGE-M3 retrieval, hybrid search, parent-child document representation, query decomposition, adaptive multi-hop retrieval, and evidence reranking. |
+| **Week 6** | **Pipeline engineering and evaluation preparation.** Organize reusable project modules and configurations, validate dataset alignment, build versioned retrieval artifacts, and prepare the benchmark and evaluation workflow. |
+| **Week 7** | **Evaluation and AWS deployment preparation.** Evaluate retrieval and answer quality, analyze latency, finalize the production architecture, upload retrieval artifacts to Amazon S3, prepare Amazon S3 Vectors, and configure the Amazon EC2 backend environment. |
+| **Week 8** | **Full AWS integration and project finalization.** Complete the EC2 FastAPI backend deployment, connect Amazon S3 and S3 Vectors, configure IAM and Systems Manager access, expose the backend through Amazon API Gateway, deploy the frontend with AWS Amplify, validate the complete end-to-end application, consolidate evaluation results, and finalize the workshop and technical documentation. |
 
 ## Budget Estimation
 

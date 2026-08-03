@@ -140,14 +140,14 @@ Amazon API Gateway sẽ được dùng để expose backend qua một API HTTPS.
 
 | Tuần | Hoạt động dự kiến của nhóm |
 | --- | --- |
-| **Tuần 1**<br>08/06 – 12/06 | **Nền tảng AWS và định hướng dự án.** Ôn lại kiến thức nền tảng AWS, AWS Console và CLI, EC2, cùng các yêu cầu của kỳ thực tập. Thảo luận các hướng dự án AI khả thi và chuẩn bị môi trường phát triển. |
-| **Tuần 2**<br>15/06 – 19/06 | **Lưu trữ, bảo mật và networking trên AWS.** Học và thực hành với Amazon S3, IAM, VPC, security group, và quyền dịch vụ. Xây dựng nền kiến thức AWS cần thiết cho kiến trúc ứng dụng sau này. |
-| **Tuần 3**<br>22/06 – 26/06 | **Xác định dự án và nghiên cứu RAG.** Tìm hiểu embedding, semantic search, RAG, và hỏi-đáp đa bước. Chọn HotpotQA làm benchmark và xác định kiến trúc, mục tiêu, chiến lược đánh giá ban đầu của CloudHop RAG. |
-| **Tuần 4**<br>29/06 – 03/07 | **Chuẩn bị dữ liệu và baseline truy xuất.** Chuẩn bị dữ liệu HotpotQA, gắn kết câu hỏi với bằng chứng hỗ trợ, và phát triển các phương pháp truy xuất từ vựng, dense ban đầu để thiết lập baseline. |
-| **Tuần 5**<br>06/07 – 10/07 | **Phát triển truy xuất nâng cao.** Phát triển truy xuất BM25 và BGE-M3, tìm kiếm hybrid, biểu diễn tài liệu parent-child, phân rã truy vấn, truy xuất đa bước thích nghi, và rerank bằng chứng. |
-| **Tuần 6**<br>13/07 – 17/07 | **Xây dựng pipeline và chuẩn bị đánh giá.** Tổ chức các module và cấu hình dự án có thể tái sử dụng, xác thực sự khớp của dữ liệu, xây dựng artifact truy xuất có phiên bản, và chuẩn bị quy trình benchmark, đánh giá. |
-| **Tuần 7**<br>20/07 – 24/07 | **Đánh giá và chuẩn bị triển khai AWS.** Đánh giá chất lượng truy xuất và câu trả lời, phân tích độ trễ, hoàn thiện kiến trúc production, upload artifact truy xuất lên Amazon S3, chuẩn bị Amazon S3 Vectors, và cấu hình môi trường backend Amazon EC2. |
-| **Tuần 8**<br>27/07 – 31/07 | **Tích hợp AWS hoàn chỉnh và hoàn thiện dự án.** Hoàn tất triển khai backend FastAPI trên EC2, kết nối Amazon S3 và S3 Vectors, cấu hình quyền truy cập IAM và Systems Manager, expose backend qua Amazon API Gateway, triển khai frontend với AWS Amplify, xác thực toàn bộ ứng dụng end-to-end, tổng hợp kết quả đánh giá, và hoàn thiện workshop cùng tài liệu kỹ thuật. |
+| **Tuần 1** | **Nền tảng AWS và định hướng dự án.** Ôn lại kiến thức nền tảng AWS, AWS Console và CLI, EC2, cùng các yêu cầu của kỳ thực tập. Thảo luận các hướng dự án AI khả thi và chuẩn bị môi trường phát triển. |
+| **Tuần 2** | **Lưu trữ, bảo mật và networking trên AWS.** Học và thực hành với Amazon S3, IAM, VPC, security group, và quyền dịch vụ. Xây dựng nền kiến thức AWS cần thiết cho kiến trúc ứng dụng sau này. |
+| **Tuần 3** | **Xác định dự án và nghiên cứu RAG.** Tìm hiểu embedding, semantic search, RAG, và hỏi-đáp đa bước. Chọn HotpotQA làm benchmark và xác định kiến trúc, mục tiêu, chiến lược đánh giá ban đầu của CloudHop RAG. |
+| **Tuần 4** | **Chuẩn bị dữ liệu và baseline truy xuất.** Chuẩn bị dữ liệu HotpotQA, gắn kết câu hỏi với bằng chứng hỗ trợ, và phát triển các phương pháp truy xuất từ vựng, dense ban đầu để thiết lập baseline. |
+| **Tuần 5** | **Phát triển truy xuất nâng cao.** Phát triển truy xuất BM25 và BGE-M3, tìm kiếm hybrid, biểu diễn tài liệu parent-child, phân rã truy vấn, truy xuất đa bước thích nghi, và rerank bằng chứng. |
+| **Tuần 6** | **Xây dựng pipeline và chuẩn bị đánh giá.** Tổ chức các module và cấu hình dự án có thể tái sử dụng, xác thực sự khớp của dữ liệu, xây dựng artifact truy xuất có phiên bản, và chuẩn bị quy trình benchmark, đánh giá. |
+| **Tuần 7** | **Đánh giá và chuẩn bị triển khai AWS.** Đánh giá chất lượng truy xuất và câu trả lời, phân tích độ trễ, hoàn thiện kiến trúc production, upload artifact truy xuất lên Amazon S3, chuẩn bị Amazon S3 Vectors, và cấu hình môi trường backend Amazon EC2. |
+| **Tuần 8** | **Tích hợp AWS hoàn chỉnh và hoàn thiện dự án.** Hoàn tất triển khai backend FastAPI trên EC2, kết nối Amazon S3 và S3 Vectors, cấu hình quyền truy cập IAM và Systems Manager, expose backend qua Amazon API Gateway, triển khai frontend với AWS Amplify, xác thực toàn bộ ứng dụng end-to-end, tổng hợp kết quả đánh giá, và hoàn thiện workshop cùng tài liệu kỹ thuật. |
 
 ## Ước tính ngân sách
 
