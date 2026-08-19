@@ -762,12 +762,25 @@ def compact_longtables(latex):
     return latex
 
 
+def pin_figure_placement(latex):
+    """Force every Pandoc \\begin{figure} to stay exactly where it is.
+
+    Pandoc emits bare \\begin{figure} (no placement specifier), which lets
+    LaTeX's float algorithm drift the image to the top of a nearby page -
+    often landing it in the middle of unrelated text or a code block. The
+    [H] specifier (from the already-loaded `float` package) pins it to its
+    source position instead.
+    """
+    return latex.replace(r"\begin{figure}", r"\begin{figure}[H]")
+
+
 def postprocess_latex(latex):
     # Do NOT replace Pandoc table column specs by regex.
     # neutralize_body_headings() strips every \label{...} itself (brace-aware),
     # so no separate blanket \label removal is needed here.
     latex = neutralize_body_headings(latex)
     latex = compact_longtables(latex)
+    latex = pin_figure_placement(latex)
     return latex
 
 
